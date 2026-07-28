@@ -68,3 +68,29 @@
 - `npm run build` — PASS.
 - `npm run check:secrets` — PASS.
 - `npm run test:e2e` — PASS, desktop и mobile.
+
+## 2026-07-28 — итерация deployment: Cloudflare Pages preview
+
+### Выполнено
+
+- Создан бесплатный Direct Upload Pages-проект `1c-tutor-kz`; Workers и платные сервисы не добавлялись.
+- Добавлены `wrangler.jsonc`, локальная devDependency Wrangler и команда `npm run deploy:preview`.
+- Опубликован preview ветки `agent/project-progress`.
+- Playwright получил поддержку `E2E_BASE_URL` и отдельный тест прямого SPA-маршрута.
+- Этап 1 закрыт, визуальный прогресс обновлён до 33%, этап 2 Supabase обозначен текущим.
+
+### Публичные адреса
+
+- <https://agent-project-progress.1c-tutor-kz.pages.dev>
+- <https://00c161a4.1c-tutor-kz.pages.dev>
+
+### Проверки
+
+- `/`, `/login`, `/learn/welcome` — HTTP 200.
+- CSP, `Permissions-Policy`, `Referrer-Policy`, `X-Content-Type-Options` — применены.
+- `X-Robots-Tag: noindex` — применён Cloudflare к preview.
+- публичный `npm run test:e2e` — PASS, 4 теста (desktop и mobile).
+
+### Известное поведение
+
+Выпуск TLS-сертификата нового Pages-проекта занял несколько минут; первоначальная проверка возвращала `ERR_SSL_VERSION_OR_CIPHER_MISMATCH`, повторная проверка после выпуска сертификата прошла.

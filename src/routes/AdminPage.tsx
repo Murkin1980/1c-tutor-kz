@@ -8,7 +8,7 @@ export function AdminPage() {
       <div className="eyebrow">Панель проекта · только для редактора</div>
       <div className="admin-progress-hero">
         <div>
-          <span className="project-state"><i /> Этап 1 · локально завершён</span>
+          <span className="project-state"><i /> Этап 2 · следующий к реализации</span>
           <h1>От прототипа<br />к рабочему MVP</h1>
           <p>Прогресс считается по проверяемым пунктам этапов 0–5. Исследовательские этапы AI и интеграций в процент MVP не входят.</p>
         </div>
@@ -34,8 +34,8 @@ export function AdminPage() {
         <Target />
         <div>
           <span>Следующая контрольная точка</span>
-          <h2>Опубликовать Cloudflare Pages preview</h2>
-          <p>После preview этап 1 закрывается полностью, следующий исполнимый этап — Supabase Auth, миграции и RLS.</p>
+          <h2>Подключить Supabase Auth, миграции и RLS</h2>
+          <p>Frontend preview проверен публично. Следующая итерация переносит вход, прогресс и заметки на сервер без добавления CRUD, Storage и AI.</p>
         </div>
       </section>
 

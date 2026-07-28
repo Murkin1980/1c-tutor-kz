@@ -171,3 +171,12 @@ npm run test:e2e
 Playwright использует установленный Google Chrome для desktop и mobile viewport. Реальная регистрация, межустройственная синхронизация, серверная роль администратора и загрузка снимков переносятся на этап Supabase.
 
 Визуальный прогресс разработки доступен редактору на маршруте `/admin`; документированный статус и критерии перехода между этапами находятся в [`PROJECT_STATUS.md`](PROJECT_STATUS.md).
+
+### Cloudflare Pages preview
+
+- branch alias: <https://agent-project-progress.1c-tutor-kz.pages.dev>;
+- build: `npm run build`;
+- preview deployment: `npm run deploy:preview`;
+- конфигурация: `wrangler.jsonc`.
+
+Preview проверен прямым открытием SPA-маршрутов, защитными HTTP-заголовками и Playwright e2e. Production deployment и custom domain пока не создавались.

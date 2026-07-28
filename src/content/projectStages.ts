@@ -24,19 +24,19 @@ export const projectStages: ProjectStage[] = [
   {
     id: 1,
     title: "Frontend-прототип",
-    status: "current",
-    outcome: "Основной урок можно пройти локально с mock-входом.",
+    status: "completed",
+    outcome: "Основной урок проходит локально и на проверенном Cloudflare Pages preview.",
     items: [
       { label: "React-каркас и семь маршрутов", completed: true },
       { label: "Локальный курс и прогресс", completed: true },
       { label: "Проверки, адаптивность и e2e", completed: true },
-      { label: "Cloudflare Pages preview", completed: false },
+      { label: "Cloudflare Pages preview", completed: true },
     ],
   },
   {
     id: 2,
     title: "Supabase и синхронизация",
-    status: "planned",
+    status: "current",
     outcome: "Пользователь продолжает обучение на другом устройстве.",
     items: [
       { label: "Auth и восстановление доступа", completed: false },

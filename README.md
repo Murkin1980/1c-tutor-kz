@@ -89,6 +89,7 @@ MVP должен работать по схеме:
 ├─ COURSE_STRUCTURE.md
 ├─ DATA_MODEL.md
 ├─ ROADMAP.md
+├─ PROJECT_STATUS.md
 ├─ SECURITY_AND_LEGAL.md
 ├─ .env.example
 ├─ apps/
@@ -168,3 +169,5 @@ npm run test:e2e
 ```
 
 Playwright использует установленный Google Chrome для desktop и mobile viewport. Реальная регистрация, межустройственная синхронизация, серверная роль администратора и загрузка снимков переносятся на этап Supabase.
+
+Визуальный прогресс разработки доступен редактору на маршруте `/admin`; документированный статус и критерии перехода между этапами находятся в [`PROJECT_STATUS.md`](PROJECT_STATUS.md).

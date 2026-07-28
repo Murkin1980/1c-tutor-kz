@@ -34,8 +34,8 @@ export function AdminPage() {
         <Target />
         <div>
           <span>Следующая контрольная точка</span>
-          <h2>Подключить Supabase Auth, миграции и RLS</h2>
-          <p>Frontend preview проверен публично. Следующая итерация переносит вход, прогресс и заметки на сервер без добавления CRUD, Storage и AI.</p>
+          <h2>Подготовить подключение к MiniBase</h2>
+          <p>Платформа развивается в отдельной задаче. После проверенного endpoint эта ветка подключит Auth, прогресс и заметки через repository-адаптеры.</p>
         </div>
       </section>
 
@@ -74,7 +74,7 @@ export function AdminPage() {
         <strong>{course.modules.length}<small>модуля</small></strong>
         <strong>{course.modules.flatMap((module) => module.lessons).length}<small>уроков</small></strong>
       </section>
-      <div className="admin-notice">Контент пока доступен только для просмотра. Серверная роль и CRUD появятся после подключения Supabase.</div>
+      <div className="admin-notice">Контент пока доступен только для просмотра. Серверная роль и CRUD появятся после подключения MiniBase.</div>
     </div>
   );
 }

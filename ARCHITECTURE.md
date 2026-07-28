@@ -5,9 +5,9 @@
 ```text
 Browser
   ├─ Cloudflare Pages: React application
-  ├─ Supabase Auth
-  ├─ Supabase PostgreSQL + RLS
-  ├─ Supabase Storage: screenshots
+  ├─ MiniBase Auth через отдельный Cloudflare Worker
+  ├─ изолированная MiniBase D1
+  ├─ MiniBase R2: screenshots
   └─ External tab: 1C:Fresh Kazakhstan / local educational 1C
 ```
 
@@ -74,7 +74,7 @@ src/
 
 ## 6. AI-слой в будущей версии
 
-AI должен находиться за Cloudflare Worker или Supabase Edge Function. Клиент не получает API key.
+AI должен находиться за Cloudflare Worker. Клиент не получает API key.
 
 Возможные функции:
 
@@ -133,3 +133,14 @@ MVP:
 - `answer_submitted`;
 - `lesson_completed`;
 - `lesson_abandoned`.
+
+## 9. Переносимость backend
+
+Экраны не зависят от конкретного BaaS. Auth, прогресс, заметки и Storage
+подключаются через repository-адаптеры. До готовности MiniBase используется
+локальный адаптер без серверной синхронизации.
+
+Будущий MiniBase реализует те же прикладные контракты на Cloudflare Workers,
+отдельной D1 на проект и R2. Автоматическое создание баз выполняет только
+защищённый control plane; Cloudflare API token не выдаётся приложениям.
+Подробности: [`MINIBASE.md`](MINIBASE.md).

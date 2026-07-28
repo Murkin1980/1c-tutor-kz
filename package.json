@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "typecheck": "tsc -b --pretty false",
-    "test": "vitest run",
+    "test": "vitest run --dir src",
     "test:e2e": "playwright test",
     "check:secrets": "node scripts/check-client-secrets.mjs",
     "deploy:preview": "npm run build && wrangler pages deploy dist --project-name 1c-tutor-kz --branch agent-project-progress"

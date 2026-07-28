@@ -1,4 +1,5 @@
 node_modules
+minibase/
 dist
 playwright-report
 test-results

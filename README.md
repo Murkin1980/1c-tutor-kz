@@ -31,10 +31,10 @@
 
 - **Frontend:** React + TypeScript + Vite;
 - **UI:** Tailwind CSS + shadcn/ui или собственные простые компоненты;
-- **Backend:** Supabase;
-- **Авторизация:** Supabase Auth;
-- **База данных:** Supabase PostgreSQL;
-- **Файлы:** Supabase Storage;
+- **Backend:** отдельная платформа MiniBase на Cloudflare Workers;
+- **Авторизация:** MiniBase Auth (запланирована);
+- **База данных:** отдельная D1 на проект;
+- **Файлы:** Cloudflare R2 через MiniBase;
 - **Деплой frontend:** Cloudflare Pages;
 - **Опциональный API/AI-proxy:** Cloudflare Workers;
 - **Тесты:** Vitest + React Testing Library + Playwright;
@@ -168,7 +168,11 @@ npm run check:secrets
 npm run test:e2e
 ```
 
-Playwright использует установленный Google Chrome для desktop и mobile viewport. Реальная регистрация, межустройственная синхронизация, серверная роль администратора и загрузка снимков переносятся на этап Supabase.
+Playwright использует установленный Google Chrome для desktop и mobile viewport. Реальная регистрация, межустройственная синхронизация, серверная роль администратора и загрузка снимков переносятся на этап интеграции MiniBase.
+
+Архитектура MiniBase, классы API-ключей, автоматическое создание D1 и план
+миграции существующих проектов Supabase описаны в [`MINIBASE.md`](MINIBASE.md).
+До проверенного deployment приложение сохраняет локальный fallback.
 
 Визуальный прогресс разработки доступен редактору на маршруте `/admin`; документированный статус и критерии перехода между этапами находятся в [`PROJECT_STATUS.md`](PROJECT_STATUS.md).
 

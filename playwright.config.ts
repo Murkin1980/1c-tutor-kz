@@ -4,7 +4,11 @@ const externalBaseUrl = process.env.E2E_BASE_URL;
 
 export default defineConfig({
   testDir: "./e2e",
-  fullyParallel: true,
+  // The pilot uses one MiniBase owner record until end-user auth is available.
+  // Run desktop and mobile serially so they exercise the same supported flow
+  // without racing writes to that shared record.
+  fullyParallel: false,
+  workers: 1,
   retries: process.env.CI ? 2 : 0,
   reporter: "html",
   use: { baseURL: externalBaseUrl ?? "http://127.0.0.1:5173", trace: "on-first-retry" },

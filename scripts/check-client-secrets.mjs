@@ -1,7 +1,14 @@
 import { readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 
-const forbidden = ["SUPABASE_SERVICE_ROLE_KEY", "AI_API_KEY", "service_role"];
+const forbidden = [
+  "SUPABASE_SERVICE_ROLE_KEY",
+  "AI_API_KEY",
+  "service_role",
+  "mb_secret_",
+  "mb_management_",
+  "CLOUDFLARE_API_TOKEN",
+];
 const files = [];
 function walk(directory) {
   for (const name of readdirSync(directory)) {

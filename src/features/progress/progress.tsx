@@ -1,5 +1,10 @@
-import { createContext, useContext, useMemo, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import type { LessonStatus } from "../../entities/course";
+import {
+  createProgressRepository,
+  LocalProgressRepository,
+  mergeProgressByUpdatedAt,
+} from "./repositories";
 
 export interface LessonProgress {
   lessonId: string;
@@ -11,37 +16,61 @@ export interface LessonProgress {
   updatedAt: string;
 }
 export interface ProgressRepository {
-  getAll(): Record<string, LessonProgress>;
-  save(progress: LessonProgress): void;
-}
-const KEY = "1c-tutor-progress";
-export class LocalProgressRepository implements ProgressRepository {
-  getAll() {
-    try { return JSON.parse(localStorage.getItem(KEY) ?? "{}") as Record<string, LessonProgress>; }
-    catch { return {}; }
-  }
-  save(progress: LessonProgress) {
-    localStorage.setItem(KEY, JSON.stringify({ ...this.getAll(), [progress.lessonId]: progress }));
-  }
+  getCached(): Record<string, LessonProgress>;
+  hydrate(): Promise<Record<string, LessonProgress>>;
+  saveAll(progress: Record<string, LessonProgress>): Promise<void>;
 }
 interface ProgressContextValue {
   progress: Record<string, LessonProgress>;
   update: (lessonId: string, patch: Partial<LessonProgress>) => void;
+  syncStatus: "local" | "syncing" | "synced" | "error";
+  retrySync: () => void;
 }
 const ProgressContext = createContext<ProgressContextValue | null>(null);
-export function ProgressProvider({ children, repository = new LocalProgressRepository() }: { children: ReactNode; repository?: ProgressRepository }) {
-  const [progress, setProgress] = useState(repository.getAll());
+export function ProgressProvider({ children, repository }: { children: ReactNode; repository?: ProgressRepository }) {
+  const [activeRepository] = useState(() => repository ?? createProgressRepository());
+  const [progress, setProgress] = useState(activeRepository.getCached());
+  const [syncStatus, setSyncStatus] = useState<ProgressContextValue["syncStatus"]>(
+    activeRepository instanceof LocalProgressRepository ? "local" : "syncing",
+  );
+  const [syncAttempt, setSyncAttempt] = useState(0);
+
+  useEffect(() => {
+    let active = true;
+    if (activeRepository instanceof LocalProgressRepository) return;
+    setSyncStatus("syncing");
+    void activeRepository.hydrate()
+      .then((hydrated) => {
+        if (!active) return;
+        setProgress((current) => mergeProgressByUpdatedAt(current, hydrated));
+        setSyncStatus("synced");
+      })
+      .catch((error: unknown) => {
+        console.error("MiniBase progress hydration failed", error);
+        if (active) setSyncStatus("error");
+      });
+    return () => { active = false; };
+  }, [activeRepository, syncAttempt]);
+
   const value = useMemo(() => ({
     progress,
+    syncStatus,
+    retrySync: () => setSyncAttempt((attempt) => attempt + 1),
     update(lessonId: string, patch: Partial<LessonProgress>) {
       setProgress((current) => {
         const existing = current[lessonId] ?? { lessonId, status: "available", currentStep: 0, attemptCount: 0, note: "", updatedAt: new Date().toISOString() };
         const next = { ...existing, ...patch, lessonId, updatedAt: new Date().toISOString() };
-        repository.save(next);
-        return { ...current, [lessonId]: next };
+        const allProgress = { ...current, [lessonId]: next };
+        void activeRepository.saveAll(allProgress)
+          .then(() => setSyncStatus(activeRepository instanceof LocalProgressRepository ? "local" : "synced"))
+          .catch((error: unknown) => {
+            console.error("MiniBase progress save failed", error);
+            setSyncStatus("error");
+          });
+        return allProgress;
       });
     },
-  }), [progress, repository]);
+  }), [activeRepository, progress, syncStatus]);
   return <ProgressContext.Provider value={value}>{children}</ProgressContext.Provider>;
 }
 export function useProgress() {
@@ -49,3 +78,5 @@ export function useProgress() {
   if (!value) throw new Error("useProgress must be used inside ProgressProvider");
   return value;
 }
+
+export { LocalProgressRepository } from "./repositories";

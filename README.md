@@ -98,7 +98,7 @@ MVP должен работать по схеме:
 │  ├─ content/
 │  ├─ ui/
 │  └─ shared/
-├─ supabase/
+├─ scripts/
 │  ├─ migrations/
 │  └─ seed.sql
 ├─ docs/
@@ -168,11 +168,16 @@ npm run check:secrets
 npm run test:e2e
 ```
 
-Playwright использует установленный Google Chrome для desktop и mobile viewport. Реальная регистрация, межустройственная синхронизация, серверная роль администратора и загрузка снимков переносятся на этап интеграции MiniBase.
+Playwright использует установленный Google Chrome для desktop и mobile viewport. Безопасный MiniBase client adapter уже добавлен; реальная регистрация, межустройственная синхронизация, серверная роль администратора и загрузка снимков включаются после появления пользовательских сессий и owner-level авторизации MiniBase.
 
-Архитектура MiniBase, классы API-ключей, автоматическое создание D1 и план
-миграции существующих проектов Supabase описаны в [`MINIBASE.md`](MINIBASE.md).
-До проверенного deployment приложение сохраняет локальный fallback.
+Архитектура MiniBase, классы API-ключей и автоматическое создание D1 описаны в
+[`MINIBASE.md`](MINIBASE.md).
+Прогресс и заметки синхронизируются через отдельную project D1. При временной
+ошибке backend приложение продолжает читать уроки и сохраняет локальный fallback.
+
+Допустимые frontend-переменные: `VITE_MINIBASE_URL` и
+`VITE_MINIBASE_PUBLISHABLE_KEY`. Secret, management и Cloudflare keys запрещены
+в `VITE_*` и дополнительно проверяются в собранном bundle.
 
 Визуальный прогресс разработки доступен редактору на маршруте `/admin`; документированный статус и критерии перехода между этапами находятся в [`PROJECT_STATUS.md`](PROJECT_STATUS.md).
 

@@ -110,7 +110,7 @@ AI не должен:
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
-  Content-Security-Policy: default-src 'self'; img-src 'self' data: blob: https://*.supabase.co; connect-src 'self' https://*.supabase.co; script-src 'self'; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'self'; frame-ancestors 'none';
+  Content-Security-Policy: default-src 'self'; img-src 'self' data: blob:; connect-src 'self' https://minibase-cloudflare.muriktl.workers.dev; script-src 'self'; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'self'; frame-ancestors 'none';
 ```
 
 Не добавлять домен 1С в `frame-src`, пока не подтверждена возможность и необходимость iframe.
@@ -136,11 +136,15 @@ MVP:
 
 ## 9. Переносимость backend
 
-Экраны не зависят от конкретного BaaS. Auth, прогресс, заметки и Storage
-подключаются через repository-адаптеры. До готовности MiniBase используется
-локальный адаптер без серверной синхронизации.
+Экраны не зависят от HTTP MiniBase. Прогресс и заметки подключены через
+repository-адаптеры; localStorage остаётся fallback при временной недоступности.
+Для single-owner пилота используются records `tutor_progress/owner` и
+`tutor_notes/lesson_<lessonId>`, конфликт решается по `updatedAt`.
 
-Будущий MiniBase реализует те же прикладные контракты на Cloudflare Workers,
+MiniBase реализует базовые прикладные контракты на Cloudflare Workers,
 отдельной D1 на проект и R2. Автоматическое создание баз выполняет только
 защищённый control plane; Cloudflare API token не выдаётся приложениям.
+Frontend-адаптер принимает исключительно publishable key. Доступ к приложению
+ограничивается Cloudflare Access; один закрытый пилот использует одну учебную
+запись. Публичный multi-user режим без пользовательской авторизации запрещён.
 Подробности: [`MINIBASE.md`](MINIBASE.md).

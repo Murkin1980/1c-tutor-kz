@@ -19,3 +19,11 @@ tokens are server-side secrets and must never use a `VITE_*` variable.
 
 Before requesting a new database, read `MINIBASE.md`. Until MiniBase has a
 verified deployment, keep the existing local repository fallback operational.
+
+## Windows paths
+
+For all future repositories and technical workspaces use
+`C:\Projects\<ascii-project-slug>`. Do not create new projects under OneDrive or
+paths containing Cyrillic characters. This existing legacy workspace remains
+in place, but scripts that cannot handle its path must use an ASCII worktree or
+temporary copy.

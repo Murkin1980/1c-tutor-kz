@@ -110,15 +110,20 @@
 }
 ```
 
-## Переносимость в MiniBase
+## Хранение в MiniBase
 
-Прикладные идентификаторы остаются UUID-строками, даты передаются в ISO 8601 UTC,
-а JSON-поля имеют версионированную Zod-схему. Эти правила позволяют переносить
-данные из PostgreSQL/Supabase в D1/SQLite без изменения контрактов frontend.
+Прикладные идентификаторы остаются строками, даты передаются в ISO 8601 UTC,
+а JSON-поля имеют версионированную Zod-схему.
 
-Control plane MiniBase использует отдельные сущности `projects`, `api_keys`,
-`provisioning_jobs`, `schema_versions` и `audit_events`. Они не смешиваются с
-учебными таблицами 1C Tutor и будут спроектированы в отдельной MB0-итерации.
+В project D1 используются две records-коллекции:
+
+- `tutor_progress`, запись `owner`: `schemaVersion`, `updatedAt`,
+  `lastLessonId`, `lessonProgress`, `courseProgress`, `settings`;
+- `tutor_notes`, записи `lesson_<lessonId>`: `schemaVersion`, `lessonId`,
+  `text`, `updatedAt`.
+
+Control plane MiniBase хранится в отдельной D1 и не смешивается с учебными
+records 1C Tutor.
 
 ## Версионирование
 

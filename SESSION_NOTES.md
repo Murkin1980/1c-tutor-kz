@@ -115,3 +115,71 @@
 ### Известное поведение
 
 Выпуск TLS-сертификата нового Pages-проекта занял несколько минут; первоначальная проверка возвращала `ERR_SSL_VERSION_OR_CIPHER_MISMATCH`, повторная проверка после выпуска сертификата прошла.
+
+## 2026-07-29 — итерация MiniBase client adapter
+
+### Выполнено
+
+- Подтверждён production deployment отдельной платформы MiniBase.
+- Добавлен типизированный Data API client, принимающий только publishable key.
+- Добавлена Zod-валидация пары MiniBase URL/key и безопасный локальный fallback.
+- Проверка bundle расширена на MiniBase server keys и Cloudflare API token.
+- В профиле показан фактический режим хранения, визуальный прогресс обновлён до 38%.
+
+### Архитектурное решение
+
+Удалённая запись прогресса не включена. Текущий MiniBase авторизует проектный
+ключ, но ещё не конечного пользователя и владельца записи. Синхронизация будет
+разрешена только после теста, подтверждающего изоляцию двух пользователей.
+Ранее раскрытый management key признан скомпрометированным и не используется.
+
+### Известные ограничения
+
+- Auth, восстановление доступа и межустройственная синхронизация ещё локальные.
+- Проект 1C Tutor в MiniBase не provisioned до ротации management key.
+- Client adapter реализует Data API; Storage подключится вместе с ручной проверкой.
+
+### Следующий рекомендуемый этап
+
+Реализовать end-user sessions и owner-level authorization в MiniBase, отозвать
+скомпрометированный management key, проверить изоляцию и только затем создать
+проект 1C Tutor.
+
+## 2026-07-30 — onboarding 1C Tutor в MiniBase
+
+### Выполнено
+
+- MiniBase `npm run check` — PASS: lint, typecheck, 56 тестов, D1, release,
+  Worker integration и build.
+- Authenticated production smoke `0.22.2` — PASS.
+- Исправлен подтверждённый slug-дефект MiniBase; commit `8caa370`, Worker version
+  `fc0c5465-210d-4c33-8939-79bb4d5aba0b`.
+- Исправлен browser fetch binding SDK; commit `fbe02f6`.
+- Создан ровно один проект `1c-tutor-kz`, project ID
+  `f9ef1634-91ca-42b7-8923-a687d6060cc9`.
+- Idempotency replay вернул тот же project; дубль не создан.
+- Project D1 `75fe1e15-8cbe-4788-98eb-a78f7daeb38e` физически отделена от control D1.
+- Origins настроены; localhost разрешён, посторонний origin получает HTTP 403.
+- Добавлены MiniBase progress/notes repositories, Zod-схемы, local fallback,
+  одноразовая миграция и conflict resolution по `updatedAt`.
+- Desktop/mobile e2e с реальным MiniBase — PASS, 4/4.
+
+### Безопасность
+
+- Утраченный management key отозван, новый проверен production smoke.
+- Раскрытый в чате первоначальный project secret немедленно отозван; активна
+  только замена, сохранённая владельцем вне репозитория.
+- Frontend содержит только publishable key; secret/management keys отсутствуют.
+- Новые технические проекты создаются в ASCII-путях `C:\Projects\<slug>`.
+
+### Пилотный сценарий
+
+Владелец сначала проводит ручную приёмку. Затем тестовый record `owner` очищается,
+и закрытая Pages-ссылка передаётся одному ученику. Публичный multi-user режим в
+текущей архитектуре запрещён.
+
+### Осталось
+
+- Опубликовать свежую Pages-версию с environment variables.
+- Закрыть Pages через Cloudflare Access и добавить email владельца и ученика.
+- Провести ручную приёмку владельцем и очистить тестовый прогресс перед передачей.

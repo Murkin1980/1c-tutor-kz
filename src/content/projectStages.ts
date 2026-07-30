@@ -40,9 +40,9 @@ export const projectStages: ProjectStage[] = [
     outcome: "Пользователь продолжает обучение на другом устройстве.",
     items: [
       { label: "Auth и восстановление доступа", completed: false },
-      { label: "MiniBase client adapter", completed: false },
+      { label: "MiniBase client adapter", completed: true },
       { label: "Серверные роли и изоляция", completed: false },
-      { label: "Серверный прогресс и заметки", completed: false },
+      { label: "Серверный прогресс и заметки", completed: true },
     ],
   },
   {
@@ -106,12 +106,12 @@ export const projectStages: ProjectStage[] = [
     id: 8,
     title: "Платформа MiniBase",
     status: "research",
-    outcome: "Отдельный Cloudflare BaaS создаёт изолированные базы и принимает проверяемый импорт из Supabase.",
+    outcome: "Отдельный Cloudflare BaaS работает в production; пользовательская изоляция и переносы остаются исследовательскими.",
     items: [
       { label: "API-контракт и модель ключей", completed: true },
-      { label: "Автоматический provisioning D1", completed: false },
-      { label: "Auth, R2, аудит и квоты", completed: false },
-      { label: "Импорт Supabase с rollback", completed: false },
+      { label: "Автоматический provisioning D1", completed: true },
+      { label: "Data API, R2, аудит и квоты", completed: true },
+      { label: "Backup и тест восстановления", completed: false },
     ],
   },
 ];

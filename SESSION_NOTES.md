@@ -182,4 +182,37 @@
 
 - Опубликовать свежую Pages-версию с environment variables.
 - Закрыть Pages через Cloudflare Access и добавить email владельца и ученика.
+
+## 2026-07-30 — проверенный Pages preview с MiniBase
+
+### Выполнено
+
+- В CSP разрешён только production endpoint MiniBase; остальные внешние
+  подключения остаются запрещены.
+- Опубликован branch preview
+  <https://agent-project-progress.1c-tutor-kz.pages.dev> и immutable deployment
+  <https://e5c2cea7.1c-tutor-kz.pages.dev>.
+- Фактические HTTP-заголовки проверены на прямом SPA-маршруте: CSP,
+  `Referrer-Policy` и `X-Content-Type-Options` применены.
+- Публичный desktop/mobile e2e с production MiniBase прошёл: 4/4.
+- E2E выполняется последовательно, потому что до появления end-user auth
+  пилот намеренно использует один общий record `owner`.
+
+### Проверки
+
+- `npm run lint` — PASS.
+- `npm run typecheck` — PASS.
+- `npm run test` — PASS, 15 тестов.
+- `npm run build` — PASS.
+- `npm run check:secrets` — PASS.
+- `npm run test:e2e` локально — PASS, 4/4.
+- `E2E_BASE_URL=https://agent-project-progress.1c-tutor-kz.pages.dev npm run test:e2e`
+  — PASS, 4/4.
+
+### Осталось
+
+- Закрыть branch preview через Cloudflare Access и разрешить email владельца и
+  ученика.
+- Провести ручную приёмку владельцем.
+- После приёмки очистить тестовый record `owner` перед передачей курса ученику.
 - Провести ручную приёмку владельцем и очистить тестовый прогресс перед передачей.

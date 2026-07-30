@@ -25,9 +25,11 @@
 Frontend опубликован на preview:
 
 - branch alias: <https://agent-project-progress.1c-tutor-kz.pages.dev>;
-- immutable deployment: <https://00c161a4.1c-tutor-kz.pages.dev>.
+- immutable deployment: <https://e5c2cea7.1c-tutor-kz.pages.dev>.
 
-Подтверждены прямое обновление SPA-маршрутов, применение `_headers`, `X-Robots-Tag: noindex`, отсутствие секретов в bundle и полный desktop/mobile e2e на публичном URL.
+Подтверждены прямое обновление SPA-маршрутов, применение `_headers`, разрешение
+production MiniBase в `connect-src`, отсутствие секретов в bundle и полный
+desktop/mobile e2e на публичном URL.
 
 ## Подтверждено
 
@@ -50,11 +52,11 @@ Frontend опубликован на preview:
 - `screenshot_manual` ещё не загружает файлы в приватный Storage;
 - контент требует методической проверки на утверждённой версии 1С;
 - GitHub Actions не используется из-за исчерпанного лимита владельца;
-- production deployment и custom domain ещё не создавались; проверен только preview.
+- production deployment и custom domain ещё не создавались; проверен branch preview.
 - публичный multi-user режим не поддерживается; пилот должен быть закрыт Cloudflare Access;
 - тестовый прогресс необходимо очистить перед передачей курса ученику.
 
 ## Следующий рекомендуемый этап
 
-Опубликовать свежий Pages deployment, закрыть его Cloudflare Access для владельца
-и ученика, провести ручную приёмку и очистить тестовый прогресс перед передачей.
+Закрыть branch preview через Cloudflare Access для владельца и ученика, провести
+ручную приёмку и очистить тестовый прогресс перед передачей.

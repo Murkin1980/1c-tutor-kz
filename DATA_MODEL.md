@@ -1,5 +1,17 @@
 # Модель данных
 
+Серверная реализация выполняется через MiniBase и изолированную D1. Ниже приведена логическая модель, а не инструкция для создания Supabase-проекта.
+
+## Модели симулятора
+
+- `OfficialPortalVersion` — источник, дата наблюдения, версия, viewport и статус проверки;
+- `PortalScreen` / `PortalElement` — подтверждённая структура и учебные отличия;
+- `SimulationScenario` / `SimulationStep` / `SimulationAction` — учебный сценарий;
+- `ValidationRule` — версионированное правило;
+- `SimulationSubmission` / `TrainingDocumentStatus` — результат локальной имитации.
+
+Контент подключается через `SimulationRepository`; экраны не обращаются к backend напрямую.
+
 ## Таблицы
 
 ### profiles

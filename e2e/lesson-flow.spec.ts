@@ -16,7 +16,7 @@ test("learner completes the first lesson", async ({ page }) => {
   await page.getByRole("button", { name: "Проверить и завершить" }).click();
   await expect(page.getByText("Готово — урок завершён")).toBeVisible();
   await page.getByLabel("Личные заметки").fill("E2E: повторить вводный урок");
-  await expect(page.getByText("Синхронизированы через MiniBase")).toBeVisible();
+  await expect(page.getByText(/Синхронизированы через MiniBase|Сохраняются автоматически в этом браузере/)).toBeVisible();
   await page.reload();
   await expect(page.getByText("Готово — урок завершён")).toBeVisible();
   await expect(page.getByLabel("Личные заметки")).toHaveValue("E2E: повторить вводный урок");

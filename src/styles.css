@@ -6,6 +6,39 @@
   font-synthesis: none; --ink: #18332d; --paper: #fbf8f0; --cream: #f4f0e7;
   --line: #d9d2c3; --green: #183f36; --orange: #ee6b3a; --muted: #66746f;
 }
+
+.training-mode { min-height: calc(100vh - 64px); position: relative; overflow: hidden; }
+.training-banner { position: sticky; top: 0; z-index: 40; padding: .7rem 1rem; background: #7c2d12; color: #fff; text-align: center; font-weight: 800; letter-spacing: .04em; }
+.training-watermark { position: fixed; inset: 50% auto auto 50%; z-index: 0; transform: translate(-50%, -50%) rotate(-18deg); color: rgba(124,45,18,.06); font-size: clamp(3rem, 10vw, 9rem); font-weight: 900; white-space: nowrap; pointer-events: none; }
+.simulator-catalog, .simulator-shell { position: relative; z-index: 1; }
+.simulator-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 1rem; margin-top: 2rem; }
+.simulator-card { display: block; padding: 1.5rem; border: 1px solid #d8d2c4; border-radius: 18px; background: rgba(255,255,255,.94); color: inherit; text-decoration: none; }
+.simulator-card svg { color: #b45309; }
+.simulator-shell { display: grid; grid-template-columns: 260px 1fr; min-height: calc(100vh - 112px); background: #f4f1e9; }
+.simulator-nav { padding: 1.5rem; border-right: 1px solid #d8d2c4; background: #fff; }
+.simulator-nav > span { display: block; margin: .5rem 0 1.5rem; color: #786f61; font-size: .82rem; }
+.simulator-nav nav { display: grid; gap: .5rem; }
+.simulator-nav a, .simulator-nav button { padding: .75rem; border: 0; border-radius: 8px; background: #f4f1e9; color: inherit; text-align: left; text-decoration: none; }
+.simulator-workspace { padding: 2rem; }
+.simulator-workspace > header { display: flex; align-items: start; justify-content: space-between; gap: 1rem; }
+.simulator-notice { margin: 1.5rem 0; padding: 1rem; border-left: 4px solid #d97706; background: #fff7ed; }
+.simulator-panel { padding: 1.5rem; border: 1px solid #d8d2c4; border-radius: 14px; background: #fff; }
+.simulator-panel label { display: block; margin-bottom: .5rem; font-weight: 700; }
+.simulator-field-row { display: flex; gap: .75rem; }
+.simulator-field-row input { min-width: 0; flex: 1; padding: .75rem; border: 1px solid #a8a092; border-radius: 8px; }
+.simulator-field-row button, .simulator-actions button { padding: .75rem 1rem; border: 1px solid #a8a092; border-radius: 8px; background: #fff; }
+.field-error { color: #b91c1c; font-weight: 700; }
+.simulator-actions { display: flex; justify-content: flex-end; gap: .75rem; margin-top: 1rem; }
+
+@media (max-width: 700px) {
+  .training-banner { font-size: .72rem; }
+  .simulator-grid { grid-template-columns: 1fr; }
+  .simulator-shell { grid-template-columns: 1fr; }
+  .simulator-nav { border-right: 0; border-bottom: 1px solid #d8d2c4; }
+  .simulator-workspace { padding: 1rem; }
+  .simulator-workspace { padding-bottom: 7rem; }
+  .simulator-workspace > header, .simulator-field-row, .simulator-actions { align-items: stretch; flex-direction: column; }
+}
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body { margin: 0; min-width: 360px; min-height: 100vh; background: var(--cream); }

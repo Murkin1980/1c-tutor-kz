@@ -241,3 +241,29 @@
 - Провести ручную приёмку владельцем.
 - После приёмки очистить тестовый record `owner` перед передачей курса ученику.
 - Провести ручную приёмку владельцем и очистить тестовый прогресс перед передачей.
+
+## 2026-08-09 — frontend-сессии MiniBase
+
+### Выполнено
+
+- Frontend обменивает publishable key на Access-backed `mb_session_*` при демо-входе.
+- Сессионный токен хранится только в `sessionStorage` и используется для Data API.
+- Logout очищает токен до best-effort отзыва на MiniBase.
+- Ошибки сети, Access HTML/redirect и некорректный session response не ломают
+  существующий локальный fallback.
+- Интерфейс и учебные simulator-shell не изменялись.
+
+### Проверки
+
+- `npm run typecheck` — PASS.
+- `npm test` — PASS, 23/23.
+- `npm run lint` — PASS.
+- `npm run build` — PASS.
+- `npm run check:secrets` — PASS.
+- `npm run test:e2e` — PASS, 10/10 desktop/mobile.
+
+### Ограничение и следующий шаг
+
+- Первый интерактивный вход Cloudflare Access необходимо проверить на deployed
+  Pages preview; до успешной Access-аутентификации приложение безопасно работает
+  локально.

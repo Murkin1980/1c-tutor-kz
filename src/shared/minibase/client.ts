@@ -14,7 +14,12 @@ export interface MiniBaseClientOptions {
   baseUrl: string;
   publishableKey: string;
   fetch?: typeof fetch;
+  sessionStorage?: Pick<Storage, "getItem" | "setItem" | "removeItem">;
+  requireSession?: boolean;
 }
+
+export const MINIBASE_SESSION_KEY = "1c-tutor-minibase-session";
+export const MINIBASE_SESSION_EVENT = "minibase-session-changed";
 
 const collectionPattern = /^[a-z][a-z0-9_-]{1,62}$/;
 const recordIdPattern = /^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$/;
@@ -57,11 +62,22 @@ export class MiniBaseClient {
   private readonly baseUrl: string;
   private readonly key: string;
   private readonly requestFetch: typeof fetch;
+  private readonly sessionStorage?: Pick<Storage, "getItem" | "setItem" | "removeItem">;
+  private readonly requireSession: boolean;
 
   constructor(options: MiniBaseClientOptions) {
     this.baseUrl = validateBaseUrl(options.baseUrl);
     this.key = validatePublishableKey(options.publishableKey);
     this.requestFetch = options.fetch ?? globalThis.fetch.bind(globalThis);
+    this.sessionStorage = options.sessionStorage ?? globalThis.sessionStorage;
+    this.requireSession = options.requireSession ?? false;
+  }
+
+  private authorizationKey(): string {
+    const session = this.sessionStorage?.getItem(MINIBASE_SESSION_KEY);
+    if (session?.startsWith("mb_session_")) return session;
+    if (this.requireSession) throw new MiniBaseClientError("session_required", 401);
+    return this.key;
   }
 
   private collectionPath(collection: string, id?: string): string {
@@ -74,7 +90,7 @@ export class MiniBaseClient {
     const response = await this.requestFetch(`${this.baseUrl}${path}`, {
       ...init,
       headers: {
-        authorization: `Bearer ${this.key}`,
+        authorization: `Bearer ${this.authorizationKey()}`,
         ...(init.body ? { "content-type": "application/json" } : {}),
         ...init.headers,
       },
@@ -82,6 +98,40 @@ export class MiniBaseClient {
     if (!response.ok) return parseError(response);
     if (response.status === 204) return undefined as T;
     return response.json() as Promise<T>;
+  }
+
+  async exchangeAccessSession(): Promise<{ token: string; expiresAt: string }> {
+    const response = await this.requestFetch(`${this.baseUrl}/v1/sessions/exchange`, {
+      method: "POST",
+      credentials: "include",
+      redirect: "follow",
+      headers: { authorization: `Bearer ${this.key}` },
+    });
+    if (!response.ok) return parseError(response);
+    if (!(response.headers.get("content-type") ?? "").includes("application/json")) {
+      throw new MiniBaseClientError("access_login_required", 401);
+    }
+    const body = await response.json() as { token?: unknown; expiresAt?: unknown };
+    if (typeof body.token !== "string" || !body.token.startsWith("mb_session_") ||
+        typeof body.expiresAt !== "string") {
+      throw new MiniBaseClientError("invalid_session_response", 502);
+    }
+    this.sessionStorage?.setItem(MINIBASE_SESSION_KEY, body.token);
+    globalThis.dispatchEvent?.(new Event(MINIBASE_SESSION_EVENT));
+    return { token: body.token, expiresAt: body.expiresAt };
+  }
+
+  async endSession(): Promise<void> {
+    const token = this.sessionStorage?.getItem(MINIBASE_SESSION_KEY);
+    this.sessionStorage?.removeItem(MINIBASE_SESSION_KEY);
+    globalThis.dispatchEvent?.(new Event(MINIBASE_SESSION_EVENT));
+    if (!token?.startsWith("mb_session_")) return;
+    const response = await this.requestFetch(`${this.baseUrl}/v1/sessions/current`, {
+      method: "DELETE",
+      credentials: "include",
+      headers: { authorization: `Bearer ${token}` },
+    });
+    if (!response.ok) return parseError(response);
   }
 
   list<T extends Record<string, unknown>>(

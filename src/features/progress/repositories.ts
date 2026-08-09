@@ -171,6 +171,7 @@ export function createProgressRepository(): ProgressRepository {
   return new MiniBaseProgressRepository(new MiniBaseClient({
     baseUrl: miniBaseConfig.baseUrl,
     publishableKey: miniBaseConfig.publishableKey,
+    requireSession: true,
   }));
 }
 

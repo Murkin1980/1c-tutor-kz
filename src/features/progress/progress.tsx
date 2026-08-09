@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import type { LessonStatus } from "../../entities/course";
+import { MINIBASE_SESSION_EVENT } from "../../shared/minibase/client";
 import {
   createProgressRepository,
   LocalProgressRepository,
@@ -34,6 +35,12 @@ export function ProgressProvider({ children, repository }: { children: ReactNode
     activeRepository instanceof LocalProgressRepository ? "local" : "syncing",
   );
   const [syncAttempt, setSyncAttempt] = useState(0);
+
+  useEffect(() => {
+    const retryAfterSessionChange = () => setSyncAttempt((attempt) => attempt + 1);
+    globalThis.addEventListener?.(MINIBASE_SESSION_EVENT, retryAfterSessionChange);
+    return () => globalThis.removeEventListener?.(MINIBASE_SESSION_EVENT, retryAfterSessionChange);
+  }, []);
 
   useEffect(() => {
     let active = true;

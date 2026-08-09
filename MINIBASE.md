@@ -53,6 +53,19 @@ Frontend 1C Tutor:
 Утраченный management key отозван и заменён. Раскрытый во время onboarding
 project secret также отозван и заменён; frontend его никогда не использовал.
 
+### Пользовательская сессия frontend
+
+При демо-входе frontend обменивает `mb_publishable_*` на восьмичасовой
+`mb_session_*` через `POST /v1/sessions/exchange`. Запрос отправляется с
+`credentials: include`, чтобы Cloudflare Access мог подтвердить разрешённый
+email. Сессионный токен хранится только в `sessionStorage`, автоматически
+используется Data API и удаляется до best-effort запроса
+`DELETE /v1/sessions/current` при выходе.
+
+Если Access недоступен, вернул страницу входа вместо JSON или сеть не отвечает,
+демо-вход продолжает работу в локальном режиме. `localStorage` остаётся fallback
+для учебного прогресса, но сессионный токен туда никогда не записывается.
+
 ## Автоматическое создание проекта
 
 ```text

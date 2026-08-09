@@ -261,6 +261,8 @@
 - `npm run build` — PASS.
 - `npm run check:secrets` — PASS.
 - `npm run test:e2e` — PASS, 10/10 desktop/mobile.
+- Production e2e после первого deploy выявил неверный UI-статус при отсутствии
+  Access-сессии; `session_required` переклассифицирован в штатный локальный режим.
 
 ### Ограничение и следующий шаг
 

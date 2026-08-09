@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import type { LessonStatus } from "../../entities/course";
-import { MINIBASE_SESSION_EVENT } from "../../shared/minibase/client";
+import { MINIBASE_SESSION_EVENT, MiniBaseClientError } from "../../shared/minibase/client";
 import {
   createProgressRepository,
   LocalProgressRepository,
@@ -54,7 +54,9 @@ export function ProgressProvider({ children, repository }: { children: ReactNode
       })
       .catch((error: unknown) => {
         console.error("MiniBase progress hydration failed", error);
-        if (active) setSyncStatus("error");
+        if (active) setSyncStatus(
+          error instanceof MiniBaseClientError && error.code === "session_required" ? "local" : "error",
+        );
       });
     return () => { active = false; };
   }, [activeRepository, syncAttempt]);
@@ -72,7 +74,9 @@ export function ProgressProvider({ children, repository }: { children: ReactNode
           .then(() => setSyncStatus(activeRepository instanceof LocalProgressRepository ? "local" : "synced"))
           .catch((error: unknown) => {
             console.error("MiniBase progress save failed", error);
-            setSyncStatus("error");
+            setSyncStatus(
+              error instanceof MiniBaseClientError && error.code === "session_required" ? "local" : "error",
+            );
           });
         return allProgress;
       });

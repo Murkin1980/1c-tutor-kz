@@ -1,6 +1,6 @@
 # ROADMAP — 1C Tutor KZ
 
-Обновлено: 2026-08-15 после MPE pivot + International Track architecture pass.
+Обновлено: 2026-08-15 после Stage 1B.1 implementation pass + International Track architecture pass.
 
 ## North Star
 
@@ -40,58 +40,87 @@ Long-term professional North Star:
 - [x] закреплены Demo/Guided/Test, contextual coach, isolated playground, state verification;
 - [x] переписаны foundation/product/architecture/data/coder docs;
 - [x] создан каркас 1C Knowledge Atlas;
-- [x] International Track design-pass подтверждает возможность additive/backward-compatible Atlas expansion без нового runtime/repo.
+- [x] International Track design-pass подтверждает additive/backward-compatible expansion без нового runtime/repo.
 
-## Stage 1B.1 — Counterparty vertical slice — ACTIVE
+## Stage 1B.1 — Counterparty vertical slice — OWNER-REVIEW PREP
 
 Цель: доказать новый движок на одной законченной операции.
 
 ### Atlas prerequisite
-- [x] выполнить Atlas query `accounting-kz / 3.0 / counterparties / create-counterparty`;
-- [x] собрать bounded primary evidence на уровне workflow;
-- [x] создать Workflow Record;
-- [x] создать draft Interface Passport / evidence structure;
-- [ ] получить observation-grade UI Passport выбранной доступной версии для fidelity review.
+- [x] Atlas query `accounting-kz / 3.0 / counterparties / create-counterparty`;
+- [x] bounded primary evidence на уровне workflow;
+- [x] Workflow Record;
+- [x] draft Interface Passport / evidence structure;
+- [ ] observation-grade UI Passport выбранной доступной версии для fidelity verification.
 
 ### Workspace shell
-- [ ] embedded route/surface;
-- [ ] маркировка `УЧЕБНАЯ СРЕДА — НЕ 1С`;
-- [ ] 1C-like header/navigation/list/form primitives;
-- [ ] desktop/mobile layout.
+- [x] embedded route `/learn/customer-card`;
+- [x] маркировка `УЧЕБНАЯ СРЕДА — НЕ 1С`;
+- [x] 1C-like header/navigation/list/form primitives;
+- [x] responsive desktop/mobile layout в CSS;
+- [x] embedded lesson временно доступен независимо от legacy 1C:Fresh prerequisites для owner validation.
 
 ### Counterparty domain
-- [ ] deterministic seed;
-- [ ] counterparty list;
-- [ ] create form;
-- [ ] fictional name/city;
-- [ ] save state;
-- [ ] reset.
+- [x] deterministic seed;
+- [x] `TrainingCounterparty`;
+- [x] counterparty list;
+- [x] create form;
+- [x] fictional name/city;
+- [x] save state;
+- [x] reset.
 
 ### Learning modes
-- [ ] Demo;
-- [ ] Guided Practice;
-- [ ] Independent Test.
+- [x] Demo — не создаёт scored completion;
+- [x] Guided Practice;
+- [x] Independent Test — guidance hidden.
 
 ### Guidance
-- [ ] semantic target registry;
-- [ ] anchored coach bubble;
-- [ ] spotlight;
-- [ ] `Почему?`;
-- [ ] hint 1 / hint 2;
-- [ ] show action;
-- [ ] condition-driven advancement.
+- [x] semantic target registry;
+- [x] target spotlight;
+- [x] `Почему?`;
+- [x] hint 1 / hint 2;
+- [x] show action;
+- [x] condition-driven advancement;
+- [ ] отдельный anchored floating coach bubble по target bounds; текущий UX = side task panel + target spotlight.
 
 ### Verification v2
-- [ ] object exists;
-- [ ] name correct;
-- [ ] city correct;
-- [ ] saved;
-- [ ] readable assertion checklist;
-- [ ] correct typed answer without state => FAIL.
+- [x] object exists;
+- [x] name correct;
+- [x] city correct;
+- [x] saved;
+- [x] readable assertion checklist;
+- [x] expected / actual / corrective hint;
+- [x] correct typed answer without domain state cannot PASS.
 
-### Gate
-- [ ] owner UX/fidelity review;
-- [ ] all engineering checks PASS.
+### Progress / assessment
+- [x] mode stored;
+- [x] attempts tracked;
+- [x] reset count tracked;
+- [x] hints/show-action tracked;
+- [x] `completed_unassisted` vs `completed_assisted`;
+- [x] unit tests added for state verification/guidance/reset;
+- [x] Playwright guided + independent specs added.
+
+### Remaining engineering gate
+- [ ] run `npm run lint`;
+- [ ] run `npm run typecheck`;
+- [ ] run `npm run test`;
+- [ ] run `npm run build`;
+- [ ] run `npm run check:secrets`;
+- [ ] run `npm run test:e2e`;
+- [ ] desktop/mobile manual smoke.
+
+Current ChatGPT environment cannot reach GitHub from the execution container, and repository CI has no active status on the current head, therefore checks are not falsely marked PASS.
+
+### Owner gate
+- [ ] owner opens the Stage 1B.1 workspace;
+- [ ] owner tries Demo;
+- [ ] owner tries Guided;
+- [ ] owner tries Independent Test;
+- [ ] owner confirms that interaction logic is directionally correct for learning 1C;
+- [ ] verification checklist is understandable;
+- [ ] owner decides whether anchored coach must be added before or after fidelity observation;
+- [ ] owner authorizes Stage 1B.2.
 
 **STOP:** invoice implementation forbidden until owner review PASS.
 
@@ -131,7 +160,7 @@ Start only after 1B.2 PASS.
 - [ ] reusable scenario schema;
 - [ ] reusable assertion library;
 - [ ] robust guidance recovery;
-- [ ] assisted/unassisted scoring;
+- [x] assisted/unassisted scoring proven in first slice;
 - [ ] scenario analytics;
 - [ ] accessibility pass;
 - [ ] content authoring conventions;
@@ -145,8 +174,8 @@ Start only after 1B.2 PASS.
 - [x] ZUP KZ relevant edition/high-level chain started;
 - [x] Trade/UNF/ERP/Complex Automation source inventory started;
 - [x] source registry/provenance structure;
-- [x] initial retrieval proof queries;
-- [x] platform common UI model started;
+- [x] five retrieval proof queries;
+- [x] platform common UI model;
 - [ ] graph validation script/tests;
 - [ ] selected Trade/UNF workflow maps to target depth;
 - [ ] observation-grade Interface Passports for implemented Tutor scenarios.
@@ -254,12 +283,9 @@ Research areas:
 - month-end close workflows;
 - practical work-sample/accounting assessments.
 
-Deliverable:
-`capability-demand matrix`, not a copied course curriculum.
+Initial result supports capability-first sequencing around close/reconciliation/entries/working papers instead of lecture-first IFRS.
 
 ## Stage I2 — Accounting English Basics — FUTURE
-
-Only after core Tutor is stable enough to justify international implementation.
 
 Target: understand and work from common English accounting source documents and terminology.
 
@@ -315,7 +341,7 @@ No marketplace/freelance platform is authorized by this roadmap.
 
 ## Stage F — FNO / ESF research — DEFERRED
 
-Return only after a mature learning engine and a new MPE decision. Old portal-replica concepts are not current implementation instructions.
+Return only after a mature learning engine and a new MPE decision.
 
 ## Stage A — Adaptive reinforcement — LATER
 
@@ -333,7 +359,7 @@ Stop expansion if:
 - simulated UI conflicts with approved Interface Passport;
 - a new module requires cloning large parts of software without measurable learning value;
 - required Atlas evidence is missing/stale/conflicted;
-- normative IFRS/local rule lacks required provenance/version/effective-date support;
+- normative IFRS/local rule lacks provenance/version/effective-date support;
 - AI-generated explanation is treated as normative source;
 - copyrighted standards are bulk-copied without rights;
 - mandatory paid external dependency appears in the core loop;

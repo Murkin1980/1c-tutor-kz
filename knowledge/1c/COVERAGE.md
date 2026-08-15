@@ -1,16 +1,18 @@
-# COVERAGE — 1C Knowledge Atlas
+# COVERAGE — Unified Accounting Knowledge Atlas
 
 Обновлено: 2026-08-15.
 
-| Configuration | Edition | Areas inventoried | Workflows cataloged/deep | UI passports | Confidence | Status / next gap |
-|---|---|---:|---:|---:|---|---|
-| Accounting KZ | 3.0 | 11 core areas | 35+ cataloged; 3 Stage 1B deep workflow records | 3 draft passports | A workflow / B build-specific UI | Counterparty → Invoice → Payment now implementation-support ready; exact build observation still required before fidelity claim |
-| ZUP/HRM KZ | 3.1 (2nd ed.) | HR, time, payroll, taxes/contributions, reporting identified | high-level inventory started | 0 | A high-level | Build hiring/personnel/payroll workflow map; regulatory facts need current specialist validation |
-| Trade KZ | 3.0 + 3.4 evidence | warehouse, retail; 3.4 sales example | high-level inventory started | 0 | A high-level | Choose target teaching edition before deep workflow map |
-| UNF KZ | 3.0 | setup, nomenclature, sales/CRM, production context, money identified | high-level inventory started | 0 | A high-level | Map SMB end-to-end sales → production → money workflows |
-| ERP KZ | 2.4 | NSI, sales, purchases, warehouse/delivery, production, treasury, payroll identified | high-level inventory started | 0 | A high-level | Keep top-level until Tutor has proven demand for ERP track |
-| Complex Automation KZ | 2.4 | NSI, planning/needs, wholesale context identified | high-level inventory started | 0 | A high-level | Keep high-level; deepen only for a selected learning track |
-| Platform | 8.x managed app / Taxi concepts | sections, command interface, list/form/document/tabular section, command bars, validation, state semantics | reusable common UI model added | n/a | A generic platform | Link platform primitives into graph/retrieval proof tests |
+| Domain / Configuration | Version | Coverage | Deep workflows / topic bridges | Passports / provenance | Confidence | Next gap |
+|---|---|---|---:|---:|---|---|
+| Accounting KZ | 3.0 | 11 core areas | 35+ cataloged; 3 Stage 1B deep records | 3 draft UI passports | A workflow / B build-specific UI | observed Counterparty passport |
+| ZUP/HRM KZ | 3.1 (2nd ed.) | HR, time, payroll, taxes/contributions, reporting | high-level inventory + learning chain | 0 | A high-level | deepen selected workflows when prioritized |
+| Trade KZ | 3.0 + 3.4 evidence | warehouse, retail, sales examples | high-level inventory | 0 | A high-level | choose teaching edition before deep map |
+| UNF KZ | 3.0 | setup, nomenclature, sales/CRM, production, money | high-level inventory | 0 | A high-level | map SMB end-to-end workflows later |
+| ERP KZ | 2.4 | NSI, sales, purchases, warehouse, production, treasury, payroll | high-level inventory | 0 | A high-level | keep high-level until justified |
+| Complex Automation KZ | 2.4 | NSI/planning/wholesale context | high-level inventory | 0 | A high-level | keep high-level until justified |
+| 1C Platform | 8.x managed app / Taxi | sections, command interface, list/form/document primitives | reusable common UI model | n/a | A/B | map common primitives deeper into graph/tests |
+| International Accounting | architecture v0 | curriculum skeleton + capability backbone | 30+ candidate capabilities; P0 matrix defined | market evidence pack | A source sample / not statistical | expand geography and junior/intermediate sample |
+| IFRS | Required 2026 baseline | source registry + unified normative schema | 7 initial topic bridges | source/version/effective-date model | A source / treatment not yet ingested | ingest exact treatments only when a learning stage is authorized |
 
 ## Accounting KZ 3.0 populated layer
 
@@ -31,55 +33,111 @@ Human-readable inventory: `inventory/ACCOUNTING_KZ_3_0_CORE.md`.
 
 ## Stage 1B deep pack
 
-Created implementation-support records:
+Implementation-support records:
 - `workflows/ACCOUNTING_KZ_3_0_STAGE1B_CORE.md`;
 - `interfaces/ACCOUNTING_KZ_3_0_STAGE1B_PASSPORTS.md`;
 - `evidence/ACCOUNTING_KZ_3_0_STAGE1B_EVIDENCE.md`;
 - `scenarios/STAGE1B_VERIFICATION_ASSERTIONS.md`;
 - `sources/ACCOUNTING_KZ_3_0_STAGE1B.md`.
 
-The official exact-edition evidence supports the semantic training dependency:
+Semantic dependency:
 
 `Counterparty → Customer Invoice → Customer non-cash Payment → later Shipment/Realization → later reconciliation/reports`.
 
-Important: the official documentation supports workflow names and order, but exact installed-build layout/visible controls remain an observation task. Therefore the three Interface Passports are deliberately `DRAFT / observation required` rather than fictionalized completed passports.
+Exact installed-build layout remains an observation task.
 
 ## Platform reusable layer
 
-Created `platform/MANAGED_APP_COMMON_UI_MODEL.md` with source-backed reusable concepts:
-- application sections and section commands;
+`platform/MANAGED_APP_COMMON_UI_MODEL.md` describes source-backed reusable concepts:
+- application sections and commands;
 - list screen;
 - object/card form;
 - document form;
 - tabular section;
 - command bars;
-- draft vs saved vs posted/registered state;
+- draft/saved/posted/registered state;
 - validation/message focus;
 - related navigation/history;
-- semantic control IDs and event model for coach/testing.
+- semantic control IDs.
 
-This lets Tutor reuse one interaction engine across Accounting, ZUP, Trade, UNF and ERP while configuration passports supply exact labels/visibility/layout.
+## International Accountant Track coverage
+
+Architecture and planning records:
+- `docs/architecture/INTERNATIONAL_TRACK_ARCHITECTURE_PASS.md`;
+- `knowledge/1c/international/SOURCE_REGISTER.md`;
+- `knowledge/1c/international/CURRICULUM_SKELETON.md`;
+- `knowledge/1c/international/TOPIC_BRIDGES.md`;
+- `docs/research/INTERNATIONAL_CAPABILITY_RESEARCH_PASS_2026-08-15.md`.
+
+Unified graph schema now supports:
+- Topic / KnowledgeLayer / Jurisdiction;
+- Standard / StandardParagraphReference;
+- AccountingConcept / BusinessProcess / TransactionType;
+- 1COperation / AccountingTreatment;
+- AccountingEntry / FinancialStatementImpact;
+- Terminology / Case / Exercise / Assessment;
+- Capability / LearningOutcome / Prerequisite / DifficultyLevel;
+- SourceVersion / EffectiveDate.
+
+This is additive and backward-compatible with all current 1C graph records.
+
+## Initial IFRS topic bridges
+
+- Fixed Assets ↔ IAS 16;
+- Inventory ↔ IAS 2;
+- Revenue ↔ IFRS 15;
+- Leases ↔ IFRS 16;
+- Cash / Cash Flows ↔ IAS 7;
+- Impairment ↔ IAS 36;
+- Financial Instruments ↔ IFRS 9.
+
+No full Standard text or full treatment corpus is ingested. Normative treatment nodes will be created only for authorized learning stages, with exact source/version/effective-date provenance.
+
+## International capability demand — initial market pass
+
+P0 signals from sampled current roles:
+- bank reconciliation;
+- month-end close;
+- journal entries;
+- GL/trial balance;
+- accruals;
+- prepayments;
+- AP/AR;
+- fixed assets;
+- discrepancy/root-cause investigation;
+- supporting schedules/working papers;
+- Excel;
+- English remote communication;
+- cloud accounting/ERP literacy.
+
+P1/P2 signals:
+- financial statements;
+- audit preparation;
+- intercompany reconciliation;
+- consolidation fundamentals;
+- IFRS treatment;
+- revenue recognition specialization;
+- process automation.
+
+This is an initial evidence sample, not a statistically representative labor-market dataset.
 
 ## Current implementation-support query
 
 `accounting-kz / 3.0 / counterparties / create-counterparty` → **IMPLEMENTATION_SUPPORT_READY / EXACT_UI_OBSERVATION_PENDING**.
 
-Known with official exact-edition evidence:
-- target configuration and edition;
-- counterparty workflow existence and role in trading flows;
-- counterparty/contract conceptual separation;
-- customer invoice → customer payment → later shipment sequence;
-- managed/Taxi platform interaction model;
-- state assertions for the first Tutor lesson.
+Known:
+- target configuration/edition;
+- workflow and dependencies;
+- semantic interaction model;
+- state assertions;
+- reusable platform primitives.
 
-Still missing before `FIDELITY_VERIFIED`:
+Missing before `FIDELITY_VERIFIED`:
 - exact current navigation path in a selected installed build;
-- visible list/form command labels and placement;
+- visible command labels/placement;
 - exact field labels/conditional fields;
-- save/post controls for the selected build;
+- save/post controls;
 - observation metadata/screenshots where licensing permits.
-
-Codex may now implement the Counterparty vertical slice using the semantic model and data-driven passport slots. It must not claim pixel fidelity or hardcode unresolved labels as immutable facts.
 
 ## Stage K1 progress
 
@@ -88,30 +146,30 @@ Completed:
 - [x] Accounting KZ core areas inventoried;
 - [x] Accounting KZ core workflow graph populated;
 - [x] three Stage 1B workflows deepened;
-- [x] Stage 1B evidence pack created;
-- [x] state-based verification assertions defined;
-- [x] draft Interface Passports created with explicit unknowns;
-- [x] generic managed-application UI primitive model created;
-- [x] ZUP KZ relevant edition resolved;
-- [x] UNF KZ relevant edition resolved;
-- [x] ERP KZ relevant edition resolved;
-- [x] Complex Automation KZ relevant edition resolved;
-- [x] Trade KZ edition evidence recorded;
-- [x] provenance preserved to primary 1C sources.
+- [x] Stage 1B evidence/assertion pack;
+- [x] draft Interface Passports with explicit unknowns;
+- [x] generic managed-application UI primitive model;
+- [x] ZUP/UNF/ERP/CA/Trade edition discovery/inventory;
+- [x] provenance to primary 1C sources;
+- [x] international/IFRS graph schema extension;
+- [x] IFRS 2026 source registry baseline;
+- [x] international curriculum skeleton;
+- [x] local→IFRS topic bridges;
+- [x] international capability research pass v0.
 
-Still required for full Stage K1 PASS:
-- [ ] map platform primitives into graph nodes/edges;
-- [ ] detailed ZUP HR/payroll workflow graph;
-- [ ] detailed UNF SMB workflow graph;
-- [ ] selected-edition Trade workflow graph;
+Still required for full K1 PASS:
 - [ ] graph validation script/tests;
-- [ ] five retrieval proof queries with deterministic expected subgraphs;
+- [ ] selected deeper Trade/UNF maps where required;
+- [ ] deterministic retrieval proof tests in code;
 - [ ] observed Interface Passport for every implemented Tutor practical scenario.
 
 ## Immediate queue
 
-1. Add five retrieval proof queries and expected evidence bundles.
-2. Link reusable platform UI nodes to Stage 1B workflows.
-3. Build detailed ZUP KZ 3.1 employment/payroll learning chain.
-4. Build UNF KZ 3.0 SMB sales/production/money chain.
-5. When a legally accessible Accounting KZ 3.0 build is available, capture the first observed Counterparty Interface Passport and upgrade `B UI` → `A observed UI`.
+1. Capture observed Counterparty Interface Passport when a legally accessible Accounting KZ 3.0 build is available.
+2. Build Counterparty Training Workspace vertical slice.
+3. Owner UX/fidelity PASS.
+4. Invoice vertical slice.
+5. Payment vertical slice.
+6. Continue International Capability Research as a separate evidence stream without displacing core implementation.
+
+International Track remains architecture/research-only until the roadmap gate allows substantive implementation.

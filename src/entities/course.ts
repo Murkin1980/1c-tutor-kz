@@ -15,6 +15,8 @@ export type Verification =
   | { type: "sequence"; prompt: string; items: string[]; expected: string[] }
   | { type: "screenshot_manual"; prompt: string };
 
+export type PracticeMode = "embedded" | "external" | "theory";
+
 export interface Lesson {
   id: string;
   slug: string;
@@ -27,7 +29,9 @@ export interface Lesson {
   hints: string[];
   verification: Verification;
   expectedResult: string;
-  externalAppUrl: string;
+  practiceMode?: PracticeMode;
+  practicalScenarioId?: string;
+  externalAppUrl?: string;
   reviewedAt: string;
   configurationVersion: string;
 }

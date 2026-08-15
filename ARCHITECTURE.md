@@ -1,135 +1,210 @@
-# Архитектура 1C Tutor KZ
+# ARCHITECTURE — 1C Tutor KZ
 
-## 1. Общая схема
+Обновлено: 2026-08-15.
+
+## 1. Общая схема Stage 1B
 
 ```text
-Browser
-  ├─ Cloudflare Pages: React application
-  ├─ Supabase Auth
-  ├─ Supabase PostgreSQL + RLS
-  ├─ Supabase Storage: screenshots
-  └─ External tab: 1C:Fresh Kazakhstan / local educational 1C
+Browser / Cloudflare Pages
+└─ React + TypeScript application
+   ├─ Learning Shell
+   │  ├─ course / lesson context
+   │  ├─ mode selector
+   │  └─ task/help drawer
+   ├─ Training Workspace
+   │  ├─ 1C-like navigation shell
+   │  ├─ training screens/forms/tables
+   │  ├─ deterministic domain state
+   │  └─ reset/seed engine
+   ├─ Guidance Engine
+   │  ├─ target registry
+   │  ├─ coach bubble
+   │  ├─ spotlight
+   │  ├─ condition-driven step engine
+   │  └─ hints/show-action
+   ├─ Verification Engine v2
+   │  ├─ state assertions
+   │  ├─ transparent PASS/FAIL checklist
+   │  └─ assisted/unassisted result
+   └─ Repository abstractions
+      ├─ local training state
+      └─ local progress (server adapter later)
 ```
 
-## 2. Почему 1С открывается отдельно
+No external 1C service is required for the Stage 1B core loop.
 
-Тренажёр и 1С являются двумя независимыми системами. Это снижает риски:
+## 2. Architectural boundaries
 
-- блокировки iframe;
-- нарушения лицензионных условий;
-- зависимости от DOM и обновлений интерфейса 1С;
-- доступа тренажёра к учётным данным;
-- утечки логина и пароля.
+### Learning Shell
+Knows scenario, source data, learning mode, progress and explanations. It does not directly mutate accounting state.
 
-## 3. Frontend modules
+### Training Workspace
+Owns the simulated application UI and domain actions. It behaves like a narrow training application, not like a quiz.
+
+### Training Domain
+Pure TypeScript domain model and commands, independent of React where practical. It must be deterministic and testable.
+
+### Guidance Engine
+Observes target availability and domain/UI conditions. It never fakes a successful domain operation.
+
+### Verification Engine v2
+Reads domain state and returns structured assertions. It must not use learner-entered quiz answers as proof of a practical operation.
+
+## 3. Proposed source structure
 
 ```text
 src/
 ├─ app/
 ├─ routes/
+├─ content/
+├─ entities/
+│  ├─ course/
+│  └─ training/
 ├─ features/
 │  ├─ auth/
-│  ├─ courses/
-│  ├─ lessons/
 │  ├─ progress/
-│  ├─ verification/
-│  ├─ notes/
-│  └─ admin/
-├─ entities/
-├─ shared/
-└─ content/
+│  ├─ verification/          # theory legacy + v2 result facade
+│  ├─ training-workspace/
+│  │  ├─ domain/
+│  │  ├─ repository/
+│  │  ├─ screens/
+│  │  └─ components/
+│  └─ guidance/
+│     ├─ engine/
+│     ├─ components/
+│     └─ target-registry/
+└─ shared/
 ```
 
-## 4. Контентная модель
+Do not create a second frontend or separate repository.
 
-Контент урока хранится отдельно от пользовательского прогресса. Поля урока:
+## 4. Training domain v1
 
-- slug;
-- title;
-- objective;
-- business_context;
-- estimated_minutes;
-- prerequisites;
-- source_data;
-- steps;
-- hints;
-- verification;
-- expected_result;
-- common_errors;
-- external_app_url;
-- version;
-- publication_status.
+First entities:
+- `TrainingCounterparty`;
+- `TrainingInvoice`;
+- `TrainingInvoiceLine`;
+- `TrainingPayment`;
+- `TrainingScenarioState`;
+- `TrainingActionEvent`.
 
-## 5. Проверка заданий
+First commands:
+- create/update/save counterparty;
+- create/update/save invoice;
+- add/update/remove invoice line;
+- register payment;
+- reset scenario.
 
-Проверка выполняется в браузере для простых типов и дублируется серверной функцией для защиты от подмены результата.
+Stage 1B vertical slice implements only the counterparty subset first.
 
-Для `screenshot_manual`:
+## 5. Scenario model
 
-1. клиент получает signed upload URL;
-2. изображение загружается в приватный bucket;
-3. создаётся submission;
-4. администратор видит его в очереди;
-5. после проверки сохраняются статус и комментарий.
+A practical scenario declares:
+- id/version;
+- business goal;
+- seed state;
+- allowed workspace capabilities;
+- Demo script;
+- Guided steps with target + advance condition;
+- Independent Test task text;
+- state assertions;
+- hint ladder;
+- expected result;
+- Interface Passport reference.
 
-## 6. AI-слой в будущей версии
+Content remains data-driven where possible; do not hard-code lesson logic into one giant page component.
 
-AI должен находиться за Cloudflare Worker или Supabase Edge Function. Клиент не получает API key.
+## 6. Guidance Engine
 
-Возможные функции:
+A `GuidanceStep` contains:
+- `targetId`;
+- instruction;
+- optional why-text;
+- hint1/hint2;
+- `advanceWhen(state, uiState)`;
+- optional `showAction` implementation for Demo/Guided;
+- recovery rule.
 
-- объяснение ошибки простым языком;
-- проверка снимка экрана;
-- персональная дополнительная задача;
-- ответы только на основе курса.
+Targets are registered by stable semantic IDs such as `nav.sales`, `counterparties.create`, `counterparty.name`, not by brittle CSS selectors.
 
-AI не должен:
+Coach positioning must use actual element bounds and recalculate on resize/scroll.
 
-- подтверждать правильность налоговой отчётности;
-- работать с реальными секретами;
-- автоматически изменять 1С;
-- заменять ручную проверку при низкой уверенности.
+## 7. Verification Engine v2
 
-## 7. Deployment
+```ts
+type AssertionResult = {
+  id: string;
+  label: string;
+  passed: boolean;
+  feedback?: string;
+};
 
-### Cloudflare Pages
-
-- production branch: `main`;
-- build command: `npm run build`;
-- output: `dist`;
-- Node version закрепить в `.nvmrc`;
-- SPA routes направлять на `index.html`;
-- preview deployments включены.
-
-### Заголовки
-
-Добавить `_headers` или Worker middleware:
-
-```text
-/*
-  X-Content-Type-Options: nosniff
-  Referrer-Policy: strict-origin-when-cross-origin
-  Permissions-Policy: camera=(), microphone=(), geolocation=()
-  Content-Security-Policy: default-src 'self'; img-src 'self' data: blob: https://*.supabase.co; connect-src 'self' https://*.supabase.co; script-src 'self'; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'self'; frame-ancestors 'none';
+type PracticalVerificationResult = {
+  passed: boolean;
+  assertions: AssertionResult[];
+  assistance: 'none' | 'hints' | 'shown-action';
+};
 ```
 
-Не добавлять домен 1С в `frame-src`, пока не подтверждена возможность и необходимость iframe.
+Verifier is a pure function over scenario + training state whenever possible.
 
-## 8. Наблюдаемость
+Example counterparty assertions:
+- expected counterparty exists;
+- expected name matches;
+- required fictional city matches;
+- record is saved.
 
-MVP:
+## 8. Progress
 
-- таблица `app_events`;
-- error boundary;
-- структурированные console errors в development;
-- необязательный Sentry после пилота.
+Stage 1B keeps progress behind a repository interface. Persist:
+- scenario id/version;
+- mode;
+- completion status;
+- hints/show-action count;
+- retries/resets;
+- verification summary;
+- timestamps.
 
-События:
+Do not introduce Supabase solely to implement the first vertical slice.
 
-- `course_opened`;
-- `lesson_started`;
-- `external_1c_opened`;
+## 9. UI fidelity and Interface Passport
+
+Every simulated workflow must reference research evidence. Build reusable primitives that resemble the selected 1C interaction model: application header, section navigation, command bar, list, form, tabs/groups, input/select, save/close commands, status indicators.
+
+Do not claim pixel-perfect parity without an approved Interface Passport. Do not use official logos or proprietary assets unnecessarily.
+
+## 10. Security
+
+- CSP default self-only;
+- no state-changing requests to external accounting/government systems;
+- no real credentials/identifiers;
+- `TrainingModeBanner` always visible in workspace;
+- fixtures visibly fictional;
+- no external app iframe;
+- secrets check remains mandatory.
+
+## 11. Observability events
+
+Add/retain:
+- `scenario_started`;
+- `training_action`;
+- `guidance_step_advanced`;
 - `hint_opened`;
-- `answer_submitted`;
-- `lesson_completed`;
-- `lesson_abandoned`.
+- `show_action_used`;
+- `verification_requested`;
+- `assertion_failed`;
+- `scenario_reset`;
+- `scenario_completed`.
+
+Never log sensitive user/business data.
+
+## 12. Deployment
+
+Frontend remains Cloudflare Pages compatible:
+- production branch `main`;
+- `npm run build`;
+- output `dist`;
+- SPA fallback;
+- no mandatory backend for Stage 1B vertical slice.
+
+Server persistence, multi-user analytics and admin authoring are later stages behind an MPE gate.

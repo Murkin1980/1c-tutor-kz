@@ -2,23 +2,26 @@
 
 Обновлено: 2026-08-15.
 
-После MPE pivot старые проценты frontend/ФНО не отражают реальную готовность продукта. Прогресс пересчитан по новой архитектуре.
+Прогресс отражает новую архитектуру после MPE pivot и не засчитывает документирование как готовый пользовательский workflow.
 
 ## Общая готовность
 
 ```text
 MPE pivot / product foundation       ██████████ 100%
-1C Knowledge Atlas bootstrap         ███░░░░░░░  30%
-Training Workspace engine            ░░░░░░░░░░   0%
-Guidance Engine                       ░░░░░░░░░░   0%
-Verification Engine v2                ░░░░░░░░░░   0%
-Counterparty vertical slice           ░░░░░░░░░░   0%
-Invoice vertical slice                ░░░░░░░░░░   0%
-Payment/advance vertical slice        ░░░░░░░░░░   0%
-Learning engine hardening             ░░░░░░░░░░   0%
-Stage K1 full Atlas coverage          █░░░░░░░░░  10%
-Broad Accounting KZ curriculum        ░░░░░░░░░░   0%
-Cross-configuration tracks            ░░░░░░░░░░   0%
+Unified Accounting Knowledge Atlas   ██████░░░░  60%
+Training Workspace engine            ███████░░░  70%
+Guidance Engine                       ██████░░░░  60%
+Verification Engine v2                ███████░░░  75%
+Counterparty vertical slice           ███████░░░  70%
+Invoice vertical slice                █░░░░░░░░░  10%  (Atlas only; code blocked)
+Payment/advance vertical slice        █░░░░░░░░░  10%  (Atlas only; code blocked)
+Learning engine hardening             ██░░░░░░░░  20%
+Stage K1 full Atlas coverage          █████░░░░░  50%
+Broad Accounting KZ curriculum        ██░░░░░░░░  20%  (knowledge map, not lessons)
+Cross-configuration tracks            ██░░░░░░░░  20%  (Atlas inventory only)
+Professional Accountant layer         █░░░░░░░░░  10%  (architecture only)
+International Track architecture      ██████████ 100%  (design only)
+International capability research     █████░░░░░  50%
 Server persistence                    ░░░░░░░░░░   0%
 Real-1C transfer assessment           ░░░░░░░░░░   0%
 FNO / ESF                              ░░░░░░░░░░   0%
@@ -30,31 +33,53 @@ FNO / ESF                              ░░░░░░░░░░   0%
 
 🟢 Routing, local repositories, progress infrastructure, responsive/security setup и tests первого прототипа.
 
-🟢 Новая product/architecture/data/coder документация согласована вокруг embedded Training Workspace.
+🟢 `knowledge/1c/` содержит source registry, taxonomy, graph schema, retrieval/ingestion rules, evidence, workflow records, draft Interface Passports, retrieval proof queries и cross-configuration inventories.
 
-🟢 Создан `knowledge/1c/`: source registry, taxonomy, graph schema, retrieval/ingestion rules, templates, seed graph, coverage matrix и Stage K1 instruction.
+🟢 Unified Atlas расширен для Accounting KZ + будущего International Accounting / IFRS без второго knowledge base.
 
-🟢 Старый `FIRST_STAGE_INSTRUCTION.md` удалён как конфликтующий.
+🟢 Для Stage 1B.1 реализован embedded route `/learn/customer-card`.
 
-🟢 FNO/ESF Portal Replica Spec явно переведён в deferred status.
+🟢 Реализован deterministic counterparty domain state, save/reset, action log.
+
+🟢 Реализованы Demo / Guided / Independent Test.
+
+🟢 Реализованы semantic targets, spotlight, condition-driven guidance, `Почему?`, hints и show-action.
+
+🟢 Реализован Verification Engine v2: existence/name/city/saved assertions с expected/actual/hint.
+
+🟢 Практический PASS больше не зависит от отдельного typed answer.
+
+🟢 Прогресс различает assisted/unassisted completion и считает hints/show-action/resets/attempts.
+
+🟢 Добавлены unit specifications и Playwright scenarios для нового workspace.
+
+🟡 Exact installed-build UI fidelity ещё не подтверждена observation-grade Interface Passport.
+
+🟡 Automated tests добавлены, но в текущей ChatGPT execution environment не запущены: container не имеет сетевого доступа к GitHub, а текущий head не имеет активных CI status checks.
 
 ## Текущий рубеж
 
-### Milestone M1B.1 — Counterparty vertical slice
+### Milestone M1B.1 — Counterparty vertical slice — PRE-REVIEW
 
 ```text
-[ ] Atlas bounded ingestion: create-counterparty
-[ ] Workflow Record
-[ ] Interface Passport
-[ ] embedded Training Workspace shell
-[ ] counterparty domain state
-[ ] Demo
-[ ] Guided Practice + contextual coach
-[ ] Independent Test
-[ ] state-based Verification v2
-[ ] transparent PASS/FAIL assertions
-[ ] deterministic reset
-[ ] desktop/mobile e2e
+[x] Atlas bounded ingestion: create-counterparty
+[x] Workflow Record
+[x] draft Interface Passport + unresolved exact-build gaps
+[x] embedded Training Workspace shell
+[x] counterparty domain state
+[x] Demo (non-scored)
+[x] Guided Practice + target spotlight
+[x] Independent Test
+[x] state-based Verification v2
+[x] transparent PASS/FAIL assertions
+[x] assisted/unassisted completion metadata
+[x] deterministic reset
+[x] responsive CSS
+[x] unit/e2e test specifications written
+[ ] anchored floating coach bubble by target bounds
+[ ] lint/typecheck/unit/build/secrets/e2e actually executed
+[ ] desktop/mobile manual smoke
+[ ] observation-grade UI Passport
 [ ] owner UX/fidelity PASS
 ```
 
@@ -62,25 +87,37 @@ FNO / ESF                              ░░░░░░░░░░   0%
 
 Current retrieval:
 
-`accounting-kz / 3.0 / counterparties / create-counterparty` → `RESEARCH_REQUIRED`.
+`accounting-kz / 3.0 / counterparties / create-counterparty` → `IMPLEMENTATION_SUPPORT_READY / EXACT_UI_OBSERVATION_PENDING`.
 
-Atlas уже знает configuration families и официальные source families, но точный Interface Passport контрагента ещё не создан.
+The Atlas supports semantic implementation and state verification. It does not yet authorize a pixel-fidelity claim for a specific Accounting KZ build.
+
+## International Track status
+
+Architecture is fixed but runtime implementation is deferred.
+
+Progression:
+
+`1C Tutor → Accounting KZ → Professional Accountant → International Accounting → IFRS → International Practice`.
+
+Current international work remains Atlas/research only. Initial market evidence prioritizes reconciliations, close, journal entries, accruals/prepayments, GL/TB, working papers and audit support over lecture-first IFRS.
 
 ## Главные gates
 
-1. Нельзя реализовывать точный 1C-like workflow по догадке — сначала Atlas evidence.
-2. Нельзя начать Invoice до owner PASS Counterparty.
-3. Нельзя начать Payment до owner PASS Invoice.
+1. Нельзя заявлять exact 1C fidelity без observation-grade Interface Passport.
+2. Нельзя начать Invoice implementation до owner PASS Counterparty.
+3. Нельзя начать Payment implementation до owner PASS Invoice.
 4. Нельзя массово расширять курс до Stage K1 PASS.
-5. Нельзя превращать Atlas в зеркало ИТС или полный клон 1С.
-6. Нельзя внедрять Supabase/AI/vector DB как обязательную инфраструктуру без нового MPE value gate.
+5. Нельзя превращать Atlas в зеркало ИТС/IFRS Standards или полный клон 1С.
+6. Нельзя внедрять Supabase/AI/vector DB как обязательную инфраструктуру без MPE value gate.
+7. International Track не должен вытеснять незавершённый основной learning engine.
 
-## Следующее действие Codex
+## Следующее действие
 
-Следовать `NEXT_STAGE_INSTRUCTION.md`:
-1. bounded Atlas ingestion для Counterparty;
-2. затем реализовать один vertical slice;
-3. остановиться на owner review.
+1. Выполнить engineering checks в среде с checkout ветки.
+2. Открыть `/learn/customer-card` и пройти Demo / Guided / Independent Test.
+3. Зафиксировать owner UX feedback.
+4. Закрыть anchored coach/fidelity gaps, если они реально мешают обучению.
+5. Только после owner PASS разрешить Stage 1B.2 Invoice.
 
 ## Правило обновления
 

@@ -97,6 +97,30 @@
 - freshness: edition 3.0
 - notes: warehouse operations including movement, inventory count and assembly.
 
+### KZ-ACC30-INVOICE-EXAMPLES
+- authority: primary
+- scope: `1С:Бухгалтерия для Казахстана в примерах` — Счет на оплату покупателю
+- url: `https://its.1c.kz/db/accountingexampleskz/content/104559/hdoc`
+- access: public-index/mixed-detail
+- freshness: verify linked build/date on deep ingestion
+- notes: high-value next source for customer-invoice Interface Passport and workflow detail.
+
+### KZ-ACC30-INVOICE-NEW
+- authority: primary
+- scope: новые возможности документа `Счет на оплату покупателю`
+- url: `https://its.1c.kz/db/accountingkz/content/104271/hdoc`
+- access: public-index/mixed-detail
+- freshness: verify article date/build on deep ingestion
+- notes: use as change evidence, not sole baseline UI evidence.
+
+### KZ-ACC30-METHOD-INDEX
+- authority: primary
+- scope: methodological support index for Accounting KZ 3.0
+- url: `https://its.1c.kz/db/accountingkz/content/104049/hdoc`
+- access: public-index/mixed-detail
+- freshness: current index
+- notes: broad discovery source for cash settlements, card payments, starting balances, VAT, ESF and many other topics.
+
 ### KZ-ACC30-PRODUCT
 - authority: primary
 - scope: возможности и интерфейс `Бухгалтерия 8 для Казахстана`, ред. 3.0
@@ -121,15 +145,49 @@
 - freshness: historical baseline
 - notes: release baseline.
 
-## Primary — Kazakhstan / other configurations
+## Primary — Kazakhstan / ZUP HRM
 
-### KZ-HRM
+### KZ-ZUP31-DOC
 - authority: primary
-- scope: `Зарплата и Управление Персоналом для Казахстана`
-- url: `https://its.1c.kz/section/i1c/doc_user`
-- access: mixed
-- freshness: discover actual edition before deep ingestion
-- notes: separate evidence required for each relevant edition.
+- scope: `Зарплата и Управление Персоналом для Казахстана`, редакция 3.1, 2-е издание
+- url: `https://its.1c.kz/db/zup31kz`
+- access: public-index/mixed-detail
+- freshness: edition 3.1
+- notes: canonical current Atlas baseline for the dedicated HR/payroll configuration until a newer relevant edition is verified.
+
+### KZ-ZUP31-ORG
+- authority: primary
+- scope: ZUP KZ 3.1 — структура организации and documentation TOC context
+- url: `https://its.1c.kz/db/zup31kz/content/14/hdoc`
+- access: public-index/mixed-detail
+- freshness: edition 3.1, 2nd edition
+- notes: confirms major domains: HR records, time, payroll, statutory taxes/contributions, regulated reporting.
+
+### KZ-ZUP31-TRANSITION
+- authority: primary
+- scope: transition guide to ZUP KZ 3.1 and interface modernization
+- url: `https://its.1c.kz/db/content/ruk/src/%D0%B7%D1%83%D0%BF/%D0%B7%D0%BD%D0%B0%D0%BA%D0%BE%D0%BC%D1%81%D1%82%D0%B2%D0%BE%20%D1%81%20%D0%BA%D0%BE%D0%BD%D1%84%D0%B8%D0%B3%D1%83%D1%80%D0%B0%D1%86%D0%B8%D0%B5%D0%B9%20%D0%B2%20%D1%80%D0%B5%D0%B4.3.1_%D0%B7%D1%83%D0%BF%20%D0%B4%D0%BB%D1%8F%20%D0%BA%D0%B0%D0%B7%D0%B0%D1%85%D1%81%D1%82%D0%B0%D0%BD%D0%B0.htm`
+- access: public
+- freshness: published 2021, edition baseline
+- notes: confirms 1C:Enterprise 8.3 and customizable modern workspace concepts.
+
+### KZ-ZUP31-PIECEWORK
+- authority: primary
+- scope: ZUP KZ 3.1 — input data for payroll, piecework
+- url: `https://its.1c.kz/db/zup31kz/content/83/hdoc`
+- access: public-index/mixed-detail
+- freshness: edition 3.1
+- notes: proves payroll-input chapter and relationship to payroll calculation.
+
+### KZ-ZUP31-ACCOUNTING-REFLECTION
+- authority: primary
+- scope: ZUP KZ 3.1 — отражение зарплаты в бухучете
+- url: `https://its.1c.kz/db/zup31kz/content/155/hdoc`
+- access: public-index/mixed-detail
+- freshness: edition 3.1
+- notes: integration boundary between payroll results and accounting.
+
+## Primary — Kazakhstan / Trade
 
 ### KZ-TRADE30-WAREHOUSE
 - authority: primary
@@ -145,7 +203,7 @@
 - url: `https://its.1c.kz/db/tradekz/content/104820/hdoc`
 - access: public-index/mixed-detail
 - freshness: edition 3.4
-- notes: proof that edition 3.4 is an active documented branch; deeper inventory still required.
+- notes: proof that edition 3.4 is a documented branch; deeper inventory still required.
 
 ### KZ-TRADE-RELEASES
 - authority: primary
@@ -154,6 +212,34 @@
 - access: public release pages
 - freshness: version-specific
 - notes: use for version/change evidence, not as sole UI source.
+
+## Primary — Kazakhstan / UNF
+
+### KZ-UNF30-DOC
+- authority: primary
+- scope: `Управление нашей фирмой для Казахстана`, редакция 3.0
+- url: `https://its.1c.kz/db/unf30kz`
+- access: public-index/mixed-detail
+- freshness: edition 3.0
+- notes: high-value SMB cross-functional configuration; documented setup, nomenclature, sales, production, money and other domains.
+
+### KZ-UNF30-MONEY
+- authority: primary
+- scope: UNF KZ 3.0 — безналичные денежные средства
+- url: `https://its.1c.kz/db/unf30kz/content/87/hdoc`
+- access: public-index/mixed-detail
+- freshness: edition 3.0
+- notes: confirms money domain and production/report context from documentation TOC.
+
+### KZ-UNF30-SALES
+- authority: primary
+- scope: UNF KZ 3.0 — Sales chapter context
+- url: `https://its.1c.kz/db/unf30kz/content/40/hdoc`
+- access: public-index/mixed-detail
+- freshness: edition 3.0
+- notes: confirms Sales chapter plus CRM/settings context.
+
+## Primary — Kazakhstan / ERP
 
 ### KZ-ERP24-DOC
 - authority: primary
@@ -178,6 +264,32 @@
 - access: public-index/mixed-detail
 - freshness: edition 2.4
 - notes: indexes Sales, Purchases, Warehouse/Delivery, Production, Treasury, Payroll and other areas.
+
+## Primary — Kazakhstan / Complex Automation
+
+### KZ-CA24-DOC
+- authority: primary
+- scope: `Комплексная автоматизация для Казахстана`, редакция 2.4
+- url: `https://its.1c.kz/db/ka24kz`
+- access: public-index/mixed-detail
+- freshness: edition 2.4
+- notes: canonical baseline for CA KZ 2.4.
+
+### KZ-CA24-NSI
+- authority: primary
+- scope: CA KZ 2.4 — enterprise/nomenclature/series NSI context
+- url: `https://its.1c.kz/db/ka24kz/content/891/hdoc`
+- access: public-index/mixed-detail
+- freshness: edition 2.4
+- notes: source page is inside needs planning chapter but exposes detailed product TOC and NSI hierarchy.
+
+### KZ-CA24-WHOLESALE
+- authority: primary
+- scope: CA KZ 2.4 — оптовая торговля
+- url: `https://its.1c.kz/db/ka24kz/content/888/hdoc`
+- access: public-index/mixed-detail
+- freshness: edition 2.4
+- notes: wholesale trade context.
 
 ### KZ-LOCALIZED-SOLUTIONS
 - authority: primary

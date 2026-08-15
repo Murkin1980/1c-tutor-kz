@@ -20,9 +20,10 @@
           "hints": ["Новая вкладка появится рядом с тренажёром.", "Разрешите браузеру открыть вкладку, если он её заблокировал.", "Не вводите реальные реквизиты или пароли в учебные задания."],
           "verification": { "type": "self_confirm", "prompt": "Учебная база открылась в отдельной вкладке?" },
           "expectedResult": "Тренажёр и учебная база открыты в отдельных вкладках.",
+          "practiceMode": "external",
           "externalAppUrl": "https://1cfresh.kz/",
           "reviewedAt": "2026-07-28",
-          "configurationVersion": "Учебный прототип, маршрут требует проверки"
+          "configurationVersion": "Legacy prototype — replacement pending"
         },
         {
           "id": "launch-base",
@@ -36,9 +37,10 @@
           "hints": ["Ищите название, явно содержащее слово «учебная».", "Если такой базы нет, не продолжайте в рабочей базе.", "Для ответа достаточно одного слова."],
           "verification": { "type": "single_choice", "prompt": "Какую базу безопасно выбрать?", "options": ["УЧЕБНАЯ", "РАБОЧАЯ", "АРХИВ"], "expected": "УЧЕБНАЯ" },
           "expectedResult": "Выбрана только отдельная учебная база.",
+          "practiceMode": "external",
           "externalAppUrl": "https://1cfresh.kz/",
           "reviewedAt": "2026-07-28",
-          "configurationVersion": "Учебный прототип, маршрут требует проверки"
+          "configurationVersion": "Legacy prototype — replacement pending"
         },
         {
           "id": "navigation",
@@ -52,9 +54,10 @@
           "hints": ["Разделы обычно находятся в основной панели навигации.", "Не создавайте документы на этом шаге.", "Порядок переходов указан в инструкции."],
           "verification": { "type": "sequence", "prompt": "Расположите маршрут в верном порядке.", "items": ["Главное", "Продажи", "Покупки"], "expected": ["Продажи", "Покупки", "Главное"] },
           "expectedResult": "Пользователь ориентируется между основными разделами.",
+          "practiceMode": "external",
           "externalAppUrl": "https://1cfresh.kz/",
           "reviewedAt": "2026-07-28",
-          "configurationVersion": "Учебный прототип, маршрут требует проверки"
+          "configurationVersion": "Legacy prototype — replacement pending"
         }
       ]
     },
@@ -67,17 +70,18 @@
           "id": "customer-card",
           "slug": "customer-card",
           "title": "Карточка учебного покупателя",
-          "objective": "Подготовить карточку вымышленного контрагента.",
-          "context": "Карточка покупателя связывает документы продажи с контрагентом.",
+          "objective": "Создать и сохранить карточку вымышленного контрагента во встроенной учебной рабочей области.",
+          "context": "Карточка покупателя связывает последующие документы продажи с контрагентом. В этом уроке навык подтверждается состоянием учебной среды, а не текстовым ответом.",
           "estimatedMinutes": 10,
           "sourceData": { "Покупатель": "ТОО Учебный Покупатель", "Город": "Кызылорда" },
-          "steps": ["Откройте справочник контрагентов.", "Создайте новую карточку.", "Введите только вымышленные данные.", "Сохраните карточку."],
-          "hints": ["Ищите справочник в разделе покупок или продаж.", "Не вводите БИН реальной компании.", "Проверьте название перед сохранением."],
-          "verification": { "type": "text_exact", "prompt": "Введите название учебного покупателя.", "expected": "ТОО Учебный Покупатель" },
-          "expectedResult": "Создана карточка вымышленного учебного покупателя.",
-          "externalAppUrl": "https://1cfresh.kz/",
-          "reviewedAt": "2026-07-28",
-          "configurationVersion": "Учебный прототип, маршрут требует проверки"
+          "steps": ["Откройте раздел «Продажи» во встроенной учебной среде.", "Перейдите в список контрагентов.", "Создайте новую карточку.", "Введите вымышленные название и город.", "Сохраните карточку.", "Нажмите «Проверить работу»."],
+          "hints": ["В режиме «Вести меня» активный элемент подсвечивается.", "Используйте только исходные учебные данные справа.", "Проверка читает сохранённое состояние карточки, а не введённый отдельно ответ."],
+          "verification": { "type": "self_confirm", "prompt": "Legacy fallback only: практический результат проверяется Verification Engine v2 внутри workspace." },
+          "expectedResult": "В учебной среде существует сохранённый контрагент «ТОО Учебный Покупатель» с городом «Кызылорда».",
+          "practiceMode": "embedded",
+          "practicalScenarioId": "scenario:tutor:create-training-counterparty:v1",
+          "reviewedAt": "2026-08-15",
+          "configurationVersion": "Accounting KZ 3.0 semantic model; exact installed-build UI observation pending"
         },
         {
           "id": "training-invoice",
@@ -91,9 +95,10 @@
           "hints": ["Умножьте цену на количество.", "Проверьте, что количество равно двум.", "В учебном примере дополнительных услуг нет."],
           "verification": { "type": "number", "prompt": "Какова итоговая сумма счёта?", "expected": 245000, "tolerance": 0.01, "unit": "KZT" },
           "expectedResult": "Итог учебного счёта — 245 000 ₸.",
+          "practiceMode": "external",
           "externalAppUrl": "https://1cfresh.kz/",
           "reviewedAt": "2026-07-28",
-          "configurationVersion": "Учебный прототип, маршрут требует проверки"
+          "configurationVersion": "Legacy prototype — Stage 1B.2 blocked until Counterparty owner PASS"
         }
       ]
     }

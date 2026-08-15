@@ -8,6 +8,11 @@ export interface LessonProgress {
   attemptCount: number;
   note: string;
   answer?: unknown;
+  practiceMode?: "demo" | "guided" | "test";
+  completionKind?: "completed_unassisted" | "completed_assisted";
+  hintCount?: number;
+  showActionCount?: number;
+  resetCount?: number;
   updatedAt: string;
 }
 export interface ProgressRepository {

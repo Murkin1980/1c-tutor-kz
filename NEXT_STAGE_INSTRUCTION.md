@@ -1,5 +1,11 @@
 # NEXT STAGE INSTRUCTION — Stage 1B.1 Engineering Verification + Owner Review
 
+## Canonical handoff
+
+Start with `CODER_HANDOFF_2026-08-15.md`.
+
+That file is the short operational continuation guide for Codex. This document remains the detailed stage gate.
+
 ## MPE decision
 
 `EXTEND_EXISTING`
@@ -34,17 +40,18 @@ Still open:
 ## Mandatory reading
 
 Before changing code, read:
-1. `FOUNDATION.md`
-2. `ARCHITECTURE.md`
-3. `DATA_MODEL.md`
-4. `ROADMAP.md`
-5. `STAGE_CHECKLIST.md`
-6. `CODER_INSTRUCTION.md`
-7. `knowledge/1c/COVERAGE.md`
-8. `knowledge/1c/workflows/ACCOUNTING_KZ_3_0_STAGE1B_CORE.md`
-9. `knowledge/1c/interfaces/ACCOUNTING_KZ_3_0_STAGE1B_PASSPORTS.md`
-10. `knowledge/1c/evidence/ACCOUNTING_KZ_3_0_STAGE1B_EVIDENCE.md`
-11. `SESSION_NOTES.md`
+1. `CODER_HANDOFF_2026-08-15.md`
+2. `FOUNDATION.md`
+3. `ARCHITECTURE.md`
+4. `DATA_MODEL.md`
+5. `ROADMAP.md`
+6. `STAGE_CHECKLIST.md`
+7. `CODER_INSTRUCTION.md`
+8. `knowledge/1c/COVERAGE.md`
+9. `knowledge/1c/workflows/ACCOUNTING_KZ_3_0_STAGE1B_CORE.md`
+10. `knowledge/1c/interfaces/ACCOUNTING_KZ_3_0_STAGE1B_PASSPORTS.md`
+11. `knowledge/1c/evidence/ACCOUNTING_KZ_3_0_STAGE1B_EVIDENCE.md`
+12. `SESSION_NOTES.md`
 
 ## Phase A — Run engineering checks
 

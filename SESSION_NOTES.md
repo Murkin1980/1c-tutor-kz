@@ -1,5 +1,56 @@
 # SESSION NOTES
 
+## 2026-08-15 — Atlas population pass 1
+
+### Result
+
+The 1C Knowledge Atlas is no longer a seed-only scaffold.
+
+Populated from official 1C Kazakhstan sources:
+- Accounting KZ 3.0 core functional map;
+- 35+ Accounting KZ workflow nodes across documents, counterparties, sales, purchases, bank/cash, warehouse, reports, production, payroll and period close;
+- workflow dependency edges for the first Tutor learning chain;
+- expanded primary source registry;
+- human-readable `Accounting KZ 3.0` core inventory;
+- ZUP KZ 3.1 core inventory;
+- cross-configuration capability map;
+- edition baselines for ZUP 3.1, UNF 3.0, ERP 2.4, Complex Automation 2.4 and Trade 3.0/3.4 evidence.
+
+### Important evidence rule
+
+The Atlas now separates two levels explicitly:
+
+1. `workflow exists / topology is documented` — may be `A` when proven by exact-edition official documentation;
+2. `exact UI interaction is fidelity-ready` — remains `B` until an Interface Passport records the selected build's navigation, command labels, form structure and relevant fields.
+
+This prevents Codex from turning an official documentation table of contents into invented button positions.
+
+### Current implementation-support query
+
+`accounting-kz / 3.0 / counterparties / create-counterparty` → `WORKFLOW_FOUND / UI_PASSPORT_REQUIRED`.
+
+The workflow and its place in standard trading/accounting scenarios are now proven by official Accounting KZ 3.0 documentation. Exact UI observation for the selected build is the remaining fidelity blocker.
+
+### New/updated Atlas files
+
+- `knowledge/1c/SOURCE_REGISTER.md`;
+- `knowledge/1c/COVERAGE.md`;
+- `knowledge/1c/graph/nodes.jsonl`;
+- `knowledge/1c/graph/edges.jsonl`;
+- `knowledge/1c/inventory/ACCOUNTING_KZ_3_0_CORE.md`;
+- `knowledge/1c/inventory/ZUP_KZ_3_1_CORE.md`;
+- `knowledge/1c/inventory/CROSS_CONFIGURATION_MAP.md`.
+
+### Next Atlas queue
+
+1. Counterparty Interface Passport.
+2. Customer Invoice Interface Passport.
+3. Customer Payment / bank receipt Interface Passport.
+4. Platform generic list/form/document UI primitives.
+5. Detailed ZUP hiring/personnel/payroll graph.
+
+---
+
 ## 2026-08-15 — MPE deep pivot: embedded Training Workspace + 1C Knowledge Atlas
 
 ### MPE decision
@@ -48,17 +99,6 @@ Created `knowledge/1c/` with:
 
 Canonical Atlas is Git-native. A future RAG/vector index may be generated, but cannot become source of truth.
 
-### Official source findings
-
-Primary discovery sources identified:
-- `its.1c.kz` user documentation index for Kazakhstan configurations;
-- official Accounting KZ 3.0 documentation;
-- `1c.kz` Accounting KZ product/release material;
-- official platform user documentation;
-- official release pages for localized configurations.
-
-Official Kazakhstan documentation already separates major product families and functional areas, making it suitable as a structured ingestion source.
-
 ### Documentation rewritten
 
 - `FOUNDATION.md`;
@@ -86,13 +126,9 @@ Official Kazakhstan documentation already separates major product families and f
 
 Before UI implementation Codex must:
 1. query Atlas for `accounting-kz / 3.0 / counterparties / create-counterparty`;
-2. perform bounded primary-source ingestion;
-3. create Workflow Record + Interface Passport + evidence;
+2. use bounded primary-source ingestion for any remaining gaps;
+3. create Interface Passport + evidence;
 4. only then build the embedded Counterparty workflow.
-
-### Current Atlas query state
-
-`create-counterparty` → `RESEARCH_REQUIRED` because exact navigation/form/command evidence for the selected observed Accounting KZ 3.0 version still must be captured.
 
 ### Stop condition
 

@@ -1,0 +1,20 @@
+{"id":"platform:1c-enterprise-8","type":"Platform","label":"1С:Предприятие 8","status":"inventory","confidence":"A","tags":["platform"]}
+{"id":"configuration:accounting-kz","type":"Configuration","label":"1С:Бухгалтерия для Казахстана","status":"active-priority","confidence":"A","tags":["kazakhstan","accounting"]}
+{"id":"edition:accounting-kz:3.0","type":"Edition","label":"Бухгалтерия для Казахстана, редакция 3.0","configuration":"accounting-kz","status":"active-priority","confidence":"A","tags":["taxi-ui"]}
+{"id":"configuration:hrm-kz","type":"Configuration","label":"1С:Зарплата и Управление Персоналом для Казахстана","status":"inventory","confidence":"A","tags":["kazakhstan","hr","payroll"]}
+{"id":"configuration:trade-kz","type":"Configuration","label":"1С:Управление торговлей для Казахстана","status":"inventory","confidence":"A","tags":["kazakhstan","trade","warehouse"]}
+{"id":"configuration:unf-kz","type":"Configuration","label":"1С:Управление нашей фирмой для Казахстана","status":"inventory","confidence":"A","tags":["kazakhstan","smb"]}
+{"id":"configuration:erp-kz","type":"Configuration","label":"1С:ERP Управление предприятием 2 для Казахстана","status":"inventory","confidence":"A","tags":["kazakhstan","erp"]}
+{"id":"configuration:ca-kz","type":"Configuration","label":"1С:Комплексная автоматизация для Казахстана","status":"inventory","confidence":"A","tags":["kazakhstan","erp","accounting"]}
+{"id":"area:accounting-kz:3.0:main","type":"BusinessArea","label":"Главное","configuration":"accounting-kz","edition":"3.0","status":"inventory","confidence":"A","tags":["general"]}
+{"id":"area:accounting-kz:3.0:sales","type":"BusinessArea","label":"Продажа","configuration":"accounting-kz","edition":"3.0","status":"inventory","confidence":"B","tags":["sales"]}
+{"id":"area:accounting-kz:3.0:purchases","type":"BusinessArea","label":"Покупка","configuration":"accounting-kz","edition":"3.0","status":"inventory","confidence":"B","tags":["purchases"]}
+{"id":"area:accounting-kz:3.0:bank-cash","type":"BusinessArea","label":"Банк и касса","configuration":"accounting-kz","edition":"3.0","status":"inventory","confidence":"B","tags":["bank","cash"]}
+{"id":"area:accounting-kz:3.0:inventory","type":"BusinessArea","label":"Номенклатура и склад","configuration":"accounting-kz","edition":"3.0","status":"inventory","confidence":"B","tags":["inventory"]}
+{"id":"area:accounting-kz:3.0:reports","type":"BusinessArea","label":"Отчеты","configuration":"accounting-kz","edition":"3.0","status":"inventory","confidence":"B","tags":["reports"]}
+{"id":"workflow:accounting-kz:3.0:create-counterparty","type":"Workflow","label":"Создание контрагента","configuration":"accounting-kz","edition":"3.0","status":"partial","confidence":"B","tags":["counterparties","master-data"]}
+{"id":"scenario:tutor:create-training-counterparty:v1","type":"LearningScenario","label":"Карточка учебного покупателя","status":"planned","confidence":"B","tags":["stage-1b","counterparty"]}
+{"id":"source:KZ-ITS-USER-DOCS","type":"Source","label":"1С:ИТС Казахстан — пользовательская документация","status":"active","confidence":"A","tags":["primary","kazakhstan"]}
+{"id":"source:KZ-ACC30-DOC","type":"Source","label":"Бухгалтерия для Казахстана 3.0 — официальная документация","status":"active","confidence":"A","tags":["primary","accounting-kz"]}
+{"id":"source:KZ-ACC30-PRODUCT","type":"Source","label":"1c.kz — Бухгалтерия 8 для Казахстана","status":"active","confidence":"A","tags":["primary","accounting-kz"]}
+{"id":"source:PLATFORM-USER-GUIDE","type":"Source","label":"1С:Предприятие 8 — руководство пользователя","status":"active","confidence":"A","tags":["primary","platform"]}

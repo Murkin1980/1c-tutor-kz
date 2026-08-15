@@ -1,188 +1,208 @@
-# NEXT STAGE INSTRUCTION — Stage 1B Embedded Training Workspace
+# NEXT STAGE INSTRUCTION — Stage 1B.1 Counterparty Vertical Slice
 
 ## MPE decision
 
 `EXTEND_EXISTING`
 
-Owner approved the deep change on 2026-08-15: the core MVP no longer depends on paid 1C:Fresh. The existing `1c-tutor-kz` repository remains the product. The next stage replaces the weak external-tab practice loop with an embedded, deterministic training workspace that imitates only the 1C workflows required by the course.
+Owner approved the deep change on 2026-08-15. The old mandatory external-1C loop is obsolete for core MVP.
 
-Reference research: `docs/research/EMBEDDED_TRAINING_REFERENCES.md`.
+## Mandatory reading before code
 
-## Product principle
+Read in full:
+1. `FOUNDATION.md`
+2. `PRODUCT_REQUIREMENTS.md`
+3. `ARCHITECTURE.md`
+4. `DATA_MODEL.md`
+5. `ROADMAP.md`
+6. `STAGE_CHECKLIST.md`
+7. `CODER_INSTRUCTION.md`
+8. `docs/research/EMBEDDED_TRAINING_REFERENCES.md`
+9. `SESSION_NOTES.md`
 
-The learner must practice actions, not answer questions about actions.
+Then inspect existing source and list reusable components before writing new ones.
 
-A practical lesson is complete only when the training workspace reaches the expected state. A typed answer alone must never prove that a 1C operation was completed.
+## Goal
 
-## Scope of Stage 1B
+Replace the weak `Карточка учебного покупателя` lesson with one complete embedded practical scenario where the learner works inside a 1C-like Training Workspace and completion is verified from workspace state.
 
-Build a narrow 1C-like training workspace for exactly three workflows:
+This iteration is not a prototype mockup. It must establish reusable architecture for later invoice/payment slices.
 
-1. create a fictional counterparty;
-2. create a customer invoice;
-3. register a customer payment/advance and inspect the resulting status/balance.
+## Required end-user flow
 
-Do not build a complete accounting system or complete 1C clone.
+### Entry
+- learner opens lesson;
+- no paid 1C:Fresh requirement;
+- embedded Training Workspace occupies the main working area;
+- task/help panel is secondary and collapsible;
+- persistent marker: `УЧЕБНАЯ СРЕДА — НЕ 1С`.
 
-## Learning modes
+### Workspace path
+Implement only the minimum supported path:
+- application shell;
+- relevant navigation section;
+- `Контрагенты` list;
+- `Создать`;
+- counterparty form;
+- fields required by scenario;
+- `Сохранить` / equivalent supported action;
+- return/list state if appropriate.
 
-Every supported workflow must be able to run in three modes:
+Use fictional scenario:
+- name: `ТОО Учебный Покупатель`;
+- city: `Кызылорда`;
+- do not request real BIN/IIN.
 
-### 1. Demo — `Показать`
-- the system demonstrates the path;
-- controls may be highlighted automatically;
-- explanations state what is happening and why;
-- no score.
+## Three modes
 
-### 2. Guided Practice — `Вести меня`
-- the learner performs each action;
-- a contextual coach bubble points to the current relevant control;
-- the next step appears only after the required action/state is observed;
-- hints are available on demand;
-- wrong actions receive specific feedback where safe and useful.
+### 1. `Показать`
+- demonstrate the route automatically or semi-automatically;
+- show concise explanation of what/why;
+- highlight relevant controls;
+- no scored completion.
 
-### 3. Independent Test — `Проверить себя`
-- no step-by-step bubbles;
-- only scenario, source data and expected business result are visible;
-- learner may navigate freely within the supported workspace;
-- deterministic state checks determine completion;
-- hints, if requested, reduce or mark assisted completion.
+### 2. `Вести меня`
+- learner clicks/types personally;
+- coach bubble is anchored to actual simulated control;
+- spotlight target;
+- step advances only after required action/state;
+- include `Почему?`, hint 1, hint 2, `Показать действие`;
+- if learner reaches a later valid state independently, recover rather than forcing obsolete earlier clicks.
 
-## Workspace layout
+### 3. `Проверить себя`
+- hide step instructions/spotlights;
+- show business task + source data + `Проверить работу`;
+- learner navigates freely within implemented workspace;
+- hints, if exposed, mark result as assisted.
 
-Desktop:
-- primary area: 1C-like application workspace;
-- secondary collapsible panel: task, source data, progress and help;
-- contextual coach bubbles anchored to the simulated controls;
-- explicit `Проверить работу` action;
-- `Подсказка`, `Сбросить шаг`, `Начать заново` actions.
+## Domain implementation
 
-Mobile:
-- workspace remains primary;
-- task/help panel becomes a bottom sheet or drawer;
-- no two-tab requirement;
-- coach remains attached to the active control without hiding it.
+Create/reuse a clear boundary such as:
 
-## UI fidelity rule
+```text
+src/features/training-workspace/
+├─ domain/
+├─ repository/
+├─ screens/
+└─ components/
 
-Reproduce the logic and visual language of the selected 1C:Бухгалтерия для Казахстана workflows closely enough that a beginner forms useful interface habits:
-- main navigation structure;
-- form hierarchy;
-- common button placement and naming;
-- tables, fields, selectors and document states;
-- save/post/close logic where relevant.
+src/features/guidance/
+├─ engine/
+├─ components/
+└─ target-registry/
+```
 
-Do not use official logos or imply that Tutor is an official 1C product. Keep a persistent visible training marker.
+Exact paths may adapt to existing conventions, but boundaries must remain.
 
-Until a specific 1C version is researched and approved, use an explicit `training replica` designation and avoid claiming pixel-perfect fidelity.
-
-## Deterministic training state
-
-Introduce a local training-domain state separate from quiz answers. At minimum model:
+Implement:
 - `TrainingCounterparty`;
-- `TrainingInvoice`;
-- `TrainingInvoiceLine`;
-- `TrainingPayment`;
-- derived balance/status;
-- scenario seed/reset state;
-- user action/event log needed for guidance and diagnostics.
+- minimal `TrainingScenarioState`;
+- deterministic seed/reset;
+- commands for create/update/save;
+- local repository adapter.
 
-State must be resettable and deterministic. No real IIN/BIN or real company records.
+Do not add backend.
 
-## Verification engine v2
+## Semantic target registry
 
-Replace practical-task verification with environment-state assertions.
+No brittle instructional selectors such as `.button:nth-child(3)`.
 
-Example for invoice task:
-- expected counterparty exists;
-- invoice exists for that counterparty;
-- expected item exists;
-- quantity = 2;
-- price = 122500;
-- total = 245000 KZT;
-- required document state is reached.
+Use IDs/registry equivalents:
+- `nav.counterparties`;
+- `counterparties.create`;
+- `counterparty.name`;
+- `counterparty.city`;
+- `counterparty.save`.
 
-`Проверить работу` must show a readable checklist such as:
-- Контрагент создан — PASS
-- Счёт создан — PASS
-- Количество 2 — PASS
-- Цена 122 500 ₸ — PASS
-- Итог 245 000 ₸ — PASS
+Guidance resolves targets through this registry.
 
-On failure, identify the failed condition without revealing the entire solution immediately.
+## Verification Engine v2
 
-Knowledge verification types may remain for theory, but `self_confirm`, `text_exact`, `number`, etc. cannot independently complete a practical accounting task.
+Create a separate practical verifier.
 
-## Coach / helper system
+Required assertions:
+1. `Контрагент создан`;
+2. `Название совпадает`;
+3. `Город совпадает`;
+4. `Карточка сохранена`.
 
-Create a reusable guidance layer with:
-- anchored tooltip/bubble;
-- spotlight/highlight target;
-- current step counter;
-- `Почему?` explanation;
-- first-level hint;
-- stronger second-level hint;
-- optional `Показать действие` only in learning mode;
-- ability to recover if learner is already at a later valid state.
+`Проверить работу` shows each assertion and PASS/FAIL.
 
-Guidance logic must be condition-driven, not only next-button driven.
+Critical negative test:
+- entering/knowing `ТОО Учебный Покупатель` without a saved domain object must remain FAIL.
 
-## First vertical slice
+Legacy `text_exact`, `number`, `self_confirm` etc. may remain only for knowledge checks. Refactor types/naming if needed so nobody can confuse them with practical verification.
 
-Implement only one complete lesson first: `Карточка учебного покупателя`.
+## Progress
 
-The slice is accepted only if a learner can:
-1. enter the embedded workspace;
-2. navigate to counterparties;
-3. create `ТОО Учебный Покупатель` with fictional scenario data;
-4. save it;
-5. press `Проверить работу`;
-6. see exactly which state assertions passed;
-7. retry after an incorrect entry;
-8. reset the scenario;
-9. repeat the same task in Independent Test mode.
+Store at least:
+- mode;
+- attempt count;
+- reset count;
+- hints used;
+- show-action count;
+- last assertion result;
+- completion = assisted/unassisted.
 
-After this vertical slice passes tests and owner UX review, reuse the same components for invoice and payment workflows.
+Use existing progress repository abstraction where possible.
 
-## Reuse requirements
+## Legacy cleanup allowed
 
-Reuse existing:
-- React/TypeScript/Vite app;
-- routing and shell;
-- course content architecture where compatible;
-- progress repository abstraction;
-- existing verification code for theory-only questions;
-- existing responsive/security foundations.
+Inspect and remove/replace obsolete code/content related to this lesson when it conflicts with the new model, including:
+- `externalAppUrl` dependency;
+- button/flow whose only purpose is opening 1C:Fresh;
+- answer-only practical completion;
+- obsolete UI that duplicates Training Workspace task panel.
 
-Do not create a new repository, separate frontend, second design system or external training service.
+Do not preserve backward compatibility with a broken learning loop merely to reduce diff size.
 
-## Explicitly deferred
+Before deleting reusable abstractions, migrate their useful behavior first.
 
-- full 1C clone;
-- all accounting modules;
-- FNO / ESF simulators;
-- Supabase migration unless strictly needed after local vertical slice validation;
-- browser extension;
-- automated control of real 1C;
-- computer vision as primary scoring;
-- AI as primary verifier;
-- paid 1C:Fresh dependency;
-- real credentials or company data.
+## UI fidelity
+
+Create reusable 1C-like primitives rather than one-off pixel art.
+
+Prioritize:
+- hierarchy of app navigation;
+- density and structure of lists/forms;
+- command placement;
+- labels/actions;
+- focus behavior;
+- save logic.
+
+Do not use official 1C logo or claim official affiliation. Exact visual fidelity is gated by a future approved `Interface Passport` based on the selected 1C version.
+
+## Mobile
+
+At 360px:
+- workspace remains usable;
+- task/help becomes drawer/bottom sheet;
+- active coach target is not covered;
+- user can type and save without horizontal-trap failure;
+- training marker remains visible.
 
 ## Tests
 
-Add tests proving:
-- practical completion depends on workspace state, not typed expected answers;
-- a correct final number without a created document does not pass;
-- guided mode advances only after the required condition;
-- test mode hides step instructions;
-- reset returns to deterministic seed state;
-- invalid/real-looking identifiers are rejected according to the training-data rules;
-- mobile layout keeps the active simulated control usable;
-- all existing security checks remain green.
+Unit:
+- domain commands;
+- reset deterministic;
+- assertion pass/fail;
+- answer-only cannot pass;
+- assistance classification.
 
-Run:
+Component/integration:
+- coach binds target;
+- guided waits for condition;
+- test mode hides guidance;
+- assertion checklist renders precise failure.
 
+E2E desktop + mobile:
+- guided complete path;
+- independent complete path;
+- wrong field → specific FAIL → correction → PASS;
+- reset;
+- no external 1C navigation required.
+
+Run all:
 ```bash
 npm run lint
 npm run typecheck
@@ -192,19 +212,33 @@ npm run check:secrets
 npm run test:e2e
 ```
 
-## Definition of Done — Stage 1B vertical slice
+## Documentation update at end
 
-- no 1C:Fresh requirement in the selected lesson;
-- embedded training workspace is usable on desktop and mobile;
-- one counterparty workflow resembles the selected 1C interaction model sufficiently for owner review;
-- Demo, Guided Practice and Independent Test are all functional for this workflow;
-- state-based verification clearly explains what it checks;
-- guessing the expected answer cannot pass the task;
-- deterministic reset/retry works;
-- no real credentials or identifiers are requested;
-- documentation and session notes are updated;
-- owner manually reviews the vertical slice before invoice/payment expansion.
+Update factual status in:
+- `README.md`;
+- `ROADMAP.md`;
+- `STAGE_CHECKLIST.md`;
+- `VISUAL_PROGRESS.md`;
+- `SESSION_NOTES.md`.
 
-## Stop condition
+Do not mark owner review PASS yourself.
 
-Do not implement invoice/payment workflows until the counterparty vertical slice is manually reviewed and judged directionally correct. If the replica teaches the wrong interaction habits or the coach obstructs normal use, fix the vertical slice before expanding scope.
+## Definition of Done
+
+Engineering DONE requires:
+- counterparty scenario works embedded;
+- Demo/Guided/Test exist;
+- domain state is real and resettable;
+- practical verifier reads state;
+- PASS/FAIL checklist is explicit;
+- answer guessing cannot pass;
+- legacy 1C:Fresh requirement removed from this flow;
+- desktop/mobile checks pass;
+- no real identifiers/secrets;
+- docs updated.
+
+## STOP CONDITION
+
+After engineering DONE, stop and present the counterparty vertical slice for owner UX review.
+
+Do not implement customer invoice, payment, FNO/ESF, Supabase, AI, browser automation, computer vision or additional accounting modules until owner explicitly passes this gate.

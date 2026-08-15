@@ -50,6 +50,9 @@ Observes target availability and domain/UI conditions. It never fakes a successf
 ### Verification Engine v2
 Reads domain state and returns structured assertions. It must not use learner-entered quiz answers as proof of a practical operation.
 
+### Unified Accounting Knowledge Atlas
+`knowledge/1c/` is the single canonical knowledge layer for 1C, local accounting, international accounting, IFRS, terminology, professional capabilities and provenance. Do not create an independent IFRS knowledge base.
+
 ## 3. Proposed source structure
 
 ```text
@@ -63,7 +66,7 @@ src/
 ├─ features/
 │  ├─ auth/
 │  ├─ progress/
-│  ├─ verification/          # theory legacy + v2 result facade
+│  ├─ verification/
 │  ├─ training-workspace/
 │  │  ├─ domain/
 │  │  ├─ repository/
@@ -74,6 +77,19 @@ src/
 │     ├─ components/
 │     └─ target-registry/
 └─ shared/
+
+knowledge/1c/
+├─ graph/
+├─ inventory/
+├─ workflows/
+├─ interfaces/
+├─ evidence/
+├─ sources/
+├─ international/
+│  ├─ SOURCE_REGISTER.md
+│  ├─ CURRICULUM_SKELETON.md
+│  └─ TOPIC_BRIDGES.md
+└─ ...
 ```
 
 Do not create a second frontend or separate repository.
@@ -110,7 +126,8 @@ A practical scenario declares:
 - state assertions;
 - hint ladder;
 - expected result;
-- Interface Passport reference.
+- Interface Passport reference where application UI fidelity matters;
+- Atlas topic/capability references where professional capability matters.
 
 Content remains data-driven where possible; do not hard-code lesson logic into one giant page component.
 
@@ -125,7 +142,7 @@ A `GuidanceStep` contains:
 - optional `showAction` implementation for Demo/Guided;
 - recovery rule.
 
-Targets are registered by stable semantic IDs such as `nav.sales`, `counterparties.create`, `counterparty.name`, not by brittle CSS selectors.
+Targets are registered by stable semantic IDs such as `nav.sales`, `counterparties.create`, `counterparty.name`, not brittle CSS selectors.
 
 Coach positioning must use actual element bounds and recalculate on resize/scroll.
 
@@ -148,13 +165,16 @@ type PracticalVerificationResult = {
 
 Verifier is a pure function over scenario + training state whenever possible.
 
-Example counterparty assertions:
-- expected counterparty exists;
-- expected name matches;
-- required fictional city matches;
-- record is saved.
+For future international modules, the same verifier pattern applies to work products such as:
+- reconciliation differences resolved;
+- supporting schedule totals agree to ledger;
+- journal entry balances;
+- trial balance after adjustments;
+- financial-statement classification;
+- case assumptions documented;
+- required source-backed IFRS treatment selected.
 
-## 8. Progress
+## 8. Progress and capability evidence
 
 Stage 1B keeps progress behind a repository interface. Persist:
 - scenario id/version;
@@ -165,25 +185,91 @@ Stage 1B keeps progress behind a repository interface. Persist:
 - verification summary;
 - timestamps.
 
+Long-term, progress may additionally reference `Capability` and `Assessment` IDs from Atlas. A capability must not be marked proven solely from a multiple-choice answer when a practical work product can be verified.
+
 Do not introduce Supabase solely to implement the first vertical slice.
 
 ## 9. UI fidelity and Interface Passport
 
-Every simulated workflow must reference research evidence. Build reusable primitives that resemble the selected 1C interaction model: application header, section navigation, command bar, list, form, tabs/groups, input/select, save/close commands, status indicators.
+Every simulated 1C workflow must reference research evidence. Build reusable primitives that resemble the selected 1C interaction model: application header, section navigation, command bar, list, form, tabs/groups, input/select, save/close commands, status indicators.
 
 Do not claim pixel-perfect parity without an approved Interface Passport. Do not use official logos or proprietary assets unnecessarily.
 
-## 10. Security
+International accounting simulators are not required to imitate 1C. They may use purpose-built work surfaces such as reconciliation workspaces, working-paper grids, close checklists or financial-statement builders, while reusing the same Learning/Guidance/Verification engines.
+
+## 10. International Accountant Track — additive architecture
+
+Long-term progression:
+
+`1C Practice → Accounting Logic → Economic Substance → IFRS Treatment → Financial Statements → International Practice → Capability Assessment`.
+
+No new runtime is required by the architecture pass.
+
+Future domain surfaces may include:
+- bank reconciliation workspace;
+- AP/AR reconciliation workspace;
+- accrual/prepayment schedule;
+- fixed asset register;
+- inventory reconciliation;
+- trial balance / journal-adjustment workspace;
+- month-end close checklist;
+- financial-statement builder;
+- IFRS case evidence pack;
+- audit-supporting working papers.
+
+These are future stages behind MPE gates.
+
+## 11. Unified Atlas requirements for international knowledge
+
+The Atlas schema supports:
+- `Topic`;
+- `KnowledgeLayer`;
+- `Jurisdiction`;
+- `Standard`;
+- `StandardParagraphReference`;
+- `AccountingConcept`;
+- `BusinessProcess`;
+- `TransactionType`;
+- `1COperation`;
+- `AccountingTreatment` for local or IFRS treatment;
+- `FinancialStatementImpact`;
+- `AccountingEntry`;
+- `Terminology`;
+- `Example`;
+- `Case`;
+- `Exercise`;
+- `Assessment`;
+- `DifficultyLevel`;
+- `Prerequisite`;
+- `LearningOutcome`;
+- `Capability`;
+- `Source`;
+- `SourceVersion`;
+- `EffectiveDate`.
+
+This is backward-compatible with current 1C graph records.
+
+## 12. Normative IFRS boundary
+
+IFRS treatment is time/version-sensitive normative knowledge.
+
+Any authoritative treatment must link to source/version/effective-date metadata. AI-generated explanations may assist learning but cannot be the source of truth.
+
+Do not bulk-copy IFRS Standard text into the repository/product. Store structured identifiers, references, provenance, bounded summaries where appropriate and Tutor-authored explanations/cases. Re-check licensing before commercial embedding of licensed IFRS content.
+
+## 13. Security
 
 - CSP default self-only;
 - no state-changing requests to external accounting/government systems;
-- no real credentials/identifiers;
-- `TrainingModeBanner` always visible in workspace;
-- fixtures visibly fictional;
+- no real credentials/identifiers in core training fixtures;
+- `TrainingModeBanner` always visible in 1C-like workspace;
+- fictional data by default;
 - no external app iframe;
 - secrets check remains mandatory.
 
-## 11. Observability events
+Future international case packs may contain synthetic English-language source documents. Real client documents are out of scope unless a separate privacy/data-handling architecture is approved.
+
+## 14. Observability events
 
 Add/retain:
 - `scenario_started`;
@@ -196,9 +282,15 @@ Add/retain:
 - `scenario_reset`;
 - `scenario_completed`.
 
+Future capability events may include:
+- `work_product_created`;
+- `reconciliation_completed`;
+- `capability_assessed`;
+- `source_reference_opened`.
+
 Never log sensitive user/business data.
 
-## 12. Deployment
+## 15. Deployment
 
 Frontend remains Cloudflare Pages compatible:
 - production branch `main`;
@@ -208,3 +300,9 @@ Frontend remains Cloudflare Pages compatible:
 - no mandatory backend for Stage 1B vertical slice.
 
 Server persistence, multi-user analytics and admin authoring are later stages behind an MPE gate.
+
+## 16. Sequencing rule
+
+The International Accountant Track is architecturally prepared now but implemented only after the core 1C/Accounting KZ learning engine reaches a sustainable level and a new MPE gate confirms priority.
+
+The international architecture must strengthen the existing system, never become a parallel product by default.

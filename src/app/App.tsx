@@ -4,6 +4,7 @@ import { AuthProvider } from "../features/auth/auth";
 import { ProgressProvider } from "../features/progress/progress";
 import { AdminPage } from "../routes/AdminPage";
 import { CoursePage } from "../routes/CoursePage";
+import { CustomerCardLessonPage } from "../routes/CustomerCardLessonPage";
 import { DashboardPage } from "../routes/DashboardPage";
 import { LandingPage } from "../routes/LandingPage";
 import { LessonPage } from "../routes/LessonPage";
@@ -22,6 +23,7 @@ export function App() {
       <Route element={<PrivateRoute />}>
         <Route path="dashboard" element={<DashboardPage />} />
         <Route path="courses/:courseSlug" element={<CoursePage />} />
+        <Route path="learn/customer-card" element={<CustomerCardLessonPage />} />
         <Route path="learn/:lessonId" element={<LessonPage />} />
         <Route path="profile" element={<ProfilePage />} />
         <Route element={<AdminRoute />}><Route path="admin" element={<AdminPage />} /></Route>

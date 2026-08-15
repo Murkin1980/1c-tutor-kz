@@ -6,6 +6,15 @@
 
 Пользователь должен научиться выполнять бухгалтерский процесс в безопасной интерактивной среде и доказать навык через состояние этой среды, а не через тестовый ответ.
 
+## Постоянный слой — 1C Knowledge Atlas
+
+`knowledge/1c/` является source of truth для знаний об интерфейсах, конфигурациях, версиях, объектах, командах и workflow.
+
+Правило каждой реализации:
+`retrieve Atlas → identify gap → bounded ingestion → implement → link scenario back to Atlas`.
+
+Интернет не должен заново исследоваться для уже описанного workflow.
+
 ## Stage 0 — Pivot foundation — DONE
 
 - [x] выявлена зависимость от платного 1C:Fresh;
@@ -13,16 +22,24 @@
 - [x] owner approved deep change;
 - [x] выбран EXTEND_EXISTING;
 - [x] встроенная Training Workspace стала core MVP;
-- [x] закреплены мировые паттерны Demo/Guided/Test, contextual coach, isolated playground, state verification;
-- [x] переписаны foundation/product/architecture/data/coder docs.
+- [x] закреплены Demo/Guided/Test, contextual coach, isolated playground, state verification;
+- [x] переписаны foundation/product/architecture/data/coder docs;
+- [x] создан каркас `1C Knowledge Atlas`.
 
 ## Stage 1B.1 — Counterparty vertical slice — ACTIVE
 
 Цель: доказать новый движок на одной законченной операции.
 
+### Atlas prerequisite
+- [ ] выполнить Atlas query `accounting-kz / 3.0 / counterparties / create-counterparty`;
+- [ ] собрать bounded primary evidence;
+- [ ] создать Workflow Record;
+- [ ] создать Interface Passport выбранной версии/наблюдения;
+- [ ] поднять confidence до уровня, достаточного для owner fidelity review.
+
 ### Workspace shell
-- [ ] отдельный embedded route/surface;
-- [ ] постоянная маркировка `УЧЕБНАЯ СРЕДА — НЕ 1С`;
+- [ ] embedded route/surface;
+- [ ] маркировка `УЧЕБНАЯ СРЕДА — НЕ 1С`;
 - [ ] 1C-like header/navigation/list/form primitives;
 - [ ] desktop/mobile layout.
 
@@ -57,7 +74,7 @@
 - [ ] correct typed answer without state => FAIL.
 
 ### Gate
-- [ ] owner UX review;
+- [ ] owner UX/fidelity review;
 - [ ] all engineering checks PASS.
 
 **STOP:** invoice work forbidden until owner review PASS.
@@ -66,6 +83,7 @@
 
 Start only after 1B.1 PASS.
 
+- [ ] Atlas workflow/passport ingestion first;
 - [ ] reuse workspace primitives;
 - [ ] create invoice;
 - [ ] select counterparty;
@@ -80,6 +98,7 @@ Start only after 1B.1 PASS.
 
 Start only after 1B.2 PASS.
 
+- [ ] Atlas workflow/passport ingestion first;
 - [ ] payment form;
 - [ ] link to counterparty/invoice;
 - [ ] amount/status;
@@ -100,23 +119,61 @@ Start only after 1B.2 PASS.
 - [ ] content authoring conventions;
 - [ ] second-user usability test.
 
+## Stage K1 — 1C Knowledge Atlas Bootstrap — REQUIRED BEFORE STAGE 2
+
+Полная инструкция: `knowledge/1c/STAGE_K1_INSTRUCTION.md`.
+
+Цель: сделать Atlas достаточно полным, чтобы масштабирование курса перестало зависеть от повторного web research.
+
+### Required coverage
+- [ ] generic `1С:Предприятие 8` platform/user-object model;
+- [ ] Accounting KZ 3.0 core workflow inventory;
+- [ ] HRM/ZUP KZ configuration + high-level workflow inventory;
+- [ ] Trade KZ configuration + high-level workflow inventory;
+- [ ] UNF KZ high-level inventory;
+- [ ] ERP KZ high-level inventory;
+- [ ] Complex Automation KZ inventory where relevant;
+- [ ] source registry/provenance complete;
+- [ ] graph nodes/edges validation;
+- [ ] coverage matrix;
+- [ ] five retrieval proof queries.
+
+Do not bulk-copy 1C documentation. Store normalized facts, metadata and evidence links.
+
+**GATE:** Stage 2 cannot begin until Stage K1 PASS.
+
 ## Stage 2 — Expand basic 1C curriculum
 
-Только доказанные reusable primitives:
-- [ ] номенклатура;
-- [ ] поступление материалов;
-- [ ] реализация;
-- [ ] банк/касса;
-- [ ] акт сверки;
-- [ ] дебиторка/кредиторка;
-- [ ] базовые отчёты;
-- [ ] закрытие учебного месяца.
+Only after Stage K1 + proven reusable learning engine.
 
-Каждый новый процесс — отдельный vertical slice с Interface Passport + owner review.
+Candidate Accounting KZ slices:
+- номенклатура;
+- поступление материалов;
+- реализация;
+- банк/касса;
+- акт сверки;
+- дебиторка/кредиторка;
+- базовые отчёты;
+- закрытие учебного месяца.
 
-## Stage 3 — Server persistence
+Each new process follows:
+`Atlas retrieval → gap ingestion → Interface Passport → vertical slice → owner review`.
 
-Только после доказанного повторного использования продукта:
+## Stage 3 — Cross-configuration tracks
+
+Only after Accounting KZ core proves the system.
+
+Possible tracks are selected by measurable user value, not because 1C has many products:
+- ZUP/HRM KZ: кадры + зарплата;
+- Trade KZ: продажи + склад;
+- UNF KZ: SMB operations;
+- ERP/Complex Automation only for justified advanced audiences.
+
+Reuse shared platform/workspace primitives while preserving configuration-specific workflows.
+
+## Stage 4 — Server persistence
+
+Only after proven repeat use:
 - Auth;
 - server progress;
 - cross-device continuation;
@@ -124,38 +181,40 @@ Start only after 1B.2 PASS.
 - private analytics;
 - reset/export/delete.
 
-Supabase остаётся кандидатом, не обязательством.
+Supabase remains a candidate, not a commitment.
 
-## Stage 4 — Transfer to real 1C
+## Stage 5 — Transfer to real 1C
 
-Не core practice, а проверка переноса навыка:
-- отдельный режим;
-- актуальная официальная/демо/учебная среда, если доступна;
+Not core practice, but skill-transfer assessment:
+- separate mode;
+- actual official/demo/training environment if legally/accessibly available;
 - checklist before action;
-- никакого credential capture;
-- никакой автоматизации real 1C;
+- no credential capture;
+- no automation of real 1C;
 - manual transfer assessment.
 
-## Stage 5 — FNO / ESF research
+## Stage 6 — FNO / ESF research
 
-Вернуться только после зрелого learning engine и нового MPE решения. Старый `PORTAL_REPLICA_SPEC.md` не является текущим implementation instruction.
+Return only after a mature learning engine and a new MPE decision. Old portal-replica concepts are not current implementation instructions.
 
-## Stage 6 — Adaptive reinforcement
+## Stage 7 — Adaptive reinforcement
 
 - spaced retry;
-- задания с другими цифрами;
+- new-number variants;
 - error-pattern review;
 - skill map;
 - optional AI explanations only after deterministic rules are strong.
 
-## Постоянные stop criteria
+## Permanent stop criteria
 
-Остановить расширение, если:
-- practical PASS можно получить без нужного domain state;
-- coach ведёт пользователя неправильной интерфейсной привычкой;
-- simulated UI существенно расходится с утверждённым Interface Passport;
-- новый модуль требует копировать большой объём 1С без измеримой учебной ценности;
-- появляется обязательная платная внешняя зависимость;
-- нужны реальные credentials/identifiers;
-- текущий vertical slice не прошёл owner review;
-- lint/typecheck/test/build/secrets/e2e не проходят.
+Stop expansion if:
+- practical PASS can be obtained without required domain state;
+- coach teaches a wrong interaction habit;
+- simulated UI conflicts with approved Interface Passport;
+- a new module requires cloning large parts of 1C without measurable learning value;
+- required Atlas evidence is missing/stale/conflicted;
+- mandatory paid external dependency appears;
+- real credentials/identifiers are required;
+- current vertical slice lacks owner PASS;
+- Stage K1 is not PASS before broad expansion;
+- lint/typecheck/test/build/secrets/e2e fail.

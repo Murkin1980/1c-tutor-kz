@@ -17,7 +17,10 @@ const lessonSchema: z.ZodType<Lesson> = z.object({
   context: z.string(), estimatedMinutes: z.number().positive(),
   sourceData: z.record(z.string(), z.string()), steps: z.array(z.string()).min(1),
   hints: z.array(z.string()).max(3), verification: verificationSchema,
-  expectedResult: z.string(), externalAppUrl: z.url(),
+  expectedResult: z.string(),
+  practiceMode: z.enum(["embedded", "external", "theory"]).optional(),
+  practicalScenarioId: z.string().optional(),
+  externalAppUrl: z.url().optional(),
   reviewedAt: z.string(), configurationVersion: z.string(),
 });
 

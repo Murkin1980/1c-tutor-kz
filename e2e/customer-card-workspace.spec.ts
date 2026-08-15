@@ -1,6 +1,6 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 
-async function login(page: Parameters<typeof test>[0] extends never ? never : any) {
+async function login(page: Page) {
   await page.goto("/login");
   await page.getByRole("button", { name: /Войти как ученик/ }).click();
 }

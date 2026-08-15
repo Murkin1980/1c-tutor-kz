@@ -1,177 +1,98 @@
-# 1C Tutor KZ
+# 1C Tutor KZ — интерактивный тренажёр по 1С и бухгалтерскому учёту
 
-Интерактивный браузерный тренажёр по пользовательским сценариям `1С:Бухгалтерия для Казахстана` с перспективой отдельных учебных треков для других конфигураций 1С Казахстана.
+## Текущая продуктовая модель
 
-## Core MVP после MPE pivot
+1C Tutor KZ развивается как единая практическая образовательная система:
 
-С 2026-08-15 основной практический контур больше не зависит от платного 1C:Fresh и переключения между двумя вкладками.
+`1C Tutor → Accounting KZ → Professional Accountant → International Accounting → IFRS → International Practice`.
 
-Практика проходит во встроенной **Training Workspace** — ограниченной 1C-like учебной рабочей области с вымышленными данными, contextual coach и детерминированной проверкой состояния.
+Core learning loop больше не строится вокруг обязательного открытия платного 1C:Fresh. Практика переносится во встроенную Training Workspace, где действия пользователя создают детерминированное учебное состояние, а результат проверяется по этому состоянию.
 
-Практический урок считается выполненным только тогда, когда нужный объект/документ/состояние действительно создано внутри Training Workspace. Правильный ответ в тестовом поле сам по себе не доказывает практический навык.
+## Первый новый практический сценарий
 
-## Learning model
+Stage 1B.1 реализует:
 
-Каждый practical workflow развивается по трём режимам:
+`Карточка учебного покупателя` → `/learn/customer-card`.
 
-1. **Показать / Demo** — увидеть правильный путь и объяснение.
-2. **Вести меня / Guided Practice** — выполнять действия самому, получая помощь рядом с нужным контролом.
-3. **Проверить себя / Independent Test** — только бизнес-задача и исходные данные; результат определяют state assertions.
-
-Дополнительно:
-- contextual coach + spotlight;
-- `Почему?`;
-- двухуровневые подсказки;
-- optional `Показать действие`;
+Поддерживается:
+- Demo / `Показать`;
+- Guided Practice / `Вести меня`;
+- Independent Test / `Проверить себя`;
+- semantic target spotlight;
+- condition-driven guidance;
+- `Почему?`, hints и show-action;
+- state-based Verification Engine v2;
+- transparent PASS/FAIL assertions;
 - assisted/unassisted completion;
-- deterministic reset/retry;
-- прозрачный `Проверить работу` с PASS/FAIL по каждому условию.
+- deterministic reset.
 
-Паттерны выбраны по исследованию SAP Enable Now/Companion, Salesforce Trailhead, Oracle Guided Learning, Assima, Skillable и Instruqt. Исследование: `docs/research/EMBEDDED_TRAINING_REFERENCES.md`.
+Сценарий использует только вымышленные данные:
+- `ТОО Учебный Покупатель`;
+- `Кызылорда`.
 
-## 1C Knowledge Atlas
+Практический PASS требует, чтобы сохранённая карточка действительно существовала в состоянии Training Workspace. Отдельный текстовый ответ не может завершить сценарий.
 
-`knowledge/1c/` — постоянный source of truth для знаний проекта о 1С.
+## Fidelity status
 
-Он хранит не копии руководств, а структурированные факты и provenance:
+Текущая версия — semantic / interaction-model replica.
 
-```text
-Platform
-→ Configuration
-→ Edition / Version
-→ BusinessArea
-→ Workspace / Object
-→ Screen
-→ Command / Field / State
-→ Workflow
-→ LearningScenario
-→ VerificationAssertion
-```
+Atlas подтверждает workflow и структуру взаимодействия, но observation-grade Interface Passport конкретной доступной сборки Accounting KZ 3.0 ещё не завершён. Поэтому продукт не заявляет pixel-perfect совпадение с конкретной версией 1С.
 
-Начальные configuration families:
+Постоянно показывается маркировка:
+
+`УЧЕБНАЯ СРЕДА — НЕ 1С`.
+
+## Unified Accounting Knowledge Atlas
+
+`knowledge/1c/` является source of truth для:
+- 1C configurations/editions/workflows/interfaces;
 - Accounting KZ;
-- HRM/ZUP KZ;
-- Trade KZ;
-- UNF KZ;
-- ERP KZ;
-- Complex Automation KZ;
-- generic 1C:Enterprise platform concepts.
+- platform UI primitives;
+- ZUP/Trade/UNF/ERP inventories;
+- accounting concepts;
+- future local→IFRS bridges;
+- IFRS/IAS provenance/version/effective-date metadata;
+- international accounting capabilities;
+- cases/exercises/assessments.
 
-Перед реализацией нового 1C-like workflow Codex обязан сначала сделать Atlas retrieval. Если данных не хватает, выполняется bounded ingestion из официальных источников и Atlas обновляется до начала fidelity implementation.
+Implementation rule:
 
-Подробнее:
-- `knowledge/1c/README.md`;
-- `knowledge/1c/SOURCE_REGISTER.md`;
-- `knowledge/1c/GRAPH_SCHEMA.md`;
-- `knowledge/1c/RETRIEVAL_RULES.md`;
-- `knowledge/1c/STAGE_K1_INSTRUCTION.md`.
+`retrieve Atlas → identify gap → bounded ingestion → implement → link scenario back to Atlas`.
 
-## Current stage
+Не создавать отдельный IFRS Atlas.
 
-**Stage 1B.1 — Counterparty Vertical Slice.**
-
-Нужно реализовать ровно один полный practical workflow:
-
-`Контрагенты → создать ТОО Учебный Покупатель → сохранить → Проверить работу`.
-
-Перед UI implementation требуется завершить Atlas Workflow Record + Interface Passport для выбранной/наблюдаемой `Бухгалтерия для Казахстана 3.0`.
-
-До ручного owner PASS запрещено расширять код на счёт и оплату.
-
-## Что должен доказать первый slice
-
-- встроенная среда формирует полезные 1С-интерфейсные привычки;
-- Demo/Guided/Test работают на одном domain state;
-- coach привязан к semantic controls;
-- practical verifier читает состояние среды;
-- правильный текст без сохранённого контрагента остаётся FAIL;
-- пользователь видит, что именно проверено;
-- reset полностью восстанавливает seed;
-- desktop/mobile работают;
-- платный внешний сервис не требуется.
-
-## Architecture
+## Архитектура Stage 1B
 
 ```text
-React + TypeScript
+React + TypeScript + Vite
 ├─ Learning Shell
 ├─ Training Workspace
-│  ├─ 1C-like screens
-│  ├─ training domain state
-│  └─ seed/reset engine
-├─ Guidance Engine
-│  ├─ semantic target registry
-│  ├─ coach bubble / spotlight
+│  ├─ deterministic training domain
+│  ├─ simulated screens/forms/lists
+│  └─ reset/seed
+├─ Guidance
+│  ├─ semantic targets
+│  ├─ spotlight
 │  └─ condition-driven steps
 ├─ Verification Engine v2
-│  └─ state assertions
-├─ Progress Repository
-└─ 1C Knowledge Atlas
-   ├─ source registry
-   ├─ taxonomy
-   ├─ graph nodes/edges
-   ├─ workflow records
-   ├─ interface passports
-   └─ evidence records
+│  └─ domain-state assertions
+└─ ProgressRepository
+   └─ localStorage now, server adapter later
 ```
 
-Stage 1B remains frontend/local-state first. Server persistence is deliberately deferred until the learning engine proves value.
+Frontend deployment target remains Cloudflare Pages.
 
-## Source-of-truth order
+## Current repository state
 
-1. `FOUNDATION.md`
-2. `PRODUCT_REQUIREMENTS.md`
-3. `ARCHITECTURE.md`
-4. `DATA_MODEL.md`
-5. `ROADMAP.md`
-6. `STAGE_CHECKLIST.md`
-7. `NEXT_STAGE_INSTRUCTION.md`
-8. `CODER_INSTRUCTION.md`
-9. `knowledge/1c/*`
-10. `SESSION_NOTES.md`
+Active branch for the pivot:
 
-Historical files are not implementation authority when they conflict with this order.
+`mpe/stage-1-validation`
 
-## Roadmap shape
+Draft PR #2 contains the architecture reset, Atlas work, International Track design-pass and first Counterparty embedded workspace implementation.
 
-1. prove Counterparty vertical slice;
-2. owner gate;
-3. reuse engine for Invoice;
-4. owner gate;
-5. reuse engine for Payment/Advance;
-6. harden learning engine;
-7. complete **Stage K1 Knowledge Atlas Bootstrap**;
-8. only then expand Accounting KZ curriculum broadly;
-9. later select ZUP/Trade/UNF tracks by measurable user value;
-10. server persistence / transfer to real 1C / FNO-ESF are separate later gates.
+`main` remains the target production branch and should not receive the pivot until review/merge.
 
-## Safety / legal
-
-- only fictional data;
-- `УЧЕБНАЯ СРЕДА — НЕ 1С` always visible;
-- no real IIN/BIN/password/ECP/bank keys;
-- no automatic real-1C or government-system actions;
-- no official 1C logo or claim of affiliation;
-- no bulk mirroring of ITS/manuals/screenshots/paywalled courses;
-- Atlas stores normalized facts, source metadata and evidence links;
-- regulation/payroll/tax logic requires exact KZ evidence and specialist validation before publication.
-
-See `SECURITY_AND_LEGAL.md`.
-
-## Existing reusable prototype assets
-
-The original frontend prototype already contains useful pieces:
-- React/TypeScript/Vite shell;
-- routes;
-- browser repository abstractions;
-- progress infrastructure;
-- responsive/security setup;
-- theory verification types;
-- test setup.
-
-Code that enforces the obsolete `externalAppUrl → 1C:Fresh → answer-only practical check` flow may be removed or rewritten. Reusable abstractions should be retained where they fit the new architecture.
-
-## Commands
+## Local commands
 
 ```bash
 npm install
@@ -184,6 +105,46 @@ npm run check:secrets
 npm run test:e2e
 ```
 
-## Current source branch
+The Stage 1B.1 implementation added tests, but this ChatGPT execution environment could not check out the GitHub branch because its container had no network/DNS access to GitHub. Current GitHub head also has no active CI status checks. Therefore the new code is `PRE-REVIEW`, not falsely marked engineering PASS.
 
-The architectural pivot is being prepared in `mpe/stage-1-validation` and draft PR #2. `main` is intentionally not treated as already migrated until the new direction is reviewed/merged.
+## Current gate
+
+Next work is **not** Invoice implementation.
+
+Follow `NEXT_STAGE_INSTRUCTION.md`:
+1. run engineering checks in a real checkout;
+2. smoke-test desktop/mobile;
+3. owner reviews Demo / Guided / Independent Test;
+4. record feedback in `docs/validation/STAGE1B1_OWNER_REVIEW.md`;
+5. resolve blocking UX/fidelity issues;
+6. only after explicit owner PASS start Stage 1B.2 Invoice.
+
+## International Accounting / IFRS
+
+International Track is already represented in architecture and Atlas, but runtime implementation is deferred until the 1C/Accounting KZ learning engine proves itself.
+
+No separate repository, product or knowledge base is authorized.
+
+Long-term direction focuses on verified professional capabilities such as reconciliations, close, journal entries, accruals/prepayments, GL/TB, working papers, audit support and IFRS treatment — not lecture completion alone.
+
+## Safety
+
+- fictional training data only;
+- no real IIN/BIN in training fixtures;
+- no EDS/NCALayer/bank credentials;
+- no government submission;
+- no automated control of real 1C;
+- no mandatory paid external service in the embedded core loop;
+- no official 1C logo/false affiliation;
+- no bulk copying of 1C or IFRS copyrighted content.
+
+## Source-of-truth order
+
+1. `FOUNDATION.md`
+2. `ROADMAP.md`
+3. `NEXT_STAGE_INSTRUCTION.md`
+4. `STAGE_CHECKLIST.md`
+5. `CODER_INSTRUCTION.md`
+6. `knowledge/1c/`
+7. architecture/product/data documentation
+8. `SESSION_NOTES.md`

@@ -1,164 +1,181 @@
-# 1C Tutor KZ — интерактивный тренажёр по 1С:Бухгалтерии для Казахстана
+# 1C Tutor KZ
 
-## 1. Назначение проекта
+Интерактивный браузерный тренажёр по пользовательским сценариям `1С:Бухгалтерия для Казахстана` с перспективой отдельных учебных треков для других конфигураций 1С Казахстана.
 
-**1C Tutor KZ** — веб-тренажёр для самостоятельного практического обучения работе в «1С:Бухгалтерия для Казахстана» на примере деятельности индивидуального предпринимателя в мебельном бизнесе.
+## Core MVP после MPE pivot
 
-Пользователь читает короткое задание в тренажёре, открывает учебную или облачную базу 1С в соседней вкладке, выполняет действие, возвращается в тренажёр и подтверждает результат. Тренажёр выдаёт подсказки, проверочные вопросы, эталонный результат и следующий шаг.
+С 2026-08-15 основной практический контур больше не зависит от платного 1C:Fresh и переключения между двумя вкладками.
 
-Проект не является копией 1С, не воспроизводит интерфейс 1С целиком и не подменяет официальную программу. Он является учебным навигатором и системой закрепления навыков.
+Практика проходит во встроенной **Training Workspace** — ограниченной 1C-like учебной рабочей области с вымышленными данными, contextual coach и детерминированной проверкой состояния.
 
-## 2. Основной сценарий
+Практический урок считается выполненным только тогда, когда нужный объект/документ/состояние действительно создано внутри Training Workspace. Правильный ответ в тестовом поле сам по себе не доказывает практический навык.
 
-1. Пользователь входит в тренажёр.
-2. Выбирает курс и урок.
-3. Нажимает «Открыть 1С».
-4. 1С открывается в новой вкладке браузера.
-5. Пользователь выполняет конкретное действие в 1С.
-6. Возвращается в тренажёр.
-7. Отвечает на контрольный вопрос, вводит полученный результат или загружает снимок экрана.
-8. Получает обратную связь, баллы, подсказку и следующий шаг.
-9. Прогресс сохраняется и доступен с другого компьютера.
+## Learning model
 
-## 3. Целевая аудитория MVP
+Каждый practical workflow развивается по трём режимам:
 
-- владелец ИП в Казахстане;
-- начинающий пользователь 1С;
-- мебельщик, который хочет понимать собственный документооборот;
-- сотрудник, которого нужно обучить работе со счетами, реализацией, поступлениями, банком, кассой и базовыми отчётами.
+1. **Показать / Demo** — увидеть правильный путь и объяснение.
+2. **Вести меня / Guided Practice** — выполнять действия самому, получая помощь рядом с нужным контролом.
+3. **Проверить себя / Independent Test** — только бизнес-задача и исходные данные; результат определяют state assertions.
 
-## 4. Рекомендуемый стек
+Дополнительно:
+- contextual coach + spotlight;
+- `Почему?`;
+- двухуровневые подсказки;
+- optional `Показать действие`;
+- assisted/unassisted completion;
+- deterministic reset/retry;
+- прозрачный `Проверить работу` с PASS/FAIL по каждому условию.
 
-- **Frontend:** React + TypeScript + Vite;
-- **UI:** Tailwind CSS + shadcn/ui или собственные простые компоненты;
-- **Backend:** Supabase;
-- **Авторизация:** Supabase Auth;
-- **База данных:** Supabase PostgreSQL;
-- **Файлы:** Supabase Storage;
-- **Деплой frontend:** Cloudflare Pages;
-- **Опциональный API/AI-proxy:** Cloudflare Workers;
-- **Тесты:** Vitest + React Testing Library + Playwright;
-- **Контент уроков:** Markdown/MDX или JSON в репозитории на первом этапе;
-- **Аналитика:** собственная таблица событий, без внешней аналитики в MVP.
+Паттерны выбраны по исследованию SAP Enable Now/Companion, Salesforce Trailhead, Oracle Guided Learning, Assima, Skillable и Instruqt. Исследование: `docs/research/EMBEDDED_TRAINING_REFERENCES.md`.
 
-## 5. Источник практической 1С
+## 1C Knowledge Atlas
 
-Приоритетный вариант для Казахстана — отдельная учебная база в **1С:Fresh Казахстан**, открываемая в соседней вкладке. Официальный сервис предоставляет доступ к «1С:Бухгалтерия для Казахстана» через интернет.
+`knowledge/1c/` — постоянный source of truth для знаний проекта о 1С.
 
-Альтернативный локальный вариант — бесплатная учебная версия платформы и «1С:Бухгалтерии 8». Она пригодна для освоения интерфейса, но российская учебная конфигурация не должна использоваться как эталон законодательства и учёта Казахстана.
-
-## 6. Ограничение по iframe
-
-Не строить основной сценарий на встраивании 1С внутрь тренажёра. Внешний сервис может запрещать отображение во фрейме через `X-Frame-Options` или `Content-Security-Policy: frame-ancestors`.
-
-MVP должен работать по схеме:
-
-- кнопка «Открыть 1С»;
-- `target="_blank"`;
-- сохранение текущего шага до перехода;
-- заметная кнопка «Я выполнил действие»;
-- возможность быстро вернуться к инструкции.
-
-## 7. Первая версия курса
-
-1. Знакомство с интерфейсом и учебной базой.
-2. Создание организации/ИП в учебной базе.
-3. Настройка учётной политики и реквизитов.
-4. Контрагенты.
-5. Номенклатура и услуги.
-6. Банковский счёт и касса.
-7. Счёт покупателю.
-8. Поступление аванса.
-9. Реализация товаров и услуг.
-10. Поступление материалов от поставщика.
-11. Оплата поставщику.
-12. Акт сверки.
-13. Контроль дебиторской и кредиторской задолженности.
-14. Базовые оборотно-сальдовые отчёты.
-15. Закрытие учебного месяца.
-
-## 8. Структура репозитория
+Он хранит не копии руководств, а структурированные факты и provenance:
 
 ```text
-/
-├─ README.md
-├─ FOUNDATION.md
-├─ CODER_INSTRUCTION.md
-├─ PRODUCT_REQUIREMENTS.md
-├─ ARCHITECTURE.md
-├─ COURSE_STRUCTURE.md
-├─ DATA_MODEL.md
-├─ ROADMAP.md
-├─ SECURITY_AND_LEGAL.md
-├─ .env.example
-├─ apps/
-│  └─ web/
-├─ packages/
-│  ├─ content/
-│  ├─ ui/
-│  └─ shared/
-├─ supabase/
-│  ├─ migrations/
-│  └─ seed.sql
-├─ docs/
-│  ├─ decisions/
-│  ├─ lesson-authoring.md
-│  └─ test-scenarios.md
-└─ public/
-   └─ course-assets/
+Platform
+→ Configuration
+→ Edition / Version
+→ BusinessArea
+→ Workspace / Object
+→ Screen
+→ Command / Field / State
+→ Workflow
+→ LearningScenario
+→ VerificationAssertion
 ```
 
-## 9. Команды после создания проекта
+Начальные configuration families:
+- Accounting KZ;
+- HRM/ZUP KZ;
+- Trade KZ;
+- UNF KZ;
+- ERP KZ;
+- Complex Automation KZ;
+- generic 1C:Enterprise platform concepts.
+
+Перед реализацией нового 1C-like workflow Codex обязан сначала сделать Atlas retrieval. Если данных не хватает, выполняется bounded ingestion из официальных источников и Atlas обновляется до начала fidelity implementation.
+
+Подробнее:
+- `knowledge/1c/README.md`;
+- `knowledge/1c/SOURCE_REGISTER.md`;
+- `knowledge/1c/GRAPH_SCHEMA.md`;
+- `knowledge/1c/RETRIEVAL_RULES.md`;
+- `knowledge/1c/STAGE_K1_INSTRUCTION.md`.
+
+## Current stage
+
+**Stage 1B.1 — Counterparty Vertical Slice.**
+
+Нужно реализовать ровно один полный practical workflow:
+
+`Контрагенты → создать ТОО Учебный Покупатель → сохранить → Проверить работу`.
+
+Перед UI implementation требуется завершить Atlas Workflow Record + Interface Passport для выбранной/наблюдаемой `Бухгалтерия для Казахстана 3.0`.
+
+До ручного owner PASS запрещено расширять код на счёт и оплату.
+
+## Что должен доказать первый slice
+
+- встроенная среда формирует полезные 1С-интерфейсные привычки;
+- Demo/Guided/Test работают на одном domain state;
+- coach привязан к semantic controls;
+- practical verifier читает состояние среды;
+- правильный текст без сохранённого контрагента остаётся FAIL;
+- пользователь видит, что именно проверено;
+- reset полностью восстанавливает seed;
+- desktop/mobile работают;
+- платный внешний сервис не требуется.
+
+## Architecture
+
+```text
+React + TypeScript
+├─ Learning Shell
+├─ Training Workspace
+│  ├─ 1C-like screens
+│  ├─ training domain state
+│  └─ seed/reset engine
+├─ Guidance Engine
+│  ├─ semantic target registry
+│  ├─ coach bubble / spotlight
+│  └─ condition-driven steps
+├─ Verification Engine v2
+│  └─ state assertions
+├─ Progress Repository
+└─ 1C Knowledge Atlas
+   ├─ source registry
+   ├─ taxonomy
+   ├─ graph nodes/edges
+   ├─ workflow records
+   ├─ interface passports
+   └─ evidence records
+```
+
+Stage 1B remains frontend/local-state first. Server persistence is deliberately deferred until the learning engine proves value.
+
+## Source-of-truth order
+
+1. `FOUNDATION.md`
+2. `PRODUCT_REQUIREMENTS.md`
+3. `ARCHITECTURE.md`
+4. `DATA_MODEL.md`
+5. `ROADMAP.md`
+6. `STAGE_CHECKLIST.md`
+7. `NEXT_STAGE_INSTRUCTION.md`
+8. `CODER_INSTRUCTION.md`
+9. `knowledge/1c/*`
+10. `SESSION_NOTES.md`
+
+Historical files are not implementation authority when they conflict with this order.
+
+## Roadmap shape
+
+1. prove Counterparty vertical slice;
+2. owner gate;
+3. reuse engine for Invoice;
+4. owner gate;
+5. reuse engine for Payment/Advance;
+6. harden learning engine;
+7. complete **Stage K1 Knowledge Atlas Bootstrap**;
+8. only then expand Accounting KZ curriculum broadly;
+9. later select ZUP/Trade/UNF tracks by measurable user value;
+10. server persistence / transfer to real 1C / FNO-ESF are separate later gates.
+
+## Safety / legal
+
+- only fictional data;
+- `УЧЕБНАЯ СРЕДА — НЕ 1С` always visible;
+- no real IIN/BIN/password/ECP/bank keys;
+- no automatic real-1C or government-system actions;
+- no official 1C logo or claim of affiliation;
+- no bulk mirroring of ITS/manuals/screenshots/paywalled courses;
+- Atlas stores normalized facts, source metadata and evidence links;
+- regulation/payroll/tax logic requires exact KZ evidence and specialist validation before publication.
+
+See `SECURITY_AND_LEGAL.md`.
+
+## Existing reusable prototype assets
+
+The original frontend prototype already contains useful pieces:
+- React/TypeScript/Vite shell;
+- routes;
+- browser repository abstractions;
+- progress infrastructure;
+- responsive/security setup;
+- theory verification types;
+- test setup.
+
+Code that enforces the obsolete `externalAppUrl → 1C:Fresh → answer-only practical check` flow may be removed or rewritten. Reusable abstractions should be retained where they fit the new architecture.
+
+## Commands
 
 ```bash
 npm install
 npm run dev
-npm run lint
-npm run typecheck
-npm run test
-npm run test:e2e
-npm run build
-```
-
-## 10. Определение готовности MVP
-
-MVP считается готовым, когда пользователь может:
-
-- зарегистрироваться;
-- выбрать курс;
-- пройти не менее 10 практических уроков;
-- открыть 1С в соседней вкладке;
-- сохранить ответ и прогресс;
-- получить подсказку и эталон;
-- продолжить обучение на другом устройстве;
-- увидеть общий процент прохождения;
-- сбросить только учебные результаты, не удаляя аккаунт.
-
-## 11. Главный принцип
-
-Сначала создать работающий тренажёр с ручным подтверждением результатов. Автоматическое распознавание действий внутри 1С, браузерное расширение, компьютерное зрение и глубокую интеграцию с 1С добавлять только после проверки полезности курса.
-
-## 12. Текущее состояние
-
-Завершена первая техническая итерация frontend-прототипа:
-
-- реализованы маршруты `/`, `/login`, `/dashboard`, `/courses/:courseSlug`, `/learn/:lessonId`, `/profile` и защищённый `/admin`;
-- mock-авторизация и прогресс работают через заменяемые browser repositories;
-- локальный демонстрационный курс содержит 2 модуля и 5 уроков;
-- движок поддерживает все семь типов проверки MVP;
-- Cloudflare Pages SPA fallback и безопасные заголовки находятся в `public/`;
-- автоматический GitHub Actions workflow пока не включён из-за исчерпанного лимита владельца; обязательные проверки выполняются локально.
-
-### Локальный запуск
-
-```bash
-npm install
-npm run dev
-```
-
-### Полная локальная проверка
-
-```bash
 npm run lint
 npm run typecheck
 npm run test
@@ -167,4 +184,6 @@ npm run check:secrets
 npm run test:e2e
 ```
 
-Playwright использует установленный Google Chrome для desktop и mobile viewport. Реальная регистрация, межустройственная синхронизация, серверная роль администратора и загрузка снимков переносятся на этап Supabase.
+## Current source branch
+
+The architectural pivot is being prepared in `mpe/stage-1-validation` and draft PR #2. `main` is intentionally not treated as already migrated until the new direction is reviewed/merged.

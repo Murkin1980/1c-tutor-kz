@@ -1,5 +1,110 @@
 # SESSION NOTES
 
+## 2026-08-15 — International Accountant Track architecture + market research pass
+
+### MPE decision
+
+`EXTEND_EXISTING`
+
+International Accounting / IFRS remains inside the same `1c-tutor-kz` product and same Atlas.
+
+No new repository, second Atlas, second frontend or new runtime was introduced.
+
+### Architecture result
+
+Completed `INTERNATIONAL_TRACK_ARCHITECTURE_PASS`.
+
+The existing Atlas was compatible with the international direction but lacked first-class cross-layer/normative semantics.
+
+`knowledge/1c/GRAPH_SCHEMA.md` was extended backward-compatibly with:
+- Topic;
+- KnowledgeLayer;
+- Jurisdiction;
+- Standard;
+- StandardParagraphReference;
+- AccountingConcept;
+- BusinessProcess;
+- TransactionType;
+- 1COperation;
+- AccountingTreatment;
+- FinancialStatementImpact;
+- AccountingEntry;
+- Terminology;
+- Example / Case / Exercise / Assessment;
+- Capability;
+- DifficultyLevel / Prerequisite / LearningOutcome;
+- SourceVersion / EffectiveDate.
+
+Existing 1C node IDs/edges remain valid.
+
+### IFRS provenance rule
+
+Authoritative IFRS treatment must link to:
+- source;
+- source version;
+- standard;
+- paragraph/reference locator when permitted;
+- effective date;
+- verification date/status.
+
+AI-generated explanations are not normative sources.
+
+IFRS Standards are not bulk-copied into Atlas; Atlas stores structured provenance, identifiers, bounded summaries and Tutor-authored explanations/cases. Licensing must be re-checked before commercial embedding of licensed IFRS content.
+
+### New documents
+
+- `docs/architecture/INTERNATIONAL_TRACK_ARCHITECTURE_PASS.md`;
+- `knowledge/1c/international/SOURCE_REGISTER.md`;
+- `knowledge/1c/international/CURRICULUM_SKELETON.md`;
+- `knowledge/1c/international/TOPIC_BRIDGES.md`;
+- `docs/research/INTERNATIONAL_CAPABILITY_RESEARCH_PASS_2026-08-15.md`.
+
+Updated:
+- `knowledge/1c/GRAPH_SCHEMA.md`;
+- `ARCHITECTURE.md`;
+- `ROADMAP.md`.
+
+### Long-term progression fixed
+
+`1C Tutor → Accounting KZ → Professional Accountant → International Accounting → IFRS → International Practice`
+
+International implementation is sequenced after a stable core learning engine and sustainable Accounting KZ capability layer.
+
+### Initial market evidence
+
+Current remote/international accounting role sample strongly emphasizes:
+- month-end close;
+- bank/balance-sheet reconciliations;
+- journal entries;
+- accruals/prepayments;
+- AP/AR;
+- GL/trial balance;
+- fixed assets;
+- supporting schedules/working papers;
+- audit support;
+- discrepancy/root-cause investigation;
+- Excel;
+- cloud ERP/accounting systems;
+- professional English/autonomous remote work.
+
+A particularly relevant current CIS role combines Kazakhstan 1C records, NetSuite reconciliation, IFRS, local compliance, English/Russian, Excel and account reconciliation. This supports the planned bridge rather than an isolated IFRS course.
+
+### Market-derived product implications
+
+- Bank reconciliation is a strong first international practical simulator candidate.
+- Month-end close should be a later integrated capstone.
+- IFRS should enter through business cases/treatment decisions, not standard-number memorization.
+- Job readiness should use asynchronous work-sample cases with ambiguity and reviewable work products.
+- Software transfer should focus on accounting concepts/work products first; do not clone NetSuite/QuickBooks/Xero indiscriminately.
+
+### Current implementation priority remains unchanged
+
+The active product implementation remains `Stage 1B.1 — Counterparty Vertical Slice`.
+
+International Track work in this pass is architecture + Atlas + research only. It must not displace completion of the embedded Training Workspace.
+
+---
+
 ## 2026-08-15 — Atlas population pass 1
 
 ### Result

@@ -19,11 +19,12 @@ export function CoursePage() {
               {module.lessons.map((lesson, lessonIndex) => {
                 const globalIndex = allLessons.findIndex((item) => item.id === lesson.id);
                 const isCompleted = progress[lesson.id]?.status === "completed";
-                const unlocked = globalIndex === 0 || progress[allLessons[globalIndex - 1].id]?.status === "completed" || Boolean(progress[lesson.id]);
+                const isEmbeddedValidationSlice = lesson.practiceMode === "embedded";
+                const unlocked = isEmbeddedValidationSlice || globalIndex === 0 || progress[allLessons[globalIndex - 1].id]?.status === "completed" || Boolean(progress[lesson.id]);
                 return unlocked ? (
                   <Link key={lesson.id} to={`/learn/${lesson.id}`} className="lesson-row">
                     <span className={`lesson-number ${isCompleted ? "complete" : ""}`}>{isCompleted ? <Check size={16} /> : String(lessonIndex + 1).padStart(2, "0")}</span>
-                    <div><h3>{lesson.title}</h3><span><Clock3 size={14} /> {lesson.estimatedMinutes} мин · {isCompleted ? "Завершён" : progress[lesson.id] ? "Продолжить" : "Доступен"}</span></div><ChevronRight />
+                    <div><h3>{lesson.title}</h3><span><Clock3 size={14} /> {lesson.estimatedMinutes} мин · {isCompleted ? "Завершён" : isEmbeddedValidationSlice ? "Новый тренажёр · доступен" : progress[lesson.id] ? "Продолжить" : "Доступен"}</span></div><ChevronRight />
                   </Link>
                 ) : (
                   <div key={lesson.id} className="lesson-row locked" aria-label={`${lesson.title}, заблокирован`}>

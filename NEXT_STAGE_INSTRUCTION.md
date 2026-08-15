@@ -1,120 +1,187 @@
-# NEXT STAGE INSTRUCTION — Stage 1 Validation Experiment
+# NEXT STAGE INSTRUCTION — Stage 1B Embedded Training Workspace
 
 ## MPE decision
 
-`EXPERIMENT`
+`EXTEND_EXISTING`
 
-Before expanding into FNO/ESF simulators, Supabase, AI checking, browser extensions, computer vision, or deeper automation, validate the existing five-lesson 1C learning loop with real users.
+Owner approved the deep change on 2026-08-15: the core MVP no longer depends on paid 1C:Fresh. The existing `1c-tutor-kz` repository remains the product. The next stage replaces the weak external-tab practice loop with an embedded, deterministic training workspace that imitates only the 1C workflows required by the course.
 
-Authoritative decision record: `docs/decisions/MPE-2026-08-15-STAGE1-VALIDATION.md`.
+Reference research: `docs/research/EMBEDDED_TRAINING_REFERENCES.md`.
 
-## Mandatory reading
+## Product principle
 
-Before work, read fully:
+The learner must practice actions, not answer questions about actions.
 
-1. `FOUNDATION.md`
-2. `README.md`
-3. `PRODUCT_REQUIREMENTS.md`
-4. `ARCHITECTURE.md`
-5. `DATA_MODEL.md`
-6. `ROADMAP.md`
-7. `STAGE_CHECKLIST.md`
-8. `VISUAL_PROGRESS.md`
-9. `SECURITY_AND_LEGAL.md`
-10. `SESSION_NOTES.md`
-11. `docs/decisions/MPE-2026-08-15-STAGE1-VALIDATION.md`
+A practical lesson is complete only when the training workspace reaches the expected state. A typed answer alone must never prove that a 1C operation was completed.
 
-If documents conflict, `FOUNDATION.md` wins. For sequencing of the next iteration, the MPE decision record wins unless it conflicts with `FOUNDATION.md`.
+## Scope of Stage 1B
 
-## Goal
+Build a narrow 1C-like training workspace for exactly three workflows:
 
-Prove or disprove that a beginner can use the current 1C Tutor prototype to complete the existing learning loop with minimal external explanation and reach a verifiable result in the training 1C environment.
+1. create a fictional counterparty;
+2. create a customer invoice;
+3. register a customer payment/advance and inspect the resulting status/balance.
 
-## Scope
+Do not build a complete accounting system or complete 1C clone.
 
-Use the existing five-lesson prototype only. Do not add new product surfaces unless required to remove a blocker in the validation experiment.
+## Learning modes
 
-### 1. Stable preview
+Every supported workflow must be able to run in three modes:
 
-Prepare and publish the current frontend to Cloudflare Pages using the existing project architecture.
+### 1. Demo — `Показать`
+- the system demonstrates the path;
+- controls may be highlighted automatically;
+- explanations state what is happening and why;
+- no score.
 
-Required:
+### 2. Guided Practice — `Вести меня`
+- the learner performs each action;
+- a contextual coach bubble points to the current relevant control;
+- the next step appears only after the required action/state is observed;
+- hints are available on demand;
+- wrong actions receive specific feedback where safe and useful.
 
-- production branch: `main`;
-- build command: `npm run build`;
-- output directory: `dist`;
-- SPA fallback remains functional;
-- security headers remain functional;
-- no secrets in repository or client bundle;
-- preview works on desktop and smartphone.
+### 3. Independent Test — `Проверить себя`
+- no step-by-step bubbles;
+- only scenario, source data and expected business result are visible;
+- learner may navigate freely within the supported workspace;
+- deterministic state checks determine completion;
+- hints, if requested, reduce or mark assisted completion.
 
-If direct Cloudflare publication cannot be completed from the available environment, prepare the exact deployment configuration and document the remaining external action. Do not replace Cloudflare with a new hosting stack.
+## Workspace layout
 
-### 2. Owner walkthrough
+Desktop:
+- primary area: 1C-like application workspace;
+- secondary collapsible panel: task, source data, progress and help;
+- contextual coach bubbles anchored to the simulated controls;
+- explicit `Проверить работу` action;
+- `Подсказка`, `Сбросить шаг`, `Начать заново` actions.
 
-Run all five existing lessons end-to-end.
+Mobile:
+- workspace remains primary;
+- task/help panel becomes a bottom sheet or drawer;
+- no two-tab requirement;
+- coach remains attached to the active control without hiding it.
 
-For every lesson record:
+## UI fidelity rule
 
-- start state;
-- task understood: yes/no;
-- 1C action completed: yes/no;
-- return to Tutor understood: yes/no;
-- validation result;
-- time or obvious friction point where observable;
-- unclear wording;
-- blocker/high/medium/low issue;
-- expected result visible: yes/no.
+Reproduce the logic and visual language of the selected 1C:Бухгалтерия для Казахстана workflows closely enough that a beginner forms useful interface habits:
+- main navigation structure;
+- form hierarchy;
+- common button placement and naming;
+- tables, fields, selectors and document states;
+- save/post/close logic where relevant.
 
-Fix only blocker/high issues required to continue the experiment.
+Do not use official logos or imply that Tutor is an official 1C product. Keep a persistent visible training marker.
 
-### 3. Second-user alpha test
+Until a specific 1C version is researched and approved, use an explicit `training replica` designation and avoid claiming pixel-perfect fidelity.
 
-A beginner should attempt the same five lessons with no live step-by-step coaching whenever possible.
+## Deterministic training state
 
-Allowed help:
+Introduce a local training-domain state separate from quiz answers. At minimum model:
+- `TrainingCounterparty`;
+- `TrainingInvoice`;
+- `TrainingInvoiceLine`;
+- `TrainingPayment`;
+- derived balance/status;
+- scenario seed/reset state;
+- user action/event log needed for guidance and diagnostics.
 
-- opening the preview URL;
-- opening the training 1C environment;
-- resolving technical access failures unrelated to Tutor UX.
+State must be resettable and deterministic. No real IIN/BIN or real company records.
 
-Do not explain the intended lesson flow while measuring whether the interface itself is understandable.
+## Verification engine v2
 
-### 4. UX evidence register
+Replace practical-task verification with environment-state assertions.
 
-Create `docs/validation/STAGE1_UX_EVIDENCE.md` with one row/item per observed issue.
+Example for invoice task:
+- expected counterparty exists;
+- invoice exists for that counterparty;
+- expected item exists;
+- quantity = 2;
+- price = 122500;
+- total = 245000 KZT;
+- required document state is reached.
 
-Each entry must include:
+`Проверить работу` must show a readable checklist such as:
+- Контрагент создан — PASS
+- Счёт создан — PASS
+- Количество 2 — PASS
+- Цена 122 500 ₸ — PASS
+- Итог 245 000 ₸ — PASS
 
-- participant: owner / second user;
-- lesson;
-- observation;
-- severity: blocker/high/medium/low;
-- evidence;
-- root-cause hypothesis;
-- fix applied or deferred;
-- retest result.
+On failure, identify the failed condition without revealing the entire solution immediately.
 
-Do not store personal or sensitive data about the participant.
+Knowledge verification types may remain for theory, but `self_confirm`, `text_exact`, `number`, etc. cannot independently complete a practical accounting task.
 
-### 5. Validation result
+## Coach / helper system
 
-Create `docs/validation/STAGE1_VALIDATION_RESULT.md` containing the final PASS/FAIL result against these metrics:
+Create a reusable guidance layer with:
+- anchored tooltip/bubble;
+- spotlight/highlight target;
+- current step counter;
+- `Почему?` explanation;
+- first-level hint;
+- stronger second-level hint;
+- optional `Показать действие` only in learning mode;
+- ability to recover if learner is already at a later valid state.
 
-- preview opens on desktop and smartphone;
-- 5/5 lessons reachable and completable;
-- owner completion rate = 100%;
-- second-user completion rate >= 80% without live step-by-step coaching;
-- no normal-flow blocker loses progress;
-- every lesson has a clear expected result;
-- context switch to 1C and back is understood without verbal explanation in at least 4/5 lessons;
-- zero requests for real IIN/BIN, passwords, ECP keys, or government-system submission.
+Guidance logic must be condition-driven, not only next-button driven.
 
-If any mandatory metric fails, overall result is `FAIL` and the next iteration remains Stage 1 remediation.
+## First vertical slice
 
-## Engineering checks
+Implement only one complete lesson first: `Карточка учебного покупателя`.
 
-Before reporting completion, run:
+The slice is accepted only if a learner can:
+1. enter the embedded workspace;
+2. navigate to counterparties;
+3. create `ТОО Учебный Покупатель` with fictional scenario data;
+4. save it;
+5. press `Проверить работу`;
+6. see exactly which state assertions passed;
+7. retry after an incorrect entry;
+8. reset the scenario;
+9. repeat the same task in Independent Test mode.
+
+After this vertical slice passes tests and owner UX review, reuse the same components for invoice and payment workflows.
+
+## Reuse requirements
+
+Reuse existing:
+- React/TypeScript/Vite app;
+- routing and shell;
+- course content architecture where compatible;
+- progress repository abstraction;
+- existing verification code for theory-only questions;
+- existing responsive/security foundations.
+
+Do not create a new repository, separate frontend, second design system or external training service.
+
+## Explicitly deferred
+
+- full 1C clone;
+- all accounting modules;
+- FNO / ESF simulators;
+- Supabase migration unless strictly needed after local vertical slice validation;
+- browser extension;
+- automated control of real 1C;
+- computer vision as primary scoring;
+- AI as primary verifier;
+- paid 1C:Fresh dependency;
+- real credentials or company data.
+
+## Tests
+
+Add tests proving:
+- practical completion depends on workspace state, not typed expected answers;
+- a correct final number without a created document does not pass;
+- guided mode advances only after the required condition;
+- test mode hides step instructions;
+- reset returns to deterministic seed state;
+- invalid/real-looking identifiers are rejected according to the training-data rules;
+- mobile layout keeps the active simulated control usable;
+- all existing security checks remain green.
+
+Run:
 
 ```bash
 npm run lint
@@ -125,82 +192,19 @@ npm run check:secrets
 npm run test:e2e
 ```
 
-All existing checks must remain green. Do not weaken or delete tests to obtain PASS.
+## Definition of Done — Stage 1B vertical slice
 
-## Allowed changes
-
-- deployment configuration required for Cloudflare Pages;
-- wording, navigation, focus states, responsive behavior, validation feedback, and progress handling that directly remove observed blocker/high issues;
-- test fixes required by those changes;
-- validation evidence documentation;
-- README / ROADMAP / STAGE_CHECKLIST / VISUAL_PROGRESS / SESSION_NOTES updates reflecting actual evidence.
-
-## Explicitly outside this iteration
-
-- FNO simulator implementation;
-- ESF simulator implementation;
-- official-portal replica UI-shell;
-- Supabase migration;
-- new authentication architecture;
-- AI evaluation;
-- browser extension;
-- computer vision;
-- automated control of 1C;
-- new repository;
-- unrelated refactors.
-
-## Definition of Done
-
-This iteration is complete only when:
-
-- stable preview is available or the only remaining blocker is an explicitly documented external Cloudflare action;
-- owner walkthrough evidence exists;
-- second-user alpha evidence exists;
-- PASS/FAIL is calculated against the fixed metrics above;
-- blocker/high issues discovered during testing are fixed or explicitly justify FAIL;
-- lint/typecheck/unit/build/secrets/e2e results are recorded;
-- `SESSION_NOTES.md`, `VISUAL_PROGRESS.md`, `ROADMAP.md`, and `STAGE_CHECKLIST.md` reflect the actual experiment result;
-- a new MPE gate is run before selecting the next substantial stage.
+- no 1C:Fresh requirement in the selected lesson;
+- embedded training workspace is usable on desktop and mobile;
+- one counterparty workflow resembles the selected 1C interaction model sufficiently for owner review;
+- Demo, Guided Practice and Independent Test are all functional for this workflow;
+- state-based verification clearly explains what it checks;
+- guessing the expected answer cannot pass the task;
+- deterministic reset/retry works;
+- no real credentials or identifiers are requested;
+- documentation and session notes are updated;
+- owner manually reviews the vertical slice before invoice/payment expansion.
 
 ## Stop condition
 
-Do not begin downstream feature work merely because the implementation is technically ready. Stop after the validation result and run MPE again.
-
-## Final report format
-
-```markdown
-## MPE decision applied
-- EXPERIMENT
-
-## Participants
-- owner: completed / not completed
-- second user: completed / not completed
-
-## Metrics
-- preview desktop/mobile: PASS/FAIL
-- lessons reachable: X/5
-- owner completion: X%
-- second-user completion: X%
-- context-switch clarity: X/5
-- unsafe-data requests: 0 / N
-
-## UX findings
-- blocker: N
-- high: N
-- medium: N
-- low: N
-
-## Checks
-- npm run lint — PASS/FAIL
-- npm run typecheck — PASS/FAIL
-- npm run test — PASS/FAIL
-- npm run build — PASS/FAIL
-- npm run check:secrets — PASS/FAIL
-- npm run test:e2e — PASS/FAIL
-
-## Overall validation
-- PASS/FAIL
-
-## Next action
-- run MPE gate again before selecting Stage 2, Stage 3, Stage 4, or Stage 1 remediation
-```
+Do not implement invoice/payment workflows until the counterparty vertical slice is manually reviewed and judged directionally correct. If the replica teaches the wrong interaction habits or the coach obstructs normal use, fix the vertical slice before expanding scope.

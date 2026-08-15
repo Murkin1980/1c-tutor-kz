@@ -1,12 +1,16 @@
-# NEXT STAGE INSTRUCTION — Stage 2A
+# NEXT STAGE INSTRUCTION — Stage 1 Validation Experiment
 
-## Название итерации
+## MPE decision
 
-Исследовательский каркас официальных интерфейсов и безопасный UI-shell симуляторов ФНО/ИС ЭСФ.
+`EXPERIMENT`
 
-## Обязательное чтение
+Before expanding into FNO/ESF simulators, Supabase, AI checking, browser extensions, computer vision, or deeper automation, validate the existing five-lesson 1C learning loop with real users.
 
-Перед работой прочитать полностью:
+Authoritative decision record: `docs/decisions/MPE-2026-08-15-STAGE1-VALIDATION.md`.
+
+## Mandatory reading
+
+Before work, read fully:
 
 1. `FOUNDATION.md`
 2. `README.md`
@@ -16,158 +20,177 @@
 6. `ROADMAP.md`
 7. `STAGE_CHECKLIST.md`
 8. `VISUAL_PROGRESS.md`
-9. `PORTAL_REPLICA_SPEC.md`
-10. `SECURITY_AND_LEGAL.md`
-11. `SESSION_NOTES.md`
+9. `SECURITY_AND_LEGAL.md`
+10. `SESSION_NOTES.md`
+11. `docs/decisions/MPE-2026-08-15-STAGE1-VALIDATION.md`
 
-В начале отчёта перечислить применимые разделы и конфликты. При конфликте действует `FOUNDATION.md`.
+If documents conflict, `FOUNDATION.md` wins. For sequencing of the next iteration, the MPE decision record wins unless it conflicts with `FOUNDATION.md`.
 
-## Цель итерации
+## Goal
 
-Создать основу для высокоточных учебных симуляторов официальных порталов, не реализуя реальную отчётность, ЭЦП или отправку.
+Prove or disprove that a beginner can use the current 1C Tutor prototype to complete the existing learning loop with minimal external explanation and reach a verifiable result in the training 1C environment.
 
-## Объём работ
+## Scope
 
-### 1. Публикация текущего прототипа
+Use the existing five-lesson prototype only. Do not add new product surfaces unless required to remove a blocker in the validation experiment.
 
-- подготовить Cloudflare Pages preview;
-- production branch `main`;
-- build command `npm run build`;
-- output `dist`;
-- проверить SPA fallback и security headers;
-- документировать URL и переменные окружения без секретов.
+### 1. Stable preview
 
-Если подключение к Cloudflare недоступно, полностью подготовить конфигурацию и инструкцию ручного деплоя; не блокировать остальную итерацию.
+Prepare and publish the current frontend to Cloudflare Pages using the existing project architecture.
 
-### 2. Каталог официальных интерфейсов
+Required:
 
-Создать:
+- production branch: `main`;
+- build command: `npm run build`;
+- output directory: `dist`;
+- SPA fallback remains functional;
+- security headers remain functional;
+- no secrets in repository or client bundle;
+- preview works on desktop and smartphone.
 
-```text
-docs/official-ui/
-├─ README.md
-├─ SOURCE_REGISTER.md
-├─ PORTAL_VERSION_TEMPLATE.md
-├─ SCREEN_INVENTORY_TEMPLATE.md
-├─ VALIDATION_RULE_TEMPLATE.md
-└─ CHANGELOG_TEMPLATE.md
+If direct Cloudflare publication cannot be completed from the available environment, prepare the exact deployment configuration and document the remaining external action. Do not replace Cloudflare with a new hosting stack.
+
+### 2. Owner walkthrough
+
+Run all five existing lessons end-to-end.
+
+For every lesson record:
+
+- start state;
+- task understood: yes/no;
+- 1C action completed: yes/no;
+- return to Tutor understood: yes/no;
+- validation result;
+- time or obvious friction point where observable;
+- unclear wording;
+- blocker/high/medium/low issue;
+- expected result visible: yes/no.
+
+Fix only blocker/high issues required to continue the experiment.
+
+### 3. Second-user alpha test
+
+A beginner should attempt the same five lessons with no live step-by-step coaching whenever possible.
+
+Allowed help:
+
+- opening the preview URL;
+- opening the training 1C environment;
+- resolving technical access failures unrelated to Tutor UX.
+
+Do not explain the intended lesson flow while measuring whether the interface itself is understandable.
+
+### 4. UX evidence register
+
+Create `docs/validation/STAGE1_UX_EVIDENCE.md` with one row/item per observed issue.
+
+Each entry must include:
+
+- participant: owner / second user;
+- lesson;
+- observation;
+- severity: blocker/high/medium/low;
+- evidence;
+- root-cause hypothesis;
+- fix applied or deferred;
+- retest result.
+
+Do not store personal or sensitive data about the participant.
+
+### 5. Validation result
+
+Create `docs/validation/STAGE1_VALIDATION_RESULT.md` containing the final PASS/FAIL result against these metrics:
+
+- preview opens on desktop and smartphone;
+- 5/5 lessons reachable and completable;
+- owner completion rate = 100%;
+- second-user completion rate >= 80% without live step-by-step coaching;
+- no normal-flow blocker loses progress;
+- every lesson has a clear expected result;
+- context switch to 1C and back is understood without verbal explanation in at least 4/5 lessons;
+- zero requests for real IIN/BIN, passwords, ECP keys, or government-system submission.
+
+If any mandatory metric fails, overall result is `FAIL` and the next iteration remains Stage 1 remediation.
+
+## Engineering checks
+
+Before reporting completion, run:
+
+```bash
+npm run lint
+npm run typecheck
+npm run test
+npm run build
+npm run check:secrets
+npm run test:e2e
 ```
 
-Шаблоны должны требовать дату наблюдения, официальный источник, версию, viewport, список элементов, поведение, ошибки, методическую проверку и отличия учебной версии.
+All existing checks must remain green. Do not weaken or delete tests to obtain PASS.
 
-### 3. Доменные модели
+## Allowed changes
 
-Добавить типы и Zod-схемы:
+- deployment configuration required for Cloudflare Pages;
+- wording, navigation, focus states, responsive behavior, validation feedback, and progress handling that directly remove observed blocker/high issues;
+- test fixes required by those changes;
+- validation evidence documentation;
+- README / ROADMAP / STAGE_CHECKLIST / VISUAL_PROGRESS / SESSION_NOTES updates reflecting actual evidence.
 
-- `OfficialPortalVersion`;
-- `PortalScreen`;
-- `PortalElement`;
-- `SimulationScenario`;
-- `SimulationStep`;
-- `SimulationAction`;
-- `ValidationRule`;
-- `SimulationSubmission`;
-- `TrainingDocumentStatus`.
+## Explicitly outside this iteration
 
-Контент пока хранить локально, но через repository interface.
-
-### 4. Маршруты
-
-Добавить:
-
-- `/simulators` — каталог;
-- `/simulators/fno` — shell налоговой отчётности;
-- `/simulators/esf` — shell ИС ЭСФ;
-- `/simulators/:type/scenarios/:scenarioId` — учебный сценарий.
-
-### 5. UI-shell
-
-Создать desktop-first оболочки, которые допускают высокоточное дальнейшее воспроизведение:
-
-- верхняя служебная область;
-- боковая или верхняя навигация согласно паспорту версии;
-- рабочая область;
-- таблица/журнал;
-- панель действий;
-- состояния loading/empty/error;
-- адаптация до 360 px без изменения desktop-логики.
-
-Пока не утверждены официальные паспорта, не придумывать окончательные тексты и координаты. Использовать явно обозначенные placeholder-компоненты.
-
-### 6. Предохранители
-
-Обязательно реализовать:
-
-- постоянную полосу `УЧЕБНЫЙ СИМУЛЯТОР — ДАННЫЕ НЕ ОТПРАВЛЯЮТСЯ`;
-- водяной знак;
-- компонент `TrainingModeGuard`;
-- блокировку ввода реальных ИИН/БИН по configurable rule;
-- запрет полей реального пароля/ЭЦП;
-- network allowlist только для собственных ресурсов приложения;
-- учебную имитацию кнопок «Подписать» и «Отправить»;
-- подтверждение перед переходом на официальный портал;
-- журнал учебных событий без бухгалтерских данных.
-
-### 7. Тесты
-
-Минимум:
-
-- simulator routes доступны авторизованному mock-пользователю;
-- маркировка видна на всех simulator routes;
-- реальный ИИН/БИН отклоняется;
-- поле ЭЦП отсутствует;
-- «Отправить» не создаёт внешний network request;
-- переход на официальный портал требует подтверждения и открывает новую вкладку;
-- mobile viewport не скрывает учебную маркировку;
-- схемы контента отклоняют неизвестные версии и некорректные правила.
-
-### 8. Документация
-
-Обновить:
-
-- `README.md`;
-- `ARCHITECTURE.md`;
-- `DATA_MODEL.md`;
-- `ROADMAP.md`;
-- `STAGE_CHECKLIST.md`;
-- `VISUAL_PROGRESS.md`;
-- `SESSION_NOTES.md`.
-
-## Вне этой итерации
-
-- точное воспроизведение конкретного экрана без утверждённого паспорта;
-- настоящая налоговая форма;
-- полноценный XML официального формата;
-- реальная ЭСФ;
-- ЭЦП, NCALayer и авторизация государственных порталов;
-- обращения к API КГД или ИС ЭСФ;
-- Supabase;
-- AI-проверка.
+- FNO simulator implementation;
+- ESF simulator implementation;
+- official-portal replica UI-shell;
+- Supabase migration;
+- new authentication architecture;
+- AI evaluation;
+- browser extension;
+- computer vision;
+- automated control of 1C;
+- new repository;
+- unrelated refactors.
 
 ## Definition of Done
 
-- приложение собирается;
-- lint/typecheck/unit/build/secrets/e2e проходят;
-- маршруты и shell работают desktop/mobile;
-- внешняя отправка технически невозможна;
-- учебная маркировка постоянна;
-- создан исследовательский каталог;
-- документация и визуальный прогресс обновлены;
-- в `SESSION_NOTES.md` перечислены изменённые файлы, проверки, ограничения и следующий этап.
+This iteration is complete only when:
 
-## Формат итогового отчёта
+- stable preview is available or the only remaining blocker is an explicitly documented external Cloudflare action;
+- owner walkthrough evidence exists;
+- second-user alpha evidence exists;
+- PASS/FAIL is calculated against the fixed metrics above;
+- blocker/high issues discovered during testing are fixed or explicitly justify FAIL;
+- lint/typecheck/unit/build/secrets/e2e results are recorded;
+- `SESSION_NOTES.md`, `VISUAL_PROGRESS.md`, `ROADMAP.md`, and `STAGE_CHECKLIST.md` reflect the actual experiment result;
+- a new MPE gate is run before selecting the next substantial stage.
+
+## Stop condition
+
+Do not begin downstream feature work merely because the implementation is technically ready. Stop after the validation result and run MPE again.
+
+## Final report format
 
 ```markdown
-## Применённые документы
-- ...
+## MPE decision applied
+- EXPERIMENT
 
-## Выполнено
-- ...
+## Participants
+- owner: completed / not completed
+- second user: completed / not completed
 
-## Изменённые файлы
-- ...
+## Metrics
+- preview desktop/mobile: PASS/FAIL
+- lessons reachable: X/5
+- owner completion: X%
+- second-user completion: X%
+- context-switch clarity: X/5
+- unsafe-data requests: 0 / N
 
-## Проверки
+## UX findings
+- blocker: N
+- high: N
+- medium: N
+- low: N
+
+## Checks
 - npm run lint — PASS/FAIL
 - npm run typecheck — PASS/FAIL
 - npm run test — PASS/FAIL
@@ -175,12 +198,9 @@ docs/official-ui/
 - npm run check:secrets — PASS/FAIL
 - npm run test:e2e — PASS/FAIL
 
-## Предохранители
-- ...
+## Overall validation
+- PASS/FAIL
 
-## Известные ограничения
-- ...
-
-## Следующая итерация
-- ...
+## Next action
+- run MPE gate again before selecting Stage 2, Stage 3, Stage 4, or Stage 1 remediation
 ```

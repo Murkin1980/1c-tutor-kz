@@ -1,0 +1,15 @@
+{"from":"configuration:accounting-kz","type":"CONFIGURATION_RUNS_ON","to":"platform:1c-enterprise-8","evidence":["source:KZ-ACC30-PRODUCT"]}
+{"from":"configuration:accounting-kz","type":"CONFIGURATION_HAS_EDITION","to":"edition:accounting-kz:3.0","evidence":["source:KZ-ACC30-DOC","source:KZ-ACC30-PRODUCT"]}
+{"from":"edition:accounting-kz:3.0","type":"VERSION_HAS_AREA","to":"area:accounting-kz:3.0:main","evidence":["source:KZ-ACC30-PRODUCT"]}
+{"from":"edition:accounting-kz:3.0","type":"VERSION_HAS_AREA","to":"area:accounting-kz:3.0:sales","evidence":["source:KZ-ITS-USER-DOCS"]}
+{"from":"edition:accounting-kz:3.0","type":"VERSION_HAS_AREA","to":"area:accounting-kz:3.0:purchases","evidence":["source:KZ-ITS-USER-DOCS"]}
+{"from":"edition:accounting-kz:3.0","type":"VERSION_HAS_AREA","to":"area:accounting-kz:3.0:bank-cash","evidence":["source:KZ-ITS-USER-DOCS"]}
+{"from":"edition:accounting-kz:3.0","type":"VERSION_HAS_AREA","to":"area:accounting-kz:3.0:inventory","evidence":["source:KZ-ITS-USER-DOCS"]}
+{"from":"edition:accounting-kz:3.0","type":"VERSION_HAS_AREA","to":"area:accounting-kz:3.0:reports","evidence":["source:KZ-ITS-USER-DOCS"]}
+{"from":"scenario:tutor:create-training-counterparty:v1","type":"LEARNING_SCENARIO_TRAINS","to":"workflow:accounting-kz:3.0:create-counterparty","evidence":[]}
+{"from":"workflow:accounting-kz:3.0:create-counterparty","type":"EVIDENCE_SUPPORTS","to":"source:KZ-ACC30-DOC","evidence":[]}
+{"from":"configuration:hrm-kz","type":"CONFIGURATION_RUNS_ON","to":"platform:1c-enterprise-8","evidence":["source:KZ-ITS-USER-DOCS"]}
+{"from":"configuration:trade-kz","type":"CONFIGURATION_RUNS_ON","to":"platform:1c-enterprise-8","evidence":["source:KZ-ITS-USER-DOCS"]}
+{"from":"configuration:unf-kz","type":"CONFIGURATION_RUNS_ON","to":"platform:1c-enterprise-8","evidence":["source:KZ-ITS-USER-DOCS"]}
+{"from":"configuration:erp-kz","type":"CONFIGURATION_RUNS_ON","to":"platform:1c-enterprise-8","evidence":["source:KZ-ITS-USER-DOCS"]}
+{"from":"configuration:ca-kz","type":"CONFIGURATION_RUNS_ON","to":"platform:1c-enterprise-8","evidence":["source:KZ-ITS-USER-DOCS"]}

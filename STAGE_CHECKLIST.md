@@ -7,6 +7,9 @@
 - [ ] Прочитаны актуальные FOUNDATION / PRD / ARCHITECTURE / DATA_MODEL / ROADMAP / NEXT_STAGE.
 - [ ] Проверен MPE scope и stop condition.
 - [ ] Новый код расширяет существующий проект, а не создаёт параллельную систему.
+- [ ] Для 1C-like workflow выполнен Atlas retrieval.
+- [ ] Указаны Atlas node/evidence/source IDs и confidence.
+- [ ] RESEARCH_REQUIRED gaps закрыты bounded ingestion или явно блокируют fidelity implementation.
 - [ ] Использованы только вымышленные данные.
 - [ ] Нет реальных ИИН/БИН, ЭЦП, паролей, банковских ключей.
 - [ ] Нет обязательного 1C:Fresh или другого платного SaaS.
@@ -17,9 +20,16 @@
 - [ ] Coach не перекрывает активный control.
 - [ ] Desktop и mobile smoke/e2e пройдены.
 - [ ] lint/typecheck/unit/build/secrets/e2e PASS.
-- [ ] SESSION_NOTES/VISUAL_PROGRESS обновлены.
+- [ ] SESSION_NOTES/VISUAL_PROGRESS/COVERAGE обновлены при изменении факта.
 
 ## Stage 1B.1 — Counterparty vertical slice
+
+### Atlas prerequisite
+- [ ] query `accounting-kz / 3.0 / counterparties / create-counterparty` выполнен.
+- [ ] Workflow Record создан/обновлён.
+- [ ] Interface Passport создан для выбранной версии/наблюдения.
+- [ ] UI-sensitive facts имеют primary evidence.
+- [ ] unresolved gaps не маскируются выдуманным интерфейсом.
 
 ### Domain
 - [ ] `TrainingScenarioState` создан.
@@ -30,11 +40,11 @@
 
 ### Workspace UI
 - [ ] embedded workspace route/surface.
-- [ ] 1C-like navigation shell.
+- [ ] 1C-like navigation shell соответствует Passport в пределах slice.
 - [ ] список контрагентов.
-- [ ] команда `Создать`.
+- [ ] create command.
 - [ ] карточка контрагента.
-- [ ] команда сохранения.
+- [ ] save command.
 - [ ] training banner/watermark.
 - [ ] никакого required external-tab flow.
 
@@ -86,6 +96,7 @@
 
 Не начинать, пока owner gate 1B.1 не PASS.
 
+- [ ] Atlas retrieval + Workflow + Passport.
 - [ ] переиспользованы workspace/guidance/verification primitives.
 - [ ] counterparty selection.
 - [ ] invoice lines.
@@ -99,6 +110,7 @@
 
 Не начинать, пока 1B.2 не PASS.
 
+- [ ] Atlas retrieval + Workflow + Passport.
 - [ ] payment state.
 - [ ] linkage to counterparty/invoice.
 - [ ] amount/status.
@@ -106,6 +118,20 @@
 - [ ] Demo/Guided/Test.
 - [ ] state assertions.
 - [ ] owner PASS.
+
+## Stage K1 — Knowledge Atlas gate
+
+До Stage 2:
+- [ ] platform common model.
+- [ ] Accounting KZ core workflow inventory.
+- [ ] HRM/ZUP KZ high-level inventory.
+- [ ] Trade KZ high-level inventory.
+- [ ] UNF KZ high-level inventory.
+- [ ] ERP KZ high-level inventory.
+- [ ] graph validates: unique nodes, valid edges, source provenance.
+- [ ] `knowledge/1c/COVERAGE.md` актуален.
+- [ ] five retrieval proof queries documented.
+- [ ] no bulk copyrighted corpus committed.
 
 ## Архитектурные красные флаги
 
@@ -117,4 +143,6 @@
 - credential capture;
 - FNO/ESF до roadmap gate;
 - AI/computer vision как замена deterministic verification;
-- массовая реализация нескольких сценариев до PASS текущего slice.
+- vector database как новый canonical source of truth;
+- массовая реализация нескольких сценариев до PASS текущего slice;
+- version-specific UI без достаточного Atlas evidence.

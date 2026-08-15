@@ -184,12 +184,12 @@ export function CustomerCardTrainingWorkspace() {
               <div className="training-page-title"><div><small>Новая карточка</small><h2>Контрагент</h2></div></div>
               <div className="training-form">
                 <Target id="counterparty.name" activeTarget={activeTarget} className="training-field-wrap">
-                  <label>Наименование</label>
-                  <input value={state.draft.name} onChange={(event) => run({ type: "SET_NAME", value: event.target.value })} placeholder="Введите учебное название" />
+                  <label htmlFor="counterparty-name">Наименование</label>
+                  <input id="counterparty-name" value={state.draft.name} onChange={(event) => run({ type: "SET_NAME", value: event.target.value })} placeholder="Введите учебное название" />
                 </Target>
                 <Target id="counterparty.city" activeTarget={activeTarget} className="training-field-wrap">
-                  <label>Город</label>
-                  <input value={state.draft.city} onChange={(event) => run({ type: "SET_CITY", value: event.target.value })} placeholder="Введите учебный город" />
+                  <label htmlFor="counterparty-city">Город</label>
+                  <input id="counterparty-city" value={state.draft.city} onChange={(event) => run({ type: "SET_CITY", value: event.target.value })} placeholder="Введите учебный город" />
                 </Target>
                 <div className="training-form-note">Точные названия и расположение полей подлежат сверке с Interface Passport выбранной сборки 1С. Этот экран проверяет учебную логику, а не заявляет pixel-perfect копию.</div>
                 <Target id="counterparty.save" activeTarget={activeTarget}>

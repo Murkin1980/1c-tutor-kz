@@ -18,8 +18,8 @@
 - [x] Правильный quiz-answer без операции не даёт PASS.
 - [x] Есть reset к deterministic seed.
 - [x] Coach/подсказка не перекрывает активный control; текущая версия использует side panel + target spotlight.
-- [ ] Desktop и mobile smoke/e2e фактически пройдены в исполняемой среде.
-- [ ] lint/typecheck/unit/build/secrets/e2e фактически PASS в исполняемой среде.
+- [x] Desktop и mobile smoke/e2e фактически пройдены в исполняемой среде 2026-08-15.
+- [x] lint/typecheck/unit/build/secrets/e2e фактически PASS в исполняемой среде 2026-08-15; полный e2e прогон выполнен с `--workers=1`.
 - [x] SESSION_NOTES/VISUAL_PROGRESS/COVERAGE обновлены при изменении факта или явно отмечены pending.
 
 ## Stage 1B.1 — Counterparty vertical slice
@@ -49,7 +49,7 @@
 - [x] training banner `УЧЕБНАЯ СРЕДА — НЕ 1С`.
 - [x] никакого required external-tab flow для `customer-card`.
 - [x] responsive desktop/mobile CSS layout реализован.
-- [ ] manual mobile/desktop smoke-test в запущенном приложении.
+- [x] manual mobile/desktop smoke-test в запущенном приложении выполнен 2026-08-15; viewport 1440px и 360px без горизонтального overflow.
 
 ### Demo
 - [x] Demo может пройти весь сценарий через `Показать действие`.
@@ -99,7 +99,7 @@
 - [x] deterministic reset covered.
 - [x] Playwright spec for guided completion added.
 - [x] Playwright spec for Independent Test added.
-- [ ] tests actually executed in this environment.
+- [x] tests actually executed in this environment 2026-08-15.
 
 ### Owner gate
 - [ ] owner прошёл Demo.

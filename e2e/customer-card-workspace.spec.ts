@@ -25,7 +25,7 @@ test("customer-card practical task is verified from workspace state", async ({ p
   await page.getByRole("button", { name: "Проверить работу" }).click();
 
   await expect(page.getByText("Работа выполнена")).toBeVisible();
-  await expect(page.getByText("Карточка сохранена")).toBeVisible();
+  await expect(page.getByText("Карточка сохранена", { exact: true })).toBeVisible();
 });
 
 test("independent mode hides coaching and remains completable", async ({ page }) => {

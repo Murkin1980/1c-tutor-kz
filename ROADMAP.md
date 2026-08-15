@@ -102,15 +102,15 @@ Long-term professional North Star:
 - [x] Playwright guided + independent specs added.
 
 ### Remaining engineering gate
-- [ ] run `npm run lint`;
-- [ ] run `npm run typecheck`;
-- [ ] run `npm run test`;
-- [ ] run `npm run build`;
-- [ ] run `npm run check:secrets`;
-- [ ] run `npm run test:e2e`;
-- [ ] desktop/mobile manual smoke.
+- [x] run `npm run lint` — PASS on 2026-08-15;
+- [x] run `npm run typecheck` — PASS on 2026-08-15;
+- [x] run `npm run test` — PASS, 14 tests on 2026-08-15;
+- [x] run `npm run build` — PASS on 2026-08-15;
+- [x] run `npm run check:secrets` — PASS on 2026-08-15;
+- [x] run `npm run test:e2e -- --workers=1` — PASS, 6 tests on 2026-08-15;
+- [x] desktop/mobile manual smoke — PASS at 1440px and 360px on 2026-08-15.
 
-Current ChatGPT environment cannot reach GitHub from the execution container, and repository CI has no active status on the current head, therefore checks are not falsely marked PASS.
+The default parallel `npm run test:e2e` invocation did not complete in this Windows execution environment; the same full suite passed with one worker. Desktop/mobile smoke and learning-mode verification were also executed locally on 2026-08-15.
 
 ### Owner gate
 - [ ] owner opens the Stage 1B.1 workspace;

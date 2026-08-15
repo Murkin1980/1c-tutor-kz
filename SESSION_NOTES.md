@@ -145,6 +145,51 @@ The embedded validation slice is temporarily unlockable without completing those
 
 Invoice remains legacy and explicitly blocked until owner PASS.
 
+## 2026-08-15 — Stage 1B.1 engineering gate and smoke
+
+### Git state
+
+- Checkout: `mpe/stage-1-validation`.
+- `git fetch` required a local `safe.directory` override because the ASCII worktree is owned by the Codex sandbox account; after fetch, `HEAD...origin/mpe/stage-1-validation` was `0 0`.
+- Existing tracked edits in `e2e/customer-card-workspace.spec.ts`, `src/features/training-workspace/CustomerCardTrainingWorkspace.tsx`, and `vitest.config.ts` were preserved.
+- Existing untracked `minibase/` was not modified.
+
+### Engineering checks
+
+Executed on 2026-08-15:
+
+- `npm install` — PASS; dependencies already up to date. npm reported 5 audit vulnerabilities and a pending `esbuild` allow-scripts notice.
+- `npm run lint` — PASS.
+- `npm run typecheck` — PASS.
+- `npm run test` — PASS; 6 files / 14 tests.
+- `npm run build` — PASS; Vite production build completed.
+- `npm run check:secrets` — PASS; no forbidden client secret markers.
+- `npm run test:e2e -- --workers=1` — PASS; 6/6 tests across desktop/mobile projects.
+
+The default parallel `npm run test:e2e` invocation did not complete in this Windows environment and was stopped after it produced no result. The serial full suite passed without changing tests.
+
+### Desktop/mobile smoke
+
+Direct Playwright browser inspection of `/learn/customer-card` passed at 1440x900 and 360x800:
+
+- training marker visible;
+- task panel visible and usable;
+- body width did not exceed viewport width;
+- navigation, form labels/inputs, save and verification controls usable;
+- successful completion visible after save and verification.
+
+### Learning modes and negative verification
+
+- Demo: six `Показать действие` steps completed; verification showed `Демонстрация завершена`; progress remained `in_progress` with `practiceMode=demo`.
+- Guided: `Почему?`, hint 1 and hint 2 rendered; manual completion recorded `completed_assisted` when hints were used.
+- Guided assisted path: one `Сделать за меня` action recorded `showActionCount=1` and `completed_assisted`.
+- Independent: coaching/spotlight controls hidden; manual completion recorded `completed_unassisted`.
+- Negative checks: empty state failed; correct values left unsaved failed; wrong city produced city-specific FAIL (`Сейчас: Алматы`); correction plus save produced PASS. Unit tests also cover state-only verification.
+
+### Gate status
+
+Engineering and smoke checks are complete. Owner review remains `PENDING_OWNER_REVIEW`; no owner PASS or Stage 1B.2 authorization is inferred. Invoice/Payment implementation remains blocked.
+
 ### Tests added
 
 Unit specifications cover:

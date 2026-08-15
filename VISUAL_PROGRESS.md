@@ -55,7 +55,7 @@ FNO / ESF                              ░░░░░░░░░░   0%
 
 🟡 Exact installed-build UI fidelity ещё не подтверждена observation-grade Interface Passport.
 
-🟡 Automated tests добавлены, но в текущей ChatGPT execution environment не запущены: container не имеет сетевого доступа к GitHub, а текущий head не имеет активных CI status checks.
+🟢 Automated gate executed 2026-08-15: lint, typecheck, 14 unit tests, build, client-secrets check and full 6-test Playwright suite passed. The default parallel Playwright invocation hung in this Windows environment; the same suite passed with `--workers=1`.
 
 ## Текущий рубеж
 
@@ -77,8 +77,8 @@ FNO / ESF                              ░░░░░░░░░░   0%
 [x] responsive CSS
 [x] unit/e2e test specifications written
 [ ] anchored floating coach bubble by target bounds
-[ ] lint/typecheck/unit/build/secrets/e2e actually executed
-[ ] desktop/mobile manual smoke
+[x] lint/typecheck/unit/build/secrets/e2e actually executed 2026-08-15
+[x] desktop/mobile manual smoke 2026-08-15 (1440px and 360px; no horizontal overflow)
 [ ] observation-grade UI Passport
 [ ] owner UX/fidelity PASS
 ```

@@ -2,7 +2,7 @@
 
 Date: 2026-08-15
 Decision: `EXTEND_EXISTING`
-Status: `PRE-REVIEW / ENGINEERING CHECKS PENDING`
+Status: `ENGINEERING GATE PASS / PENDING OWNER REVIEW`
 
 ## Implemented
 
@@ -36,22 +36,26 @@ A typed answer outside Training Workspace cannot produce practical PASS.
 - observation-grade Accounting KZ 3.0 Interface Passport;
 - exact-build field/button fidelity;
 - separate anchored floating coach bubble; current guided UX uses side panel + target spotlight;
-- automated checks have not been executed in this ChatGPT environment;
-- manual desktop/mobile smoke not yet recorded.
+- owner Demo/Guided/Independent walkthrough;
+- owner decision whether side panel + spotlight is sufficient for the next slice;
+- exact-build UI observation remains pending.
 
 ## Check execution status
 
-Attempted local checkout from the available execution container, but DNS/network access to GitHub was unavailable.
+Executed on 2026-08-15 in the synced `mpe/stage-1-validation` checkout:
 
-Current branch head has no active GitHub CI status checks.
+- `npm install`: PASS;
+- `npm run lint`: PASS;
+- `npm run typecheck`: PASS;
+- `npm run test`: PASS (14/14);
+- `npm run build`: PASS;
+- `npm run check:secrets`: PASS;
+- `npm run test:e2e -- --workers=1`: PASS (6/6);
+- desktop 1440px and mobile 360px smoke: PASS;
+- Demo, Guided and Independent behavior: PASS;
+- negative state-verification scenarios: PASS.
 
-Therefore:
-- lint: `NOT RUN`;
-- typecheck: `NOT RUN`;
-- unit tests: `NOT RUN`;
-- build: `NOT RUN`;
-- secrets: `NOT RUN`;
-- e2e: `NOT RUN`.
+The default parallel Playwright invocation did not complete in this Windows environment; the unchanged full suite passed serially with `--workers=1`.
 
 ## Next gate
 

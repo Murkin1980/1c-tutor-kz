@@ -17,6 +17,21 @@ Do not review Invoice/Payment implementation because those slices are blocked un
 - use only fictional scenario data;
 - if a deployed preview is unavailable, run the branch locally.
 
+## Local preview fallback
+
+From the repository root on the review machine:
+
+```bash
+npm install
+npm run dev -- --host 127.0.0.1 --port 4173
+```
+
+Open:
+
+`http://127.0.0.1:4173/learn/customer-card`
+
+For a phone or another device on the same LAN, start Vite with `--host 0.0.0.0`, then open the same route using the review machine's reachable IPv4 address and port `4173`. The exact LAN address depends on the local network and is not part of the repository.
+
 ## 1. Demo — `Показать`
 
 - [ ] route is understandable;

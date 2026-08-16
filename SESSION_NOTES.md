@@ -214,3 +214,25 @@ Owner feedback (verbatim):
 Classified as `Stage 1B.1 initial discoverability UX issue` with remediation status `PASS WITH REMEDIATION` pending owner retest. The initial embedded workspace now shows a visible `Начните здесь` cue that names the first click (`Продажи`) in Demo and Guided. Independent Test keeps coaching and spotlight hidden.
 
 `Decision` remains `PENDING`; Stage 1B.2 Invoice, Payment, and all other blocked scope remain untouched.
+
+## 2026-08-16 — Training Workspace stylesheet regression remediation
+
+Owner reported that the screen appeared unstyled and the visual order/layout was broken. Root cause was isolated to commit `4800a70`: `training-workspace.css` was replaced by a one-rule `.training-start-cue` stylesheet, removing the existing shell, grid, sidebar, form, task panel, and responsive rules.
+
+Blocker fix: restored the complete stylesheet from parent commit `899c956` and retained the `.training-start-cue` rule at the end of the file. No JSX flow, business scope, or `minibase/` files were changed.
+
+Verification:
+- `npm run lint` — PASS;
+- `npm run typecheck` — PASS;
+- `npm run test` — PASS (6 files, 14 tests);
+- `npm run build` — PASS (`index-DuMC0AV2.css`, 30.67 kB);
+- `npm run check:secrets` — PASS;
+- `npm run test:e2e -- --workers=1` — PASS (6/6);
+- authenticated browser smoke — PASS at 1440x900 and 360x800; body/document scroll width matched viewport, shell/grid/sidebar/task panel rendered, and no horizontal overflow;
+- mode visibility — Demo/Guided cue visible; Independent cue, coaching, and spotlight hidden.
+
+Screenshots:
+- `test-results/training-workspace-desktop-1440x900.png`;
+- `test-results/training-workspace-mobile-360x800.png`.
+
+Owner retest remains pending. `Decision` remains `PENDING`; Stage 1B.2 Invoice, Payment, and all other blocked scope remain untouched.

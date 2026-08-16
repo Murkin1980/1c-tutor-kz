@@ -16,6 +16,17 @@ Classification: `Stage 1B.1 initial discoverability UX issue`.
 
 Remediation status: `PASS WITH REMEDIATION` pending owner retest. The first required click is now called out directly on the initial workspace screen for Demo and Guided, while Independent remains free of coaching and spotlight.
 
+### Follow-up screen regression
+
+Owner subsequently reported that the screen appeared unstyled and the visual order/layout was broken. Root cause was commit `4800a70`, which replaced the complete `training-workspace.css` contents with only the `.training-start-cue` rule.
+
+The stylesheet was restored from parent commit `899c956`, with `.training-start-cue` retained at the end. Authenticated browser smoke now confirms the shell, grid, sidebar, task panel, form, buttons, responsive layout, and mode visibility at desktop `1440x900` and mobile `360x800`. Screenshots:
+
+- `test-results/training-workspace-desktop-1440x900.png`
+- `test-results/training-workspace-mobile-360x800.png`
+
+Engineering checks and serial E2E are green. Owner retest is still pending; this remediation does not change the owner decision.
+
 ## Review scope
 
 Only the first Counterparty vertical slice is in scope.

@@ -4,6 +4,18 @@ Status: `PENDING_OWNER_REVIEW`
 Date: 2026-08-15
 Route: `/learn/customer-card`
 
+## Owner feedback / remediation
+
+Date: 2026-08-16
+
+Owner feedback (verbatim):
+
+> сперва не сразу сообразил куда нажимать. потом понял. другие могут не понять
+
+Classification: `Stage 1B.1 initial discoverability UX issue`.
+
+Remediation status: `PASS WITH REMEDIATION` pending owner retest. The first required click is now called out directly on the initial workspace screen for Demo and Guided, while Independent remains free of coaching and spotlight.
+
 ## Review scope
 
 Only the first Counterparty vertical slice is in scope.
@@ -121,7 +133,7 @@ Owner notes:
 
 | Severity | Issue | Expected fix |
 |---|---|---|
-| — | pending review | — |
+| Medium | Initial `Продажи` action was not immediately discoverable for a first-time learner. | Add a visible `Начните здесь` cue naming the first click in Demo/Guided; keep Independent coaching-free. |
 
 ## Owner decision
 

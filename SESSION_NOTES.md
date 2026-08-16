@@ -204,3 +204,13 @@ Playwright specifications cover:
 - guided successful flow;
 - initial explicit failure;
 - independent mode hides guidance and completes manually.
+
+## 2026-08-16 — Initial discoverability remediation
+
+Owner feedback (verbatim):
+
+> сперва не сразу сообразил куда нажимать. потом понял. другие могут не понять
+
+Classified as `Stage 1B.1 initial discoverability UX issue` with remediation status `PASS WITH REMEDIATION` pending owner retest. The initial embedded workspace now shows a visible `Начните здесь` cue that names the first click (`Продажи`) in Demo and Guided. Independent Test keeps coaching and spotlight hidden.
+
+`Decision` remains `PENDING`; Stage 1B.2 Invoice, Payment, and all other blocked scope remain untouched.

@@ -11,6 +11,9 @@ test("customer-card practical task is verified from workspace state", async ({ p
 
   await expect(page.getByText("УЧЕБНАЯ СРЕДА — НЕ 1С")).toBeVisible();
   await expect(page.getByRole("button", { name: "Вести меня" })).toHaveClass(/active/);
+  await expect(page.getByText("Начните здесь")).toBeVisible();
+  await expect(page.getByText("Нажмите «Продажи» в левой панели.")).toBeVisible();
+  await expect(page.locator('[data-training-target="nav.sales"].training-target-active')).toHaveCount(1);
 
   await page.getByRole("button", { name: "Проверить работу" }).click();
   await expect(page.getByText("Нужно исправить")).toBeVisible();
@@ -34,8 +37,10 @@ test("independent mode hides coaching and remains completable", async ({ page })
   await page.getByRole("button", { name: "Проверить себя" }).click();
 
   await expect(page.getByText("Самостоятельный режим")).toBeVisible();
+  await expect(page.getByText("Начните здесь")).toHaveCount(0);
   await expect(page.getByText("Следующий шаг")).toHaveCount(0);
   await expect(page.getByRole("button", { name: "Подсказка" })).toHaveCount(0);
+  await expect(page.locator(".training-target-active")).toHaveCount(0);
 
   await page.getByRole("button", { name: "Продажи" }).click();
   await page.getByRole("button", { name: "Контрагенты" }).click();

@@ -22,6 +22,18 @@ Status: `ENGINEERING GATE PASS / PENDING OWNER REVIEW`
 - responsive desktop/mobile CSS;
 - customer-card removed from mandatory 1C:Fresh flow.
 
+## Owner feedback remediation
+
+Date: 2026-08-16
+
+Owner feedback (verbatim):
+
+> сперва не сразу сообразил куда нажимать. потом понял. другие могут не понять
+
+Classification: `Stage 1B.1 initial discoverability UX issue`.
+
+Remediation status: `PASS WITH REMEDIATION` pending owner retest. Added a visible first-action cue on the initial workspace screen for Demo/Guided and covered its absence in Independent Test. Owner decision remains `PENDING`; Stage 1B.2 is still blocked.
+
 ## Verification assertions
 
 1. counterparty exists;

@@ -1,4 +1,4 @@
-import { Check, CircleHelp, RotateCcw, Sparkles, X } from "lucide-react";
+import { Check, CircleHelp, MousePointerClick, RotateCcw, Sparkles, X } from "lucide-react";
 import { useMemo, useReducer, useState, type ReactNode } from "react";
 import { useProgress } from "../progress/progress";
 import {
@@ -160,7 +160,7 @@ export function CustomerCardTrainingWorkspace() {
           </nav>
 
           <main className="training-workarea">
-            {state.screen === "home" && <div className="training-start-screen"><span>Учебный сценарий</span><h2>Карточка покупателя</h2><p>Откройте раздел продаж и создайте вымышленного контрагента.</p></div>}
+            {state.screen === "home" && <div className="training-start-screen"><span>Учебный сценарий</span><h2>Карточка покупателя</h2><p>Откройте раздел продаж и создайте вымышленного контрагента.</p>{mode !== "test" && <div className="training-start-cue" role="status"><MousePointerClick size={18}/><div><strong>Начните здесь</strong><span>Нажмите «Продажи» в левой панели.</span></div></div>}</div>}
 
             {state.screen === "sales" && <div>
               <div className="training-page-title"><div><small>Раздел</small><h2>Продажи</h2></div></div>

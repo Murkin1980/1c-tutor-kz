@@ -10,6 +10,8 @@ import { LessonPage } from "../routes/LessonPage";
 import { LoginPage } from "../routes/LoginPage";
 import { NotFoundPage } from "../routes/NotFoundPage";
 import { ProfilePage } from "../routes/ProfilePage";
+import { SimulatorsPage } from "../routes/SimulatorsPage";
+import { SimulatorShellPage } from "../routes/SimulatorShellPage";
 import { Layout } from "../shared/Layout";
 import { AdminRoute, PrivateRoute } from "../shared/RouteGuards";
 
@@ -24,6 +26,10 @@ export function App() {
         <Route path="courses/:courseSlug" element={<CoursePage />} />
         <Route path="learn/:lessonId" element={<LessonPage />} />
         <Route path="profile" element={<ProfilePage />} />
+        <Route path="simulators" element={<SimulatorsPage />} />
+        <Route path="simulators/fno" element={<SimulatorShellPage type="fno" />} />
+        <Route path="simulators/esf" element={<SimulatorShellPage type="esf" />} />
+        <Route path="simulators/:type/scenarios/:scenarioId" element={<SimulatorShellPage />} />
         <Route element={<AdminRoute />}><Route path="admin" element={<AdminPage />} /></Route>
       </Route>
       <Route path="*" element={<NotFoundPage />} />

@@ -19,7 +19,7 @@ function VerificationField({ verification, answer, setAnswer }: { verification: 
 export function LessonPage() {
   const { lessonId } = useParams();
   const lesson = getLesson(lessonId ?? "");
-  const { progress, update } = useProgress();
+  const { progress, update, syncStatus, retrySync } = useProgress();
   const saved = lesson ? progress[lesson.id] : undefined;
   const [answer, setAnswer] = useState<unknown>(saved?.answer ?? "");
   const [hintCount, setHintCount] = useState(0);
@@ -67,7 +67,7 @@ export function LessonPage() {
             <button className="button primary full" onClick={submit}>{feedback === "success" ? "Проверить ещё раз" : "Проверить и завершить"} <ChevronRight /></button>
           </section>
           <section className="hints"><div><Lightbulb /><div><span className="section-kicker">Нужна помощь?</span><h2>Подсказки открываются по одной</h2></div></div>{lesson.hints.slice(0, hintCount).map((hint, i) => <p key={hint}><b>{i + 1}</b>{hint}</p>)}{hintCount < lesson.hints.length && <button onClick={() => setHintCount((value) => value + 1)}>Открыть подсказку {hintCount + 1} из {lesson.hints.length}</button>}</section>
-          <section className="notes"><label htmlFor="notes">Личные заметки</label><textarea id="notes" value={saved?.note ?? ""} onChange={(event) => update(lesson.id, { note: event.target.value })} placeholder="Запишите, что важно запомнить…" /><span>Сохраняются автоматически в этом браузере</span></section>
+          <section className="notes"><label htmlFor="notes">Личные заметки</label><textarea id="notes" value={saved?.note ?? ""} onChange={(event) => update(lesson.id, { note: event.target.value })} placeholder="Запишите, что важно запомнить…" /><span>{syncStatus === "synced" ? "Синхронизированы через MiniBase" : syncStatus === "syncing" ? "Синхронизация…" : syncStatus === "error" ? <>Сохранены локально · <button type="button" onClick={retrySync}>повторить синхронизацию</button></> : "Сохраняются автоматически в этом браузере"}</span></section>
           <footer className="lesson-method">Методическая отметка: {lesson.configurationVersion}. Проверено {lesson.reviewedAt}. Материал учебный и не является бухгалтерской или налоговой консультацией.</footer>
         </article>
       </main>

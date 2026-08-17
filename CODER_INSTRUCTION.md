@@ -59,7 +59,7 @@
 - Zod;
 - Tailwind CSS;
 - Vitest + Testing Library + Playwright;
-- Supabase на соответствующем этапе;
+- MiniBase через repository interfaces; localStorage остаётся fallback;
 - Cloudflare Pages для frontend;
 - Cloudflare Worker только при обоснованной серверной необходимости.
 

@@ -1,10 +1,11 @@
-import { BookOpen, GraduationCap, LayoutDashboard, LogOut, Settings } from "lucide-react";
+import { BookOpen, GraduationCap, LayoutDashboard, LogOut, Settings, PanelsTopLeft } from "lucide-react";
 import { NavLink, Outlet } from "react-router-dom";
 import { useAuth } from "../features/auth/auth";
 
 const links = [
   { to: "/dashboard", label: "Обучение", icon: LayoutDashboard },
   { to: "/courses/prakticheskiy-start", label: "Курс", icon: BookOpen },
+  { to: "/simulators", label: "Симуляторы", icon: PanelsTopLeft },
   { to: "/profile", label: "Профиль", icon: Settings },
 ];
 export function Layout() {

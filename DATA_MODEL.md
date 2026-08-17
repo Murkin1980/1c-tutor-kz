@@ -1,5 +1,17 @@
 # Модель данных
 
+Серверная реализация выполняется через MiniBase и изолированную D1. Ниже приведена логическая модель, а не инструкция для создания Supabase-проекта.
+
+## Модели симулятора
+
+- `OfficialPortalVersion` — источник, дата наблюдения, версия, viewport и статус проверки;
+- `PortalScreen` / `PortalElement` — подтверждённая структура и учебные отличия;
+- `SimulationScenario` / `SimulationStep` / `SimulationAction` — учебный сценарий;
+- `ValidationRule` — версионированное правило;
+- `SimulationSubmission` / `TrainingDocumentStatus` — результат локальной имитации.
+
+Контент подключается через `SimulationRepository`; экраны не обращаются к backend напрямую.
+
 ## Таблицы
 
 ### profiles
@@ -109,6 +121,21 @@
   "explanation": "Итог должен совпадать с суммой двух позиций."
 }
 ```
+
+## Хранение в MiniBase
+
+Прикладные идентификаторы остаются строками, даты передаются в ISO 8601 UTC,
+а JSON-поля имеют версионированную Zod-схему.
+
+В project D1 используются две records-коллекции:
+
+- `tutor_progress`, запись `owner`: `schemaVersion`, `updatedAt`,
+  `lastLessonId`, `lessonProgress`, `courseProgress`, `settings`;
+- `tutor_notes`, записи `lesson_<lessonId>`: `schemaVersion`, `lessonId`,
+  `text`, `updatedAt`.
+
+Control plane MiniBase хранится в отдельной D1 и не смешивается с учебными
+records 1C Tutor.
 
 ## Версионирование
 

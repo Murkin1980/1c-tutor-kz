@@ -141,7 +141,7 @@ docs/official-ui/
 - реальная ЭСФ;
 - ЭЦП, NCALayer и авторизация государственных порталов;
 - обращения к API КГД или ИС ЭСФ;
-- Supabase;
+- новая прямая backend-интеграция вне существующих repository interfaces MiniBase;
 - AI-проверка.
 
 ## Definition of Done

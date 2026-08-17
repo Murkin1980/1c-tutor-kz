@@ -5,9 +5,9 @@
 ```text
 Browser
   ├─ Cloudflare Pages: React application
-  ├─ Supabase Auth
-  ├─ Supabase PostgreSQL + RLS
-  ├─ Supabase Storage: screenshots
+  ├─ MiniBase Auth через отдельный Cloudflare Worker
+  ├─ изолированная MiniBase D1
+  ├─ MiniBase R2: screenshots
   └─ External tab: 1C:Fresh Kazakhstan / local educational 1C
 ```
 
@@ -74,7 +74,7 @@ src/
 
 ## 6. AI-слой в будущей версии
 
-AI должен находиться за Cloudflare Worker или Supabase Edge Function. Клиент не получает API key.
+AI должен находиться за Cloudflare Worker. Клиент не получает API key.
 
 Возможные функции:
 
@@ -110,7 +110,7 @@ AI не должен:
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
-  Content-Security-Policy: default-src 'self'; img-src 'self' data: blob: https://*.supabase.co; connect-src 'self' https://*.supabase.co; script-src 'self'; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'self'; frame-ancestors 'none';
+  Content-Security-Policy: default-src 'self'; img-src 'self' data: blob:; connect-src 'self' https://minibase-cloudflare.muriktl.workers.dev; script-src 'self'; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'self'; frame-ancestors 'none';
 ```
 
 Не добавлять домен 1С в `frame-src`, пока не подтверждена возможность и необходимость iframe.
@@ -133,3 +133,23 @@ MVP:
 - `answer_submitted`;
 - `lesson_completed`;
 - `lesson_abandoned`.
+
+## 9. Переносимость backend
+
+Экраны не зависят от HTTP MiniBase. Прогресс и заметки подключены через
+repository-адаптеры; localStorage остаётся fallback при временной недоступности.
+Для single-owner пилота используются records `tutor_progress/owner` и
+`tutor_notes/lesson_<lessonId>`, конфликт решается по `updatedAt`.
+
+MiniBase реализует базовые прикладные контракты на Cloudflare Workers,
+отдельной D1 на проект и R2. Автоматическое создание баз выполняет только
+защищённый control plane; Cloudflare API token не выдаётся приложениям.
+Frontend-адаптер принимает исключительно publishable key. Доступ к приложению
+ограничивается Cloudflare Access; один закрытый пилот использует одну учебную
+запись. Публичный multi-user режим без пользовательской авторизации запрещён.
+Подробности: [`MINIBASE.md`](MINIBASE.md).
+## Симуляторы официальных порталов
+
+`src/features/simulators` содержит Zod-модели, repository contract и предохранители. Окончательная структура экрана не реализуется, пока для неё нет утверждённого паспорта в `docs/official-ui/`.
+
+Симулятор использует allowlist собственных ресурсов. Государственные домены, ЭЦП, NCALayer и реальные отправки не входят в клиентскую архитектуру; подпись и отправка являются только локальной учебной имитацией.

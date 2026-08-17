@@ -31,10 +31,10 @@
 
 - **Frontend:** React + TypeScript + Vite;
 - **UI:** Tailwind CSS + shadcn/ui или собственные простые компоненты;
-- **Backend:** Supabase;
-- **Авторизация:** Supabase Auth;
-- **База данных:** Supabase PostgreSQL;
-- **Файлы:** Supabase Storage;
+- **Backend:** отдельная платформа MiniBase на Cloudflare Workers;
+- **Авторизация:** MiniBase Auth (запланирована);
+- **База данных:** отдельная D1 на проект;
+- **Файлы:** Cloudflare R2 через MiniBase;
 - **Деплой frontend:** Cloudflare Pages;
 - **Опциональный API/AI-proxy:** Cloudflare Workers;
 - **Тесты:** Vitest + React Testing Library + Playwright;
@@ -89,6 +89,7 @@ MVP должен работать по схеме:
 ├─ COURSE_STRUCTURE.md
 ├─ DATA_MODEL.md
 ├─ ROADMAP.md
+├─ PROJECT_STATUS.md
 ├─ SECURITY_AND_LEGAL.md
 ├─ .env.example
 ├─ apps/
@@ -97,7 +98,7 @@ MVP должен работать по схеме:
 │  ├─ content/
 │  ├─ ui/
 │  └─ shared/
-├─ supabase/
+├─ scripts/
 │  ├─ migrations/
 │  └─ seed.sql
 ├─ docs/
@@ -167,4 +168,28 @@ npm run check:secrets
 npm run test:e2e
 ```
 
-Playwright использует установленный Google Chrome для desktop и mobile viewport. Реальная регистрация, межустройственная синхронизация, серверная роль администратора и загрузка снимков переносятся на этап Supabase.
+Playwright использует установленный Google Chrome для desktop и mobile viewport. Безопасный MiniBase client adapter уже добавлен; реальная регистрация, межустройственная синхронизация, серверная роль администратора и загрузка снимков включаются после появления пользовательских сессий и owner-level авторизации MiniBase.
+
+### Учебные симуляторы
+
+Stage 2A добавляет маршруты `/simulators`, `/simulators/fno`, `/simulators/esf` и `/simulators/:type/scenarios/:scenarioId`. Пока официальные паспорта не утверждены, это безопасные placeholder-shell: они не принимают ЭЦП, блокируют идентификаторы формата ИИН/БИН и не выполняют внешнюю отправку.
+
+Архитектура MiniBase, классы API-ключей и автоматическое создание D1 описаны в
+[`MINIBASE.md`](MINIBASE.md).
+Прогресс и заметки синхронизируются через отдельную project D1. При временной
+ошибке backend приложение продолжает читать уроки и сохраняет локальный fallback.
+
+Допустимые frontend-переменные: `VITE_MINIBASE_URL` и
+`VITE_MINIBASE_PUBLISHABLE_KEY`. Secret, management и Cloudflare keys запрещены
+в `VITE_*` и дополнительно проверяются в собранном bundle.
+
+Визуальный прогресс разработки доступен редактору на маршруте `/admin`; документированный статус и критерии перехода между этапами находятся в [`PROJECT_STATUS.md`](PROJECT_STATUS.md).
+
+### Cloudflare Pages preview
+
+- branch alias: <https://agent-project-progress.1c-tutor-kz.pages.dev>;
+- build: `npm run build`;
+- preview deployment: `npm run deploy:preview`;
+- конфигурация: `wrangler.jsonc`.
+
+Preview проверен прямым открытием SPA-маршрутов, защитными HTTP-заголовками и Playwright e2e. Production deployment и custom domain пока не создавались.

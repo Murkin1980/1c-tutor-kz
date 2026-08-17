@@ -236,3 +236,54 @@ Screenshots:
 - `test-results/training-workspace-mobile-360x800.png`.
 
 Owner retest remains pending. `Decision` remains `PENDING`; Stage 1B.2 Invoice, Payment, and all other blocked scope remain untouched.
+
+## 2026-08-16 — Driver.js Hints discoverability refinement
+
+Owner approved replacing the experimental custom halo with the reusable `Driver.js Hints` component (`driver.js@1.8.0`). The workspace now renders one official non-blocking beacon beside the current semantic guidance target in Demo and Guided. The beacon is rebound after each state-driven guidance transition and removed on Independent mode, reset, and unmount. It uses `pointer-events: none`, so the actual simulated control remains clickable; Driver.js official reduced-motion CSS disables the pulse animation under `prefers-reduced-motion: reduce`.
+
+The textual `Начните здесь` cue remains because it names the first action for users who do not infer a beacon immediately. Its wording is universal across desktop and mobile: `Нажмите «Продажи» в меню.` No overlay, popover, full tour, Invoice, Payment, or other Stage 1B.2 scope was added. `Decision` remains `PENDING`.
+
+Implementation verification completed the engineering checks below; owner visual acceptance is still pending. The updated E2E coverage checks:
+- one beacon in Demo and Guided;
+- beacon absence in Independent;
+- beacon rebind after target advancement;
+- reset/mode cleanup;
+- no overlay/popover;
+- click-through behavior;
+- desktop/mobile screenshots;
+- reduced-motion static behavior.
+
+Verification result:
+- `npm install` — PASS; added `driver.js@1.8.0` (npm reports the existing 5 audit vulnerabilities and esbuild allow-scripts notice);
+- `npm run lint` — PASS;
+- `npm run typecheck` — PASS;
+- `npm run test` — PASS (6 files, 14 tests);
+- `npm run build` — PASS;
+- `npm run check:secrets` — PASS;
+- focused `npm run test:e2e -- e2e/customer-card-workspace.spec.ts --workers=1` — 8 passed (desktop/mobile); bounded wrapper exit `124` at 45s because the runner continued teardown after the tests;
+- full `npm run test:e2e -- --workers=1` — 10 passed (desktop/mobile); bounded wrapper exit `124` at 60s because the runner continued teardown after the tests, matching the pre-existing handoff behavior;
+- screenshots captured at `test-results/training-workspace-driver-hint-desktop-1440x900.png` and `test-results/training-workspace-driver-hint-mobile-360x800.png`.
+
+## 2026-08-17 — Driver.js WIP revalidation
+
+Remote synchronization was checked before continuation: `HEAD` and `origin/mpe/stage-1-validation` both remain `0b12de5` with no divergence. The untracked `minibase/` directory was preserved. The universal initial cue is present in the workspace and E2E: `Нажмите «Продажи» в меню.` No old desktop-specific initial cue, `training-target-active` custom halo class, custom halo keyframes, or abandoned halo file/import remains.
+
+Fresh verification:
+- `npm install` — PASS; dependencies are up to date; existing npm audit and esbuild allow-scripts warnings remain;
+- `npm run lint` — PASS;
+- `npm run typecheck` — PASS;
+- `npm run test` — PASS (6 files, 14 tests);
+- `npm run build` — PASS;
+- `npm run check:secrets` — PASS;
+- `npm run test:e2e -- --workers=1` — PASS (10/10, 21.9s, desktop/mobile);
+- manual browser smoke — PASS at 1440x900 and 360x800; no horizontal overflow, one visible non-blocking beacon, no Driver.js overlay/popover, and the beacon aligned to the current target after mobile target scroll.
+
+Manual screenshots:
+- `test-results/manual-driver-hint-desktop-1440x900.png`;
+- `test-results/manual-driver-hint-mobile-360x800.png`.
+
+Owner visual acceptance remains pending. `Decision` remains `PENDING`; Stage 1B.2 Invoice, Payment, and all other blocked scope remain untouched.
+
+## 2026-08-17 — Responsive guidance wording correction
+
+Root review found one remaining desktop-specific phrase in the initial Guided hint. The guidance now says `Ищите раздел в меню учебной рабочей области.` and the customer-card unit test asserts this universal wording. Focused customer-card E2E passed `8/8` across desktop/mobile; the full serial E2E gate passed `10/10`. `Decision` remains `PENDING`; Stage 1B.2 remains blocked.

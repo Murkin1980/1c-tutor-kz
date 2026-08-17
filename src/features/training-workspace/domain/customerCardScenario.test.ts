@@ -48,6 +48,7 @@ describe("customer-card training scenario", () => {
   it("advances guidance from navigation to form fields by state", () => {
     let state = createCustomerCardSeed();
     expect(getCustomerCardGuidance(state)?.targetId).toBe("nav.sales");
+    expect(getCustomerCardGuidance(state)?.hint1).toBe("Ищите раздел в меню учебной рабочей области.");
     state = reduceCustomerCardState(state, { type: "OPEN_SALES" });
     expect(getCustomerCardGuidance(state)?.targetId).toBe("sales.counterparties");
     state = reduceCustomerCardState(state, { type: "OPEN_COUNTERPARTIES" });

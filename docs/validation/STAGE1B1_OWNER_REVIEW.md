@@ -14,7 +14,7 @@ Owner feedback (verbatim):
 
 Classification: `Stage 1B.1 initial discoverability UX issue`.
 
-Remediation status: `PASS WITH REMEDIATION` pending owner retest. The first required click is now called out directly on the initial workspace screen for Demo and Guided, while Independent remains free of coaching and spotlight.
+Remediation status: `PASS WITH REMEDIATION` pending final owner acceptance. Owner retest reported that the restored screen looked normal. The approved Driver.js Hints experiment is now integrated as a single non-blocking beacon in Demo/Guided; Independent remains free of coaching, beacon, overlay, and popover.
 
 ### Follow-up screen regression
 
@@ -154,6 +154,10 @@ One of:
 - `FAIL — remain in Stage 1B.1`
 
 Decision: `PENDING`
+
+Driver.js experiment status: integrated in Stage 1B.1, pending owner visual acceptance. Stage 1B.2 remains blocked.
+
+Engineering revalidation on 2026-08-17 passed lint, typecheck, unit tests, build, secrets scan, and serial E2E (`10/10` desktop/mobile). Manual browser smoke at `1440x900` and `360x800` confirmed the non-blocking beacon, no overlay/popover, no horizontal overflow, and the universal initial cue `Нажмите «Продажи» в меню.` Owner visual acceptance and authorization remain pending.
 
 ## Explicit authorization
 

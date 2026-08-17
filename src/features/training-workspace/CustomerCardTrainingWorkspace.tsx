@@ -1,5 +1,6 @@
 import { Check, CircleHelp, MousePointerClick, RotateCcw, Sparkles, X } from "lucide-react";
-import { useMemo, useReducer, useState, type ReactNode } from "react";
+import { hints, type Hints } from "driver.js/hints";
+import { useEffect, useMemo, useReducer, useRef, useState, type ReactNode } from "react";
 import { useProgress } from "../progress/progress";
 import {
   createCustomerCardSeed,
@@ -11,11 +12,12 @@ import {
 import { verifyCustomerCardState } from "./domain/customerCardVerification";
 import { getCustomerCardGuidance } from "./guidance/customerCardGuidance";
 import "./training-workspace.css";
+import "driver.js/dist/hints.css";
 
 const lessonId = "customer-card";
 
-function Target({ id, activeTarget, children, className = "" }: { id: string; activeTarget?: string; children: ReactNode; className?: string }) {
-  return <div data-training-target={id} className={`${className} ${activeTarget === id ? "training-target-active" : ""}`.trim()}>{children}</div>;
+function Target({ id, children, className = "" }: { id: string; children: ReactNode; className?: string }) {
+  return <div data-training-target={id} className={className}>{children}</div>;
 }
 
 export function CustomerCardTrainingWorkspace() {
@@ -31,8 +33,55 @@ export function CustomerCardTrainingWorkspace() {
 
   const guidance = useMemo(() => mode === "test" ? null : getCustomerCardGuidance(state), [mode, state]);
   const verification = useMemo(() => verifyCustomerCardState(state), [state]);
-  const activeTarget = mode === "guided" ? guidance?.targetId : undefined;
+  const activeTarget = mode === "test" ? undefined : guidance?.targetId;
+  const hintsRef = useRef<Hints | null>(null);
   const assisted = sessionHintCount > 0 || sessionShowActionCount > 0;
+
+  useEffect(() => {
+    const currentHints = hintsRef.current ?? hints({
+      overlay: false,
+      beacon: {
+        side: "right",
+        align: "center",
+        animate: true,
+        className: "training-driver-hint",
+      },
+    });
+    hintsRef.current = currentHints;
+
+    currentHints.hide();
+    if (!activeTarget || !guidance) {
+      currentHints.setHints([]);
+      return;
+    }
+
+    const target = document.querySelector(`[data-training-target="${activeTarget}"]`);
+    if (!target) {
+      currentHints.setHints([]);
+      return;
+    }
+
+    currentHints.setHints([{
+      id: guidance.id,
+      element: target,
+      beacon: {
+        side: "right",
+        align: "center",
+        animate: true,
+        className: "training-driver-hint",
+      },
+    }]);
+    currentHints.show();
+
+    return () => {
+      currentHints.hide();
+    };
+  }, [activeTarget, guidance]);
+
+  useEffect(() => () => {
+    hintsRef.current?.hide();
+    hintsRef.current = null;
+  }, []);
 
   const persistSessionMeta = (patch: Record<string, unknown> = {}) => {
     update(lessonId, {
@@ -152,7 +201,7 @@ export function CustomerCardTrainingWorkspace() {
         <div className="training-app-body">
           <nav className="training-nav" aria-label="Разделы учебной программы">
             <button className={state.screen === "home" ? "active" : ""} onClick={() => reset(false)}>Главное</button>
-            <Target id="nav.sales" activeTarget={activeTarget}>
+            <Target id="nav.sales">
               <button className={["sales", "counterparties", "counterparty-form"].includes(state.screen) ? "active" : ""} onClick={() => run({ type: "OPEN_SALES" })}>Продажи</button>
             </Target>
             <button disabled>Покупки</button>
@@ -160,12 +209,12 @@ export function CustomerCardTrainingWorkspace() {
           </nav>
 
           <main className="training-workarea">
-            {state.screen === "home" && <div className="training-start-screen"><span>Учебный сценарий</span><h2>Карточка покупателя</h2><p>Откройте раздел продаж и создайте вымышленного контрагента.</p>{mode !== "test" && <div className="training-start-cue" role="status"><MousePointerClick size={18}/><div><strong>Начните здесь</strong><span>Нажмите «Продажи» в левой панели.</span></div></div>}</div>}
+            {state.screen === "home" && <div className="training-start-screen"><span>Учебный сценарий</span><h2>Карточка покупателя</h2><p>Откройте раздел продаж и создайте вымышленного контрагента.</p>{mode !== "test" && <div className="training-start-cue" role="status"><MousePointerClick size={18}/><div><strong>Начните здесь</strong><span>Нажмите «Продажи» в меню.</span></div></div>}</div>}
 
             {state.screen === "sales" && <div>
               <div className="training-page-title"><div><small>Раздел</small><h2>Продажи</h2></div></div>
               <div className="training-command-cards">
-                <Target id="sales.counterparties" activeTarget={activeTarget}>
+                <Target id="sales.counterparties">
                   <button onClick={() => run({ type: "OPEN_COUNTERPARTIES" })}><strong>Контрагенты</strong><span>Покупатели, поставщики и другие деловые партнёры</span></button>
                 </Target>
                 <button disabled><strong>Счета покупателям</strong><span>Будет доступно после проверки первого сценария</span></button>
@@ -173,7 +222,7 @@ export function CustomerCardTrainingWorkspace() {
             </div>}
 
             {state.screen === "counterparties" && <div>
-              <div className="training-page-title"><div><small>Справочник</small><h2>Контрагенты</h2></div><Target id="counterparties.create" activeTarget={activeTarget}><button className="training-primary-command" onClick={() => run({ type: "CREATE_COUNTERPARTY" })}>Создать</button></Target></div>
+              <div className="training-page-title"><div><small>Справочник</small><h2>Контрагенты</h2></div><Target id="counterparties.create"><button className="training-primary-command" onClick={() => run({ type: "CREATE_COUNTERPARTY" })}>Создать</button></Target></div>
               <div className="training-list">
                 <div className="training-list-head"><span>Наименование</span><span>Город</span><span>Состояние</span></div>
                 {state.counterparties.length === 0 ? <div className="training-empty">Пока нет учебных контрагентов</div> : state.counterparties.map((item) => <div className="training-list-row" key={item.id}><strong>{item.name}</strong><span>{item.city}</span><span className="training-saved"><Check size={14}/> Сохранён</span></div>)}
@@ -183,16 +232,16 @@ export function CustomerCardTrainingWorkspace() {
             {state.screen === "counterparty-form" && <div>
               <div className="training-page-title"><div><small>Новая карточка</small><h2>Контрагент</h2></div></div>
               <div className="training-form">
-                <Target id="counterparty.name" activeTarget={activeTarget} className="training-field-wrap">
+                <Target id="counterparty.name" className="training-field-wrap">
                   <label htmlFor="counterparty-name">Наименование</label>
                   <input id="counterparty-name" value={state.draft.name} onChange={(event) => run({ type: "SET_NAME", value: event.target.value })} placeholder="Введите учебное название" />
                 </Target>
-                <Target id="counterparty.city" activeTarget={activeTarget} className="training-field-wrap">
+                <Target id="counterparty.city" className="training-field-wrap">
                   <label htmlFor="counterparty-city">Город</label>
                   <input id="counterparty-city" value={state.draft.city} onChange={(event) => run({ type: "SET_CITY", value: event.target.value })} placeholder="Введите учебный город" />
                 </Target>
                 <div className="training-form-note">Точные названия и расположение полей подлежат сверке с Interface Passport выбранной сборки 1С. Этот экран проверяет учебную логику, а не заявляет pixel-perfect копию.</div>
-                <Target id="counterparty.save" activeTarget={activeTarget}>
+                <Target id="counterparty.save">
                   <button className="training-save" disabled={!state.draft.name.trim() || !state.draft.city.trim()} onClick={() => run({ type: "SAVE_COUNTERPARTY" })}>Сохранить и закрыть</button>
                 </Target>
               </div>

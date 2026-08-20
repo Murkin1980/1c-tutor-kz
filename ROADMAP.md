@@ -12,6 +12,15 @@ Long-term professional North Star:
 
 Конечная проверка международного уровня: способен ли выпускник правильно выполнить реалистичную бухгалтерскую задачу международной компании с проверяемыми working papers / reconciliations / schedules / entries / statements.
 
+## Canonical Accounting KZ curriculum
+
+The complete planned Accounting KZ 3.0 learning sequence is maintained in:
+
+- `docs/curriculum/ACCOUNTING_KZ_CURRICULUM_ROADMAP.md` — 15 sections / 77 lessons, dependencies and evidence boundaries;
+- `docs/curriculum/LESSON_STATUS.md` — canonical per-lesson execution status and resume point.
+
+Every contributor must read the root `AGENTS.md` and the lesson ledger before work. The curriculum map is not blanket authorization to implement multiple lessons; current owner and vertical-slice gates remain in force.
+
 ## Постоянный слой — Unified Accounting Knowledge Atlas
 
 `knowledge/1c/` является source of truth для:

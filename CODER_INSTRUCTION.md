@@ -10,17 +10,20 @@
 
 Читать в этом порядке:
 1. `FOUNDATION.md`;
-2. `PRODUCT_REQUIREMENTS.md`;
-3. `ARCHITECTURE.md`;
-4. `DATA_MODEL.md`;
-5. `ROADMAP.md`;
-6. `STAGE_CHECKLIST.md`;
-7. `NEXT_STAGE_INSTRUCTION.md`;
-8. `knowledge/1c/README.md`;
-9. `knowledge/1c/RETRIEVAL_RULES.md`;
-10. relevant Atlas workflow/passport/evidence records;
-11. `docs/research/EMBEDDED_TRAINING_REFERENCES.md`;
-12. `SESSION_NOTES.md`.
+2. `CODER_HANDOFF_2026-08-15.md` (or its explicitly named successor);
+3. `docs/curriculum/ACCOUNTING_KZ_CURRICULUM_ROADMAP.md`;
+4. `docs/curriculum/LESSON_STATUS.md`;
+5. `NEXT_STAGE_INSTRUCTION.md`;
+6. `PRODUCT_REQUIREMENTS.md`;
+7. `ARCHITECTURE.md`;
+8. `DATA_MODEL.md`;
+9. `ROADMAP.md`;
+10. `STAGE_CHECKLIST.md`;
+11. `knowledge/1c/README.md`;
+12. `knowledge/1c/RETRIEVAL_RULES.md`;
+13. relevant Atlas workflow/passport/evidence records;
+14. `docs/research/EMBEDDED_TRAINING_REFERENCES.md`;
+15. `SESSION_NOTES.md`.
 
 При конфликте действует более высокий документ. Старые формулировки про обязательный 1C:Fresh, внешнюю вкладку или quiz-answer как доказательство практики считать устаревшими.
 
@@ -127,8 +130,8 @@ Guided режим использует anchored bubble + spotlight у реаль
 ## Рабочий ритуал
 
 1. Проверить branch/status и последние изменения.
-2. Прочитать обязательные документы.
-3. Выполнить Atlas retrieval и записать результат.
+2. Прочитать обязательные документы и найти урок в `docs/curriculum/LESSON_STATUS.md`.
+3. Зафиксировать ID урока, текущую фазу и starting commit; затем выполнить Atlas retrieval.
 4. При gaps выполнить bounded ingestion и обновить Atlas.
 5. Указать scope текущего vertical slice.
 6. Найти reusable компоненты перед созданием новых.
@@ -136,7 +139,7 @@ Guided режим использует anchored bubble + spotlight у реаль
 8. Добавить негативный тест: `правильный ответ без выполненного действия = FAIL`.
 9. Проверить desktop + mobile.
 10. Запустить все проверки.
-11. Обновить Atlas links, `SESSION_NOTES.md`, `VISUAL_PROGRESS.md`, roadmap/checklist при изменении факта.
+11. Обновить `LESSON_STATUS.md`, Atlas links, `SESSION_NOTES.md`, `VISUAL_PROGRESS.md`, roadmap/checklist при изменении факта.
 12. Остановиться на stop condition.
 
 ## Обязательные проверки
@@ -147,6 +150,7 @@ npm run typecheck
 npm run test
 npm run build
 npm run check:secrets
+npm run check:curriculum
 npm run test:e2e
 ```
 

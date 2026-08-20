@@ -4,6 +4,12 @@
 
 Start with `CODER_HANDOFF_2026-08-15.md`.
 
+Before selecting any lesson, also read:
+- `docs/curriculum/ACCOUNTING_KZ_CURRICULUM_ROADMAP.md`;
+- `docs/curriculum/LESSON_STATUS.md`.
+
+`LESSON_STATUS.md` is the canonical shared resume ledger for Murat, Codex and external coders. Update it in the same commit as every lesson checkpoint.
+
 That file is the short operational continuation guide for Codex. This document remains the detailed stage gate.
 
 ## MPE decision

@@ -1,5 +1,21 @@
 # SESSION NOTES
 
+## 2026-08-20 — Canonical Accounting KZ curriculum and lesson ledger
+
+MPE decision: `EXTEND_EXISTING`.
+
+Open official Accounting KZ 3.0 documentation and the existing Unified Atlas inventory were synthesized into a dependency-ordered curriculum of 15 sections and 77 lessons. Created:
+
+- `docs/curriculum/ACCOUNTING_KZ_CURRICULUM_ROADMAP.md` — complete lesson map, sources, waves and gates;
+- `docs/curriculum/LESSON_STATUS.md` — per-lesson status, phase and exact resume action;
+- root `AGENTS.md` — mandatory entry instructions for Murat, Codex and external coders.
+
+The current implemented lesson is mapped to `AKZ-M03-L01` and remains `OWNER_REVIEW`; the roadmap does not authorize Invoice or parallel lesson implementation. `CODER_INSTRUCTION.md`, `NEXT_STAGE_INSTRUCTION.md` and `ROADMAP.md` now point to the canonical ledger.
+
+Added `npm run check:curriculum` to prove that the roadmap and ledger contain the same 77 unique lesson IDs without omissions or duplicate status rows.
+
+Codex Router review caused five hardening changes before commit: the roadmap now distinguishes the 17-chapter official TOC from the 15-section authored curriculum; M03 seeded bank/nomenclature prerequisites are explicit; the active lesson has a self-contained resume record; all contributor entry documents use one reading order; and the curriculum checker validates module headings/counts plus the current owner gate.
+
 ## 2026-08-20 — Turquoise Driver.js beacon refinement
 
 Owner disliked the gold glow around the active guidance target and requested a turquoise variant. The Driver.js beacon accent changed from gold `#c69300` to turquoise `#0f9f9a`; the outer glow now uses the matching translucent turquoise. Guidance behavior, target positioning, yellow action controls, and Independent mode remain unchanged.

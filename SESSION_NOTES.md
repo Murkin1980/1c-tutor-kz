@@ -1,5 +1,44 @@
 # SESSION NOTES
 
+## 2026-08-20 — Legacy prototype review remediation
+
+### Decision
+
+`EXTEND_EXISTING`
+
+The external review was checked against the current Stage 1B foundation before implementation. Two recommendations were outdated for the active product model: moving answer verification and roles to Supabase would violate the current owner gate, which explicitly defers Supabase/server infrastructure until the embedded Training Workspace proves value. The active `customer-card` practical scenario already verifies deterministic workspace state and cannot pass from a quiz answer.
+
+### Confirmed remediation
+
+- removed the unused `@tanstack/react-query` provider and dependency;
+- added `AuthRepository` / `LocalAuthRepository`, runtime validation of stored demo sessions, and auth repository tests;
+- removed decorative email/password inputs and explicitly labelled the local editor login as a non-server-protected demo;
+- centralized lesson unlock/current selection rules in `courseSelectors.ts` with unit coverage;
+- replaced the `LessonPage` module non-null assertion with a safe redirect;
+- expanded verification edge-case coverage for invalid numbers, empty collections and sequence ordering;
+- expanded route coverage with the allowed local demo-editor path;
+- labelled legacy answer checking as self-check rather than proof of Training Workspace execution;
+- added Prettier and a focused `format:check`, then formatted the dense JSX named by the review.
+
+### Intentionally deferred
+
+- Legacy static quiz answers remain inspectable in the browser. They are no longer architecture authority or practical skill evidence; securing them requires a server verifier and a future MPE decision.
+- The `/admin` role remains client-side because the current page is a read-only demo. Any future CRUD/admin API must add server authorization/RLS before release.
+
+### Verification
+
+- `npm run format:check` — PASS;
+- `npm run lint` — PASS;
+- `npm run typecheck` — PASS;
+- `npm run test` — PASS (32 tests including 3 tests discovered in the preserved untracked `minibase/` directory);
+- `npm run build` — PASS;
+- `npm run check:secrets` — PASS;
+- `npm run test:e2e -- --workers=1` — all 10 desktop/mobile tests completed without a test failure; the Windows runner again remained alive after the final test and was stopped during teardown.
+
+The untracked `minibase/` directory was not modified or included in this remediation.
+
+Codex Router independent read-only review found no blockers. Its five follow-up findings were resolved before commit: empty numeric input is now rejected even when zero is expected; non-contiguous/unknown lesson selector cases are covered; localStorage write/remove failures are tolerated in the local demo; an empty-course dashboard shows an explicit fallback; and the legacy self-confirm success wording no longer claims an answer matched.
+
 ## 2026-08-15 — Coder handoff checkpoint
 
 ### Checkpoint

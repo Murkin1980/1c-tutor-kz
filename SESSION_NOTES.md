@@ -1,5 +1,18 @@
 # SESSION NOTES
 
+## 2026-08-20 — Turquoise Driver.js beacon refinement
+
+Owner disliked the gold glow around the active guidance target and requested a turquoise variant. The Driver.js beacon accent changed from gold `#c69300` to turquoise `#0f9f9a`; the outer glow now uses the matching translucent turquoise. Guidance behavior, target positioning, yellow action controls, and Independent mode remain unchanged.
+
+Verification:
+- `npm run lint` — PASS;
+- `npm run typecheck` — PASS;
+- `npm run build` — PASS;
+- focused `npm run test:e2e -- e2e/customer-card-workspace.spec.ts --workers=1` — PASS, 8/8 desktop/mobile;
+- visual screenshot inspection — PASS; turquoise beacon is distinct from the yellow instruction border and gray navigation background.
+
+The E2E smoke now asserts the `--driver-hint-color` value to prevent accidental color regression. Owner acceptance of the new color remains pending.
+
 ## 2026-08-20 — Legacy prototype review remediation
 
 ### Decision

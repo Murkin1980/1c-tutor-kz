@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "typecheck": "tsc -b --pretty false",
-    "format:check": "prettier --check src/app src/entities/courseSelectors.ts src/entities/courseSelectors.test.ts src/features/auth src/features/verification/verify.ts src/features/verification/verify.test.ts src/routes/CoursePage.tsx src/routes/DashboardPage.tsx src/routes/LessonPage.tsx src/routes/LessonPage.test.tsx src/routes/LoginPage.tsx e2e/lesson-flow.spec.ts",
+    "format:check": "prettier --check src/app src/entities/courseSelectors.ts src/entities/courseSelectors.test.ts src/features/auth src/features/verification/verify.ts src/features/verification/verify.test.ts src/routes/CoursePage.tsx src/routes/DashboardPage.tsx src/routes/LessonPage.tsx src/routes/LessonPage.test.tsx src/routes/LoginPage.tsx e2e/lesson-flow.spec.ts e2e/customer-card-workspace.spec.ts",
     "test": "vitest run",
     "test:e2e": "playwright test",
     "check:secrets": "node scripts/check-client-secrets.mjs"

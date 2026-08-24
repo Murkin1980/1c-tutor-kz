@@ -41,11 +41,16 @@ describe("course selectors", () => {
   });
 
   it("selects the first unfinished unlocked lesson when completion is non-contiguous", () => {
+    const lessons = [
+      { ...allLessons[0], id: "fixture-1", practiceMode: "theory" as const },
+      { ...allLessons[0], id: "fixture-2", practiceMode: "theory" as const },
+      { ...allLessons[0], id: "fixture-3", practiceMode: "theory" as const },
+    ];
     const progress = {
-      [allLessons[0].id]: completed(allLessons[0].id),
-      [allLessons[2].id]: completed(allLessons[2].id),
+      [lessons[0].id]: completed(lessons[0].id),
+      [lessons[2].id]: completed(lessons[2].id),
     };
-    expect(getCurrentLesson(allLessons, progress)?.id).toBe(allLessons[1].id);
+    expect(getCurrentLesson(lessons, progress)?.id).toBe(lessons[1].id);
   });
 
   it("does not unlock a lesson outside the course", () => {

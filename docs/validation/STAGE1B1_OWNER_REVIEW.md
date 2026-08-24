@@ -4,6 +4,22 @@ Status: `PENDING_OWNER_REVIEW`
 Date: 2026-08-15
 Route: `/learn/customer-card`
 
+## Curriculum-depth feedback — 2026-08-24
+
+Owner feedback (verbatim):
+
+> Продажу — это какие-то детские вопросы. Постарайся ёмкие уроки делать. Распредели их, вот те семьдесят семь уроков распределить по нормальным, там, часового-двухчасового урока примерно в реале.
+
+Classification: `IMPORTANT — lesson granularity and practical depth`.
+
+Remediation:
+
+- removed the answer-only invoice arithmetic exercise and the legacy 5–8 minute launch/navigation quizzes from the active learner route;
+- retained the already completed welcome lesson;
+- reframed the implemented customer-card scenario as a 75-minute practice block with Demo, Guided, intentional failure/diagnosis, Independent Test and delayed repetition;
+- grouped all 77 atomic curriculum units into one orientation plus 28 substantial 60–120 minute sessions in `docs/curriculum/ACCOUNTING_KZ_SESSION_PLAN.md`;
+- kept Invoice implementation blocked: curriculum redesign is not owner acceptance of the current workspace modes and is not authorization to bypass the vertical-slice gate.
+
 ## Owner feedback / remediation
 
 Date: 2026-08-16

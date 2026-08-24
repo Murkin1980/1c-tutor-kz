@@ -355,3 +355,13 @@ Owner visual acceptance remains pending. `Decision` remains `PENDING`; Stage 1B.
 ## 2026-08-17 — Responsive guidance wording correction
 
 Root review found one remaining desktop-specific phrase in the initial Guided hint. The guidance now says `Ищите раздел в меню учебной рабочей области.` and the customer-card unit test asserts this universal wording. Focused customer-card E2E passed `8/8` across desktop/mobile; the full serial E2E gate passed `10/10`. `Decision` remains `PENDING`; Stage 1B.2 remains blocked.
+# 2026-08-24 — curriculum changed from micro-quizzes to substantial sessions
+
+- Owner identified the legacy sales exercise as childish and requested 60–120 minute real-world lessons instead of 77 micro-lessons.
+- MPE disposition remains `EXTEND_EXISTING`.
+- Added `docs/curriculum/ACCOUNTING_KZ_SESSION_PLAN.md`: every one of the 77 canonical skill IDs maps exactly once into one short orientation plus 28 substantial sessions.
+- Removed legacy launch/navigation quizzes and the answer-only `245000` invoice exercise from `src/content/course.json`.
+- Preserved the completed `welcome` content unchanged.
+- Reframed `customer-card` as a 75-minute block: Demo, Guided, diagnostic correction, Independent Test and repeated independent attempt.
+- No new practical vertical slice was implemented. Invoice remains blocked pending explicit owner acceptance of the customer-card Training Workspace.
+- Validation: `check:curriculum` PASS (77/77 mapped once across 29 table rows: orientation 00 + sessions 01–28); lint PASS; typecheck PASS; unit tests PASS (`32/32`); build PASS; secrets PASS; serial Playwright desktop/mobile PASS (`10/10`).

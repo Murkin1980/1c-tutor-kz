@@ -7,6 +7,8 @@ MPE disposition: `EXTEND_EXISTING`
 Scope: `1С:Бухгалтерия для Казахстана`, редакция 3.0
 Planned curriculum: **15 sections / 77 lessons**
 
+Learner-facing delivery: **one short orientation plus 28 substantial sessions, normally 60–120 minutes**. The 77 entries below are atomic skill-coverage units, not 77 short learner screens. Their one-to-one grouping is canonical in `ACCOUNTING_KZ_SESSION_PLAN.md`.
+
 ## Purpose
 
 This roadmap converts the open official Accounting KZ 3.0 documentation structure into an author-designed practical learning sequence. The official table of contents currently contains **17 chapters**; the **15 curriculum sections** below are not official chapter names or a one-to-one copy. Related chapters are regrouped around learnable business outcomes, while specialized subjects are listed as electives. The roadmap does not authorize bulk implementation. Each practical lesson is a separate, gated Training Workspace vertical slice.
@@ -50,7 +52,7 @@ Open documentation proves the functional map and many workflow dependencies. It 
 | E — advanced accounting | M10–M13 | production, close, VAT/tax and reporting | methodologist + owner gates |
 | F — operations | M14 | service, access and safe maintenance | no production admin automation |
 
-## Sections and lessons
+## Sections and atomic skill units
 
 ### M00 — Safe start and interface — 4 lessons
 

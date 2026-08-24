@@ -1,6 +1,6 @@
 # Accounting KZ curriculum — canonical lesson status ledger
 
-Updated: 2026-08-20
+Updated: 2026-08-24
 
 Branch: `mpe/stage-1-validation`
 
@@ -39,6 +39,7 @@ Phases:
 - Last verified commit: `1181723`.
 - Meaning of commit: last verified implementation checkpoint for this lesson; curriculum-document commits may be newer.
 - Remaining: owner completes/accepts all three learning modes and explicitly authorizes `AKZ-M03-L02`.
+- Curriculum presentation checkpoint: the legacy launch/navigation quizzes and answer-only invoice exercise were removed from the learner route; `AKZ-M03-L01` is now framed as a 75-minute Demo → Guided → diagnostic correction → Independent practice block. This does not authorize Invoice implementation.
 - Do not start Invoice, Payment or another lesson before this gate changes.
 
 ## Lesson register
@@ -164,4 +165,5 @@ Last updated:
 
 ## Change log
 
+- 2026-08-24 — 77 atomic skill units grouped one-to-one into one orientation plus 28 substantial learner sessions; legacy micro-quizzes removed from the active learner route. Current owner gate remains unchanged.
 - 2026-08-20 — canonical 15-section / 77-lesson register created from open official Accounting KZ 3.0 documentation and existing Atlas inventory.

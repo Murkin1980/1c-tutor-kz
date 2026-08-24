@@ -400,3 +400,5 @@ Root review found one remaining desktop-specific phrase in the initial Guided hi
 - Updated the dashboard E2E flow to open the current substantial practice on desktop and mobile.
 - Added accessible availability explanations to disabled future-section controls and a polite live region for verification results.
 - Validation: curriculum, lint, typecheck, 25/25 unit tests, client build, Pages Functions build, secrets scan and serial Playwright desktop/mobile (`10/10`) PASS.
+- Preview deployed from commit `f6cecef` to `https://mpe-stage-1-validation.1c-tutor-kz.pages.dev`; root smoke returned HTTP 200 and unauthenticated `/api/progress` correctly returned HTTP 401.
+- MiniBase sync intentionally remains disabled in the preview until a scoped server secret and Cloudflare Access application are configured.

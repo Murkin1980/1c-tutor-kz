@@ -20,6 +20,10 @@ Remediation:
 - grouped all 77 atomic curriculum units into one orientation plus 28 substantial 60–120 minute sessions in `docs/curriculum/ACCOUNTING_KZ_SESSION_PLAN.md`;
 - kept Invoice implementation blocked: curriculum redesign is not owner acceptance of the current workspace modes and is not authorization to bypass the vertical-slice gate.
 
+Owner curriculum decision: `PASS — substantial-session plan accepted`.
+
+This accepts `ACCOUNTING_KZ_SESSION_PLAN.md` only. The interaction-mode checklist and authorization of Invoice remain pending.
+
 ## Owner feedback / remediation
 
 Date: 2026-08-16

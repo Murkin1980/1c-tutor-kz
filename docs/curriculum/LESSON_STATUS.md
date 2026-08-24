@@ -40,6 +40,7 @@ Phases:
 - Meaning of commit: last verified implementation checkpoint for this lesson; curriculum-document commits may be newer.
 - Remaining: owner completes/accepts all three learning modes and explicitly authorizes `AKZ-M03-L02`.
 - Curriculum presentation checkpoint: the legacy launch/navigation quizzes and answer-only invoice exercise were removed from the learner route; `AKZ-M03-L01` is now framed as a 75-minute Demo → Guided → diagnostic correction → Independent practice block. This does not authorize Invoice implementation.
+- Owner accepted the one-orientation + 28-substantial-session curriculum plan on 2026-08-24. This acceptance does not close the `AKZ-M03-L01` workspace owner gate.
 - Do not start Invoice, Payment or another lesson before this gate changes.
 
 ## Lesson register
@@ -165,5 +166,6 @@ Last updated:
 
 ## Change log
 
+- 2026-08-24 — owner accepted the substantial-session curriculum plan; MiniBase recorded as the required future server-persistence platform; practical workspace gate remains `OWNER_REVIEW`.
 - 2026-08-24 — 77 atomic skill units grouped one-to-one into one orientation plus 28 substantial learner sessions; legacy micro-quizzes removed from the active learner route. Current owner gate remains unchanged.
 - 2026-08-20 — canonical 15-section / 77-lesson register created from open official Accounting KZ 3.0 documentation and existing Atlas inventory.

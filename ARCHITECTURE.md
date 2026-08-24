@@ -299,7 +299,9 @@ Frontend remains Cloudflare Pages compatible:
 - SPA fallback;
 - no mandatory backend for Stage 1B vertical slice.
 
-Server persistence, multi-user analytics and admin authoring are later stages behind an MPE gate.
+Owner decision 2026-08-24: when server persistence is introduced, the required database platform is the existing **MiniBase on Cloudflare Workers + D1**, not Supabase and not a second custom backend. The browser may receive only MiniBase URL and `mb_publishable_*`; management/secret keys and Cloudflare tokens remain server-only.
+
+Current deployment evidence and the safe rollout sequence are recorded in `docs/deployment/CLOUDFLARE_MINIBASE_DEPLOYMENT_ASSESSMENT.md`. Server persistence, multi-user analytics and admin authoring remain separate gated stages; selecting MiniBase does not authorize premature implementation.
 
 ## 16. Sequencing rule
 

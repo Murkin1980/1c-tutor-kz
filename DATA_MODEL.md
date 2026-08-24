@@ -174,4 +174,6 @@ Stage 1B:
 
 ## 10. Будущая серверная схема
 
-Когда MPE разрешит server persistence, сервер хранит scenario progress и analytics, но не превращается в бухгалтерскую базу. Seed training state может синхронизироваться как учебное состояние пользователя, однако реальные бухгалтерские документы запрещены.
+Когда MPE разрешит server persistence, обязательный adapter использует существующий MiniBase data-plane на Cloudflare Workers + D1. Сервер хранит scenario progress и analytics, но не превращается в бухгалтерскую базу. Seed training state может синхронизироваться как учебное состояние пользователя, однако реальные бухгалтерские документы запрещены.
+
+В браузере допустимы только MiniBase API URL и `mb_publishable_*`. `mb_secret_*`, `mb_management_*` и Cloudflare API tokens являются server-only. До интеграции требуется сверить локальный MiniBase source с уже существующей удалённой схемой `mb-1c-tutor-kz`.

@@ -1,5 +1,17 @@
 # SESSION NOTES
 
+## 2026-08-24 — curriculum accepted; Cloudflare/MiniBase deployment audit
+
+- Owner accepted the one-orientation + 28-substantial-session curriculum plan.
+- Owner directed that future server persistence use MiniBase.
+- Cloudflare account, Pages project, preview deployments and remote D1 resources were inspected read-only.
+- `1c-tutor-kz.pages.dev` currently returns HTTP 404; only old preview deployments exist.
+- Remote `minibase-control` registers `1c-tutor-kz` as active and links D1 `mb-1c-tutor-kz`; the project has three API-key records and configured localhost/Pages origins.
+- Remote project D1 contains MiniBase data-plane tables, but the untracked local `minibase/` contains only an older/different control-plane skeleton; Worker `minibase-control-plane` does not exist under that name.
+- Local MiniBase check PASS: lint, typecheck, unit `3/3`.
+- Added `docs/deployment/CLOUDFLARE_MINIBASE_DEPLOYMENT_ASSESSMENT.md`; recorded MiniBase as the required future persistence adapter in architecture/data model and replaced Supabase placeholders in `.env.example`.
+- No Cloudflare resource, D1 row, secret, deployment or untracked MiniBase file was changed.
+
 ## 2026-08-20 — Canonical Accounting KZ curriculum and lesson ledger
 
 MPE decision: `EXTEND_EXISTING`.

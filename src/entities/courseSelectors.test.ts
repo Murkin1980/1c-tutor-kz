@@ -30,21 +30,25 @@ describe("course selectors", () => {
     expect(getCurrentLesson(allLessons, progress)?.id).toBe(allLessons[0].id);
   });
 
-  it("unlocks a legacy lesson after its predecessor is complete", () => {
+  it("unlocks a sequenced lesson after its predecessor is complete", () => {
+    const lessons = [
+      { ...allLessons[0], id: "fixture-1", practiceMode: undefined },
+      { ...allLessons[0], id: "fixture-2", practiceMode: undefined },
+    ];
     expect(
       isLessonUnlocked(
-        allLessons,
-        { [allLessons[0].id]: completed(allLessons[0].id) },
-        allLessons[1],
+        lessons,
+        { [lessons[0].id]: completed(lessons[0].id) },
+        lessons[1],
       ),
     ).toBe(true);
   });
 
   it("selects the first unfinished unlocked lesson when completion is non-contiguous", () => {
     const lessons = [
-      { ...allLessons[0], id: "fixture-1", practiceMode: "theory" as const },
-      { ...allLessons[0], id: "fixture-2", practiceMode: "theory" as const },
-      { ...allLessons[0], id: "fixture-3", practiceMode: "theory" as const },
+      { ...allLessons[0], id: "fixture-1", practiceMode: undefined },
+      { ...allLessons[0], id: "fixture-2", practiceMode: undefined },
+      { ...allLessons[0], id: "fixture-3", practiceMode: undefined },
     ];
     const progress = {
       [lessons[0].id]: completed(lessons[0].id),

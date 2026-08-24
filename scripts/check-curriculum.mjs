@@ -9,6 +9,9 @@ const sessionPlan = readFileSync(
   "docs/curriculum/ACCOUNTING_KZ_SESSION_PLAN.md",
   "utf8",
 );
+const publishedCourse = JSON.parse(
+  readFileSync("src/content/course.json", "utf8"),
+);
 const lessonPattern = /AKZ-M\d{2}-L\d{2}/g;
 
 const roadmapIds = [...new Set(roadmap.match(lessonPattern) ?? [])].sort();
@@ -37,6 +40,9 @@ const moduleHeadings = [
 const missing = roadmapIds.filter((id) => !uniqueLedgerIds.includes(id));
 const extra = uniqueLedgerIds.filter((id) => !roadmapIds.includes(id));
 const problems = [];
+const publishedLessons = publishedCourse.modules.flatMap(
+  (module) => module.lessons,
+);
 
 if (roadmapIds.length !== 77)
   problems.push(
@@ -74,9 +80,7 @@ const extraInSessions = uniqueSessionIds.filter(
   (id) => !roadmapIds.includes(id),
 );
 if (missingFromSessions.length)
-  problems.push(
-    `missing from session plan: ${missingFromSessions.join(", ")}`,
-  );
+  problems.push(`missing from session plan: ${missingFromSessions.join(", ")}`);
 if (extraInSessions.length)
   problems.push(`unknown in session plan: ${extraInSessions.join(", ")}`);
 if (!ledger.includes("Current lesson: `AKZ-M03-L01`"))
@@ -87,6 +91,20 @@ if (!/^\| AKZ-M03-L01 \| Customer card \| OWNER_REVIEW \|/m.test(ledger))
   problems.push("current lesson row does not match the owner-review gate");
 if (!ledger.includes("## Active resume record — AKZ-M03-L01"))
   problems.push("active lesson resume record is missing");
+for (const lesson of publishedLessons) {
+  if (lesson.estimatedMinutes < 60)
+    problems.push(`published lesson ${lesson.id} is shorter than 60 minutes`);
+  if (lesson.verification)
+    problems.push(
+      `published lesson ${lesson.id} still contains answer-only verification`,
+    );
+  if (lesson.practiceMode !== "embedded")
+    problems.push(`published lesson ${lesson.id} is not an embedded practice`);
+  if (lesson.externalAppUrl)
+    problems.push(
+      `published lesson ${lesson.id} still requires an external application`,
+    );
+}
 
 if (problems.length) {
   console.error(`Curriculum check failed:\n- ${problems.join("\n- ")}`);

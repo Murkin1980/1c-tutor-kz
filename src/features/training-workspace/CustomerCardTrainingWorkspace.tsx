@@ -204,8 +204,8 @@ export function CustomerCardTrainingWorkspace() {
             <Target id="nav.sales">
               <button className={["sales", "counterparties", "counterparty-form"].includes(state.screen) ? "active" : ""} onClick={() => run({ type: "OPEN_SALES" })}>Продажи</button>
             </Target>
-            <button disabled>Покупки</button>
-            <button disabled>Банк и касса</button>
+            <button disabled title="Раздел появится в следующих принятых занятиях">Покупки</button>
+            <button disabled title="Раздел появится в следующих принятых занятиях">Банк и касса</button>
           </nav>
 
           <main className="training-workarea">
@@ -217,7 +217,7 @@ export function CustomerCardTrainingWorkspace() {
                 <Target id="sales.counterparties">
                   <button onClick={() => run({ type: "OPEN_COUNTERPARTIES" })}><strong>Контрагенты</strong><span>Покупатели, поставщики и другие деловые партнёры</span></button>
                 </Target>
-                <button disabled><strong>Счета покупателям</strong><span>Будет доступно после проверки первого сценария</span></button>
+                <button disabled aria-describedby="invoice-availability"><strong>Счета покупателям</strong><span id="invoice-availability">Будет доступно после проверки первого сценария</span></button>
               </div>
             </div>}
 
@@ -277,7 +277,7 @@ export function CustomerCardTrainingWorkspace() {
 
         <button className="training-verify" onClick={verify}>Проверить работу</button>
 
-        {verificationVisible && <div className={`training-results ${verification.passed ? "success" : "error"}`}>
+        {verificationVisible && <div role="status" aria-live="polite" className={`training-results ${verification.passed ? "success" : "error"}`}>
           <h3>{verification.passed ? (mode === "demo" ? "Демонстрация завершена" : "Работа выполнена") : "Нужно исправить"}</h3>
           {verification.assertions.map((item) => <div className="training-result-row" key={item.id}>
             <span>{item.passed ? <Check size={17}/> : <X size={17}/>}</span>

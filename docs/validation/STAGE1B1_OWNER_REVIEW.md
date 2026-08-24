@@ -15,7 +15,7 @@ Classification: `IMPORTANT — lesson granularity and practical depth`.
 Remediation:
 
 - removed the answer-only invoice arithmetic exercise and the legacy 5–8 minute launch/navigation quizzes from the active learner route;
-- retained the already completed welcome lesson;
+- removed the completed legacy welcome checkbox from the published learner route because it still depended on an external 1C:Fresh tab and lasted only five minutes;
 - reframed the implemented customer-card scenario as a 75-minute practice block with Demo, Guided, intentional failure/diagnosis, Independent Test and delayed repetition;
 - grouped all 77 atomic curriculum units into one orientation plus 28 substantial 60–120 minute sessions in `docs/curriculum/ACCOUNTING_KZ_SESSION_PLAN.md`;
 - kept Invoice implementation blocked: curriculum redesign is not owner acceptance of the current workspace modes and is not authorization to bypass the vertical-slice gate.

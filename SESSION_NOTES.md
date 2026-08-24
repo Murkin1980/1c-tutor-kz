@@ -389,3 +389,14 @@ Root review found one remaining desktop-specific phrase in the initial Guided hi
 - Reframed `customer-card` as a 75-minute block: Demo, Guided, diagnostic correction, Independent Test and repeated independent attempt.
 - No new practical vertical slice was implemented. Invoice remains blocked pending explicit owner acceptance of the customer-card Training Workspace.
 - Validation: `check:curriculum` PASS (77/77 mapped once across 29 table rows: orientation 00 + sessions 01–28); lint PASS; typecheck PASS; unit tests PASS (`32/32`); build PASS; secrets PASS; serial Playwright desktop/mobile PASS (`10/10`).
+
+# 2026-08-25 — published learner route aligned with substantial sessions
+
+- Codex Router audits confirmed that the canonical 77-unit curriculum is correctly grouped into 28 substantial sessions, but the published UI still exposed the five-minute external `welcome` checkbox and generic answer-only verifier.
+- Removed the legacy `welcome` module, external 1C:Fresh URL, generic lesson route and answer-only verification implementation from the published application.
+- Kept `customer-card` as the only published 75-minute embedded practice. The Stage 1B.1 owner gate remains `PENDING`; Invoice and Payment were not started.
+- Rewrote landing-page promises around 60–120 minute embedded practice and the implemented customer-card scenario.
+- Extended `check:curriculum` to reject any published lesson shorter than 60 minutes, answer-only verification, non-embedded practice or an external application URL.
+- Updated the dashboard E2E flow to open the current substantial practice on desktop and mobile.
+- Added accessible availability explanations to disabled future-section controls and a polite live region for verification results.
+- Validation: curriculum, lint, typecheck, 25/25 unit tests, client build, Pages Functions build, secrets scan and serial Playwright desktop/mobile (`10/10`) PASS.

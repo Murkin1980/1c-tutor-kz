@@ -6,7 +6,6 @@ import { CoursePage } from "../routes/CoursePage";
 import { CustomerCardLessonPage } from "../routes/CustomerCardLessonPage";
 import { DashboardPage } from "../routes/DashboardPage";
 import { LandingPage } from "../routes/LandingPage";
-import { LessonPage } from "../routes/LessonPage";
 import { LoginPage } from "../routes/LoginPage";
 import { NotFoundPage } from "../routes/NotFoundPage";
 import { ProfilePage } from "../routes/ProfilePage";
@@ -29,7 +28,6 @@ export function App() {
                   path="learn/customer-card"
                   element={<CustomerCardLessonPage />}
                 />
-                <Route path="learn/:lessonId" element={<LessonPage />} />
                 <Route path="profile" element={<ProfilePage />} />
                 <Route element={<AdminRoute />}>
                   <Route path="admin" element={<AdminPage />} />

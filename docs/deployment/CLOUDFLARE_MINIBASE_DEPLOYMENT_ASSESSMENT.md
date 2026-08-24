@@ -71,7 +71,7 @@ Browser никогда не получает `mb_secret_*`, `mb_management_*` и
    npx.cmd wrangler pages deploy dist --project-name 1c-tutor-kz --branch mpe/stage-1-validation
    ```
 
-7. Провести owner smoke на preview: Access login, welcome, customer-card Demo/Guided/Test, перезагрузка страницы, восстановление прогресса, desktop/mobile.
+7. Провести owner smoke на preview: Access login, dashboard, customer-card Demo/Guided/Test, перезагрузка страницы, восстановление прогресса, desktop/mobile.
 8. Только после preview PASS развернуть production из принятой ветки по правилам репозитория.
 
 ## Актуальная конфигурация Pages

@@ -36,20 +36,25 @@ class MemoryRepository {
 describe("MiniBase progress sync", () => {
   it("keeps the newest lesson version while merging local and remote state", () => {
     const local = {
-      welcome: progress("welcome", "2026-08-25T10:00:00.000Z"),
+      "customer-card": progress("customer-card", "2026-08-25T10:00:00.000Z"),
     };
     const remote = {
-      welcome: progress("welcome", "2026-08-24T10:00:00.000Z"),
-      "customer-card": progress("customer-card", "2026-08-25T09:00:00.000Z"),
+      "customer-card": progress("customer-card", "2026-08-24T10:00:00.000Z"),
+      "customer-contract": progress(
+        "customer-contract",
+        "2026-08-25T09:00:00.000Z",
+      ),
     };
     expect(mergeProgressMaps(local, remote)).toEqual({
-      welcome: local.welcome,
-      "customer-card": remote["customer-card"],
+      "customer-card": local["customer-card"],
+      "customer-contract": remote["customer-contract"],
     });
   });
 
   it("loads and saves a validated progress envelope through the same-origin API", async () => {
-    const stored = { welcome: progress("welcome", "2026-08-25T10:00:00.000Z") };
+    const stored = {
+      "customer-card": progress("customer-card", "2026-08-25T10:00:00.000Z"),
+    };
     const requestFetch = vi
       .fn<typeof fetch>()
       .mockResolvedValueOnce(
@@ -80,7 +85,7 @@ describe("MiniBase progress sync", () => {
 
   it("hydrates local progress and serializes later writes to MiniBase", async () => {
     const local = new MemoryRepository({
-      welcome: progress("welcome", "2026-08-25T10:00:00.000Z"),
+      "customer-card": progress("customer-card", "2026-08-25T10:00:00.000Z"),
     });
     const requestFetch = vi
       .fn<typeof fetch>()
@@ -98,25 +103,23 @@ describe("MiniBase progress sync", () => {
     );
 
     await expect(repository.hydrate()).resolves.toEqual(local.data);
-    repository.save(progress("customer-card", "2026-08-25T11:00:00.000Z"));
+    repository.save(progress("customer-contract", "2026-08-25T11:00:00.000Z"));
     await repository.flush();
 
-    expect(local.data["customer-card"]).toBeDefined();
+    expect(local.data["customer-contract"]).toBeDefined();
     expect(requestFetch).toHaveBeenCalledTimes(3);
   });
 
   it("rejects malformed server progress instead of poisoning local state", async () => {
     const transport = new MiniBaseProgressTransport(
       "/api/progress",
-      vi
-        .fn<typeof fetch>()
-        .mockResolvedValue(
-          Response.json({
-            schemaVersion: 1,
-            updatedAt: null,
-            lessonProgress: [],
-          }),
-        ),
+      vi.fn<typeof fetch>().mockResolvedValue(
+        Response.json({
+          schemaVersion: 1,
+          updatedAt: null,
+          lessonProgress: [],
+        }),
+      ),
     );
     await expect(transport.load()).rejects.toBeDefined();
   });

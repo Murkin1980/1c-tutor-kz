@@ -1,6 +1,8 @@
 import { expect, test } from "@playwright/test";
 
-test("learner completes the first lesson", async ({ page }) => {
+test("learner opens the first substantial practice from the dashboard", async ({
+  page,
+}) => {
   await page.goto("/login");
   await page.getByRole("button", { name: /Войти как ученик/ }).click();
   await expect(
@@ -8,15 +10,15 @@ test("learner completes the first lesson", async ({ page }) => {
   ).toBeVisible();
   await page.getByRole("link", { name: /Продолжить/ }).click();
   await expect(
-    page.getByRole("heading", { name: "Как устроен тренажёр" }),
+    page.getByRole("heading", {
+      name: "Карточка учебного покупателя",
+    }),
   ).toBeVisible();
-  await page.getByLabel("Да, действие выполнено").check();
-  await page.getByRole("button", { name: "Проверить и завершить" }).click();
+  await expect(page).toHaveURL(/\/learn\/customer-card$/);
+  await expect(page.getByText("УЧЕБНАЯ СРЕДА — НЕ 1С")).toBeVisible();
+  await expect(page.getByRole("button", { name: "Показать" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Вести меня" })).toBeVisible();
   await expect(
-    page.getByText("Проверка отмечена — самопроверка завершена"),
-  ).toBeVisible();
-  await page.reload();
-  await expect(
-    page.getByText("Проверка отмечена — самопроверка завершена"),
+    page.getByRole("button", { name: "Проверить себя" }),
   ).toBeVisible();
 });

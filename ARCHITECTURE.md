@@ -66,7 +66,6 @@ src/
 ├─ features/
 │  ├─ auth/
 │  ├─ progress/
-│  ├─ verification/
 │  ├─ training-workspace/
 │  │  ├─ domain/
 │  │  ├─ repository/

@@ -1,14 +1,12 @@
 # Cloudflare + MiniBase deployment assessment
 
-Проверено: 2026-08-24
+Проверено: 2026-08-25
 
 MPE disposition: `EXTEND_EXISTING`
 
 ## Вердикт
 
-Frontend готов к preview-деплою на существующий Cloudflare Pages project, но production URL сейчас не работает. Полный продукт с серверным прогрессом пока не готов к безопасному production deployment: удалённые MiniBase/D1 ресурсы существуют, однако текущий локальный `minibase/` не содержит совпадающего data-plane API и не является источником истины для уже созданной схемы.
-
-Не выполнять повторное provisioning и не применять локальную control-plane migration к удалённой базе до сверки актуального MiniBase source.
+Frontend и Pages Function готовы к preview-сборке, но production URL сейчас не работает. Канонический MiniBase найден в `C:\Projects\minibase-cloudflare`; production Worker `0.23.0` отвечает успешно, а project D1 уже создан. Live progress sync остаётся заблокирован только конфигурацией доступа: в Pages нет секретов/Access variables, raw active project secret отсутствует в текущем окружении, а legacy publishable key имеет запрещённый для браузера write-scope.
 
 ## Проверено фактически
 
@@ -23,23 +21,26 @@ Frontend готов к preview-деплою на существующий Cloudf
 | Project D1 | VERIFIED | `mb-1c-tutor-kz`, UUID `75fe1e15-8cbe-4788-98eb-a78f7daeb38e` |
 | MiniBase registration | VERIFIED | Project `1c-tutor-kz` имеет статус `active`, три API-key records и разрешённые localhost/Pages origins |
 | Project D1 schema | VERIFIED | Есть `_cf_KV`, `mb_files`, `mb_migration_imports`, `mb_records`, `mb_schema_versions` |
-| Local MiniBase quality gate | VERIFIED | lint, typecheck и 3/3 unit tests PASS |
-| Named local Worker | NOT FOUND | Worker `minibase-control-plane` отсутствует в Cloudflare account |
-| Frontend → MiniBase integration | NOT IMPLEMENTED | frontend использует browser-local progress; MiniBase URL/publishable key и repository adapter отсутствуют |
-| Source alignment | IMPORTANT | удалённая D1 схема богаче локальной единственной migration; локальный README ошибочно говорит, что production deployment не создан |
+| Canonical MiniBase source | VERIFIED | `C:\Projects\minibase-cloudflare`, `main` at `28165db` |
+| MiniBase production | VERIFIED | `https://minibase-cloudflare.muriktl.workers.dev/health` → 200, version `0.23.0` |
+| MiniBase quality gate | VERIFIED | 61/61 unit tests, D1 integration, release gate, Worker integration and dry-run build PASS |
+| Frontend → MiniBase integration | ENGINEERING PASS | hybrid repository + `/api/progress` Pages Function + Access JWT verification implemented and tested |
+| Live configuration | BLOCKED | Pages secrets list empty; Access issuer/audience/owner and active raw project secret not configured |
+| Legacy publishable key | IMPORTANT | remote key still has `data:read,data:write`; current MiniBase policy requires publishable keys to be read-only |
 
 ## Целевая схема
 
 ```text
 Cloudflare Pages: 1c-tutor-kz
   React/Vite static assets
-  VITE_MINIBASE_URL
-  VITE_MINIBASE_PUBLISHABLE_KEY
+  VITE_MINIBASE_SYNC=enabled
+  /api/progress Pages Function
+  verify Access JWT + owner email
+  server-only MINIBASE_SECRET_KEY
           |
           v
 MiniBase data-plane Worker
-  CORS: production + preview origins
-  publishable-key authorization
+  secret-key authorization from Pages Function
           |
           v
 D1: mb-1c-tutor-kz
@@ -59,20 +60,19 @@ Browser никогда не получает `mb_secret_*`, `mb_management_*` и
 
 ## Безопасная последовательность развёртывания
 
-1. Найти канонический репозиторий/commit MiniBase, который создал текущие remote tables и API-key/origin records.
-2. Сверить remote migrations, Worker names/routes, health endpoint и data-plane contracts с локальным `minibase/`. Не применять migration из локального каркаса к production до этой сверки.
-3. Зафиксировать MiniBase как отдельную существующую платформу-компонент; в `1c-tutor-kz` хранить только typed client/repository adapter и проектную schema/migration policy.
-4. Проверить data-plane Worker через `/health`, publishable-key auth, CORS для preview/production и CRUD только на вымышленных данных.
-5. Добавить серверный progress repository за существующим интерфейсом с local fallback. Не переносить в D1 секреты и реальные реквизиты.
-6. Выполнить frontend gate: curriculum, lint, typecheck, unit, build, secrets, serial E2E.
-7. Выполнить frontend preview deploy текущей ветки:
+1. Через штатный MiniBase management flow выпустить новый scoped `mb_secret_*` либо безопасно восстановить существующий raw secret из доверенного хранилища. Не менять hashes напрямую в D1.
+2. Отозвать/заменить legacy publishable key с `data:write`; браузерная запись напрямую запрещена.
+3. Создать Cloudflare Access application для preview/production, ограниченную владельцем.
+4. В Pages добавить encrypted secrets/variables: `MINIBASE_SECRET_KEY`, `MINIBASE_URL`, `MINIBASE_OWNER_EMAIL`, `CLOUDFLARE_ACCESS_ISSUER`, `CLOUDFLARE_ACCESS_AUD`; build variable `VITE_MINIBASE_SYNC=enabled`.
+5. Выполнить frontend gate: curriculum, lint, typecheck, unit, build, functions build, secrets, serial E2E.
+6. Выполнить frontend preview deploy текущей ветки:
 
    ```powershell
    npx.cmd wrangler pages deploy dist --project-name 1c-tutor-kz --branch mpe/stage-1-validation
    ```
 
-8. Провести owner smoke на preview: вход, welcome, customer-card Demo/Guided/Test, перезагрузка страницы, восстановление прогресса, desktop/mobile.
-9. Только после preview PASS развернуть production из принятой ветки по правилам репозитория.
+7. Провести owner smoke на preview: Access login, welcome, customer-card Demo/Guided/Test, перезагрузка страницы, восстановление прогресса, desktop/mobile.
+8. Только после preview PASS развернуть production из принятой ветки по правилам репозитория.
 
 ## Актуальная конфигурация Pages
 
@@ -80,8 +80,8 @@ Cloudflare указывает для Vite build command `npm run build` и outpu
 
 ## Следующий ограниченный этап
 
-`MiniBase source reconciliation + read/write progress spike`.
+`MiniBase credentials + Access + preview smoke`.
 
-Финишная черта: на preview один вымышленный learner progress создаётся через актуальный MiniBase data-plane, читается после перезагрузки, browser не видит секретных ключей, local fallback остаётся работоспособным, автоматические проверки и owner smoke проходят.
+Финишная черта: на preview один вымышленный learner progress создаётся через Pages Function, читается после перезагрузки, browser не видит секретных ключей, Access JWT проверяется, local fallback остаётся работоспособным, автоматические проверки и owner smoke проходят.
 
 Не входит в этап: массовая миграция пользователей, admin CRUD, аналитическая платформа, новые уроки и production publication.

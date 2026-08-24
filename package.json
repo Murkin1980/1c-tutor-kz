@@ -6,8 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:functions": "wrangler pages functions build functions --project-directory . --outdir node_modules/.tmp/pages-functions --compatibility-date 2026-08-25 --compatibility-flag nodejs_compat",
     "lint": "eslint .",
-    "typecheck": "tsc -b --pretty false",
+    "typecheck": "tsc -b --pretty false && tsc -p tsconfig.functions.json --pretty false",
     "format:check": "prettier --check src/app src/entities/courseSelectors.ts src/entities/courseSelectors.test.ts src/features/auth src/features/verification/verify.ts src/features/verification/verify.test.ts src/routes/CoursePage.tsx src/routes/DashboardPage.tsx src/routes/LessonPage.tsx src/routes/LessonPage.test.tsx src/routes/LoginPage.tsx e2e/lesson-flow.spec.ts e2e/customer-card-workspace.spec.ts",
     "test": "vitest run",
     "test:e2e": "playwright test",
@@ -17,6 +18,7 @@
   "dependencies": {
     "@tailwindcss/vite": "^4.1.11",
     "driver.js": "^1.8.0",
+    "jose": "^6.2.10",
     "lucide-react": "^0.525.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
@@ -25,6 +27,7 @@
     "zod": "^4.0.5"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260823.1",
     "@eslint/js": "^9.31.0",
     "@playwright/test": "^1.54.1",
     "@testing-library/jest-dom": "^6.6.3",
@@ -43,6 +46,7 @@
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.38.0",
     "vite": "^7.0.5",
-    "vitest": "^3.2.4"
+    "vitest": "^3.2.4",
+    "wrangler": "^4.125.0"
   }
 }

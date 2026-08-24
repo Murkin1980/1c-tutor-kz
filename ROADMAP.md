@@ -235,18 +235,25 @@ Candidate capabilities:
 
 This stage is the prerequisite bridge before deep IFRS learning.
 
-## Stage 5 — Server persistence / durable learner record
+## Stage 5 — MiniBase persistence / durable learner record — INTEGRATION
 
-Only after proven repeat use:
+Owner authorized the bounded progress integration on 2026-08-25 without authorizing Invoice or other curriculum expansion.
+
+- [x] MiniBase selected; Supabase rejected for this project;
+- [x] hybrid local/MiniBase progress repository implemented;
+- [x] same-origin Pages Function keeps `mb_secret_*` server-only;
+- [x] Access JWT signature/issuer/audience verification implemented;
+- [x] per-lesson conflict resolution by `updatedAt`;
+- [ ] issue/restore a scoped active `mb_secret_*` in trusted storage;
+- [ ] configure Pages secrets and Cloudflare Access;
+- [ ] revoke or narrow the legacy publishable key that still has `data:write`;
+- [ ] preview cross-refresh/cross-device smoke;
 - Auth;
-- server progress;
 - cross-device continuation;
 - roles;
 - private analytics;
 - reset/export/delete;
 - durable capability evidence where justified.
-
-Supabase remains a candidate, not a commitment.
 
 ## Stage 6 — Transfer to real 1C
 

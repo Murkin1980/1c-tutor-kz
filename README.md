@@ -77,10 +77,19 @@ React + TypeScript + Vite
 ├─ Verification Engine v2
 │  └─ domain-state assertions
 └─ ProgressRepository
-   └─ localStorage now, server adapter later
+   ├─ localStorage fallback
+   └─ MiniBase sync through authenticated same-origin Pages Function
 ```
 
 Frontend deployment target remains Cloudflare Pages.
+
+## MiniBase progress sync
+
+Owner-authorized infrastructure exception (2026-08-25): learner progress may be persisted through the existing `C:\Projects\minibase-cloudflare` platform while the practical lesson gate remains unchanged.
+
+The browser never receives a MiniBase secret. With `VITE_MINIBASE_SYNC=enabled`, it calls `/api/progress`; the Cloudflare Pages Function validates the signed Access JWT, restricts access to `MINIBASE_OWNER_EMAIL`, and calls MiniBase with server-only `MINIBASE_SECRET_KEY`. Local progress remains usable when the backend is unavailable.
+
+Required Pages variables/secrets and rollout steps are documented in `docs/deployment/CLOUDFLARE_MINIBASE_DEPLOYMENT_ASSESSMENT.md`.
 
 ## Current repository state
 
@@ -101,6 +110,7 @@ npm run lint
 npm run typecheck
 npm run test
 npm run build
+npm run build:functions
 npm run check:secrets
 npm run test:e2e
 ```

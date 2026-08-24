@@ -1,5 +1,17 @@
 # SESSION NOTES
 
+## 2026-08-25 — MiniBase progress integration engineering checkpoint
+
+- Owner explicitly authorized MiniBase connection; MPE disposition remains `EXTEND_EXISTING` and Invoice remains blocked.
+- Canonical platform is `C:\Projects\minibase-cloudflare`, production Worker health 200/version `0.23.0`; full MiniBase gate PASS (61/61 unit, D1 integration, release readiness, Worker integration, dry-run build).
+- Added hybrid progress repository: synchronous local fallback, remote hydration, per-lesson `updatedAt` conflict resolution and serialized remote saves.
+- Added same-origin Pages Function `/api/progress`; `mb_secret_*` remains server-only.
+- Function verifies signed Cloudflare Access JWT against issuer/audience and restricts `MINIBASE_OWNER_EMAIL`; trusting an email header alone was rejected after checking current Cloudflare guidance.
+- Added official Workers types, `jose`, pinned Wrangler, function typecheck/build and 9 new integration/security tests.
+- Canonical stale nested `minibase/` copy is ignored and excluded from Tutor tests; it was not deleted or modified.
+- MiniBase project is active at data schema v3. Production has one legacy publishable key with `data:write`; do not expose/use it for writes. Pages currently has no configured secrets.
+- Engineering checks at this checkpoint: typecheck PASS, lint PASS, unit 38/38 PASS, Pages Function native build PASS, frontend build PASS, secrets PASS, curriculum 77/77 PASS, npm runtime audit 0 after dependency updates, serial Playwright desktop/mobile 10/10 PASS.
+
 ## 2026-08-24 — curriculum accepted; Cloudflare/MiniBase deployment audit
 
 - Owner accepted the one-orientation + 28-substantial-session curriculum plan.

@@ -28,7 +28,7 @@ Browser / Cloudflare Pages
    │  └─ assisted/unassisted result
    └─ Repository abstractions
       ├─ local training state
-      └─ local progress (server adapter later)
+      └─ hybrid progress: local fallback + same-origin MiniBase proxy
 ```
 
 No external 1C service is required for the Stage 1B core loop.
@@ -300,6 +300,8 @@ Frontend remains Cloudflare Pages compatible:
 - no mandatory backend for Stage 1B vertical slice.
 
 Owner decision 2026-08-24: when server persistence is introduced, the required database platform is the existing **MiniBase on Cloudflare Workers + D1**, not Supabase and not a second custom backend. The browser may receive only MiniBase URL and `mb_publishable_*`; management/secret keys and Cloudflare tokens remain server-only.
+
+Implementation checkpoint 2026-08-25: progress writes use `/api/progress` in Cloudflare Pages Functions. The Function verifies the signed `Cf-Access-Jwt-Assertion` against the configured Access issuer/audience, restricts the owner email, then calls MiniBase with a server-only `mb_secret_*`. Direct browser writes with a publishable key are forbidden. The local repository remains the offline/failure fallback and conflicts resolve per lesson by `updatedAt`.
 
 Current deployment evidence and the safe rollout sequence are recorded in `docs/deployment/CLOUDFLARE_MINIBASE_DEPLOYMENT_ASSESSMENT.md`. Server persistence, multi-user analytics and admin authoring remain separate gated stages; selecting MiniBase does not authorize premature implementation.
 

@@ -2,6 +2,7 @@ node_modules
 dist
 playwright-report
 test-results
+/minibase/
 .env
 .env.local
 *.log

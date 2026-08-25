@@ -1,186 +1,168 @@
-# NEXT STAGE INSTRUCTION — Stage 2A
+# NEXT STAGE INSTRUCTION — Stage 1B.1 Engineering Verification + Owner Review
 
-## Название итерации
+## Canonical handoff
 
-Исследовательский каркас официальных интерфейсов и безопасный UI-shell симуляторов ФНО/ИС ЭСФ.
+Start with `CODER_HANDOFF_2026-08-15.md`.
 
-## Обязательное чтение
+Before selecting any lesson, also read:
+- `docs/curriculum/ACCOUNTING_KZ_CURRICULUM_ROADMAP.md`;
+- `docs/curriculum/LESSON_STATUS.md`.
 
-Перед работой прочитать полностью:
+`LESSON_STATUS.md` is the canonical shared resume ledger for Murat, Codex and external coders. Update it in the same commit as every lesson checkpoint.
 
-1. `FOUNDATION.md`
-2. `README.md`
-3. `PRODUCT_REQUIREMENTS.md`
-4. `ARCHITECTURE.md`
-5. `DATA_MODEL.md`
-6. `ROADMAP.md`
-7. `STAGE_CHECKLIST.md`
-8. `VISUAL_PROGRESS.md`
-9. `PORTAL_REPLICA_SPEC.md`
-10. `SECURITY_AND_LEGAL.md`
-11. `SESSION_NOTES.md`
+That file is the short operational continuation guide for Codex. This document remains the detailed stage gate.
 
-В начале отчёта перечислить применимые разделы и конфликты. При конфликте действует `FOUNDATION.md`.
+## MPE decision
 
-## Цель итерации
+`EXTEND_EXISTING`
 
-Создать основу для высокоточных учебных симуляторов официальных порталов, не реализуя реальную отчётность, ЭЦП или отправку.
+The first embedded Counterparty vertical slice now exists in code. Do **not** start Invoice implementation yet.
 
-## Объём работ
+## Current state
 
-### 1. Публикация текущего прототипа
+Implemented:
+- route `/learn/customer-card`;
+- deterministic customer-card domain state;
+- create/edit/save/reset;
+- Demo / Guided / Independent Test;
+- semantic targets + spotlight;
+- condition-driven guidance;
+- `Почему?`, hint ladder and show-action;
+- state-based Verification Engine v2;
+- per-assertion expected/actual/hint feedback;
+- assisted/unassisted completion metadata;
+- unit-test specifications;
+- Playwright guided + independent specs;
+- customer-card content marked `practiceMode: embedded`;
+- no required 1C:Fresh dependency in this lesson.
 
-- подготовить Cloudflare Pages preview;
-- production branch `main`;
-- build command `npm run build`;
-- output `dist`;
-- проверить SPA fallback и security headers;
-- документировать URL и переменные окружения без секретов.
+Still open:
+- actual lint/typecheck/unit/build/secrets/e2e execution;
+- desktop/mobile manual smoke;
+- observation-grade Interface Passport for a legally accessible Accounting KZ 3.0 build;
+- anchored floating coach by actual target bounds (current implementation uses side panel + spotlight);
+- owner UX/fidelity review.
 
-Если подключение к Cloudflare недоступно, полностью подготовить конфигурацию и инструкцию ручного деплоя; не блокировать остальную итерацию.
+## Mandatory reading
 
-### 2. Каталог официальных интерфейсов
+Before changing code, read:
+1. `CODER_HANDOFF_2026-08-15.md`
+2. `FOUNDATION.md`
+3. `ARCHITECTURE.md`
+4. `DATA_MODEL.md`
+5. `ROADMAP.md`
+6. `STAGE_CHECKLIST.md`
+7. `CODER_INSTRUCTION.md`
+8. `knowledge/1c/COVERAGE.md`
+9. `knowledge/1c/workflows/ACCOUNTING_KZ_3_0_STAGE1B_CORE.md`
+10. `knowledge/1c/interfaces/ACCOUNTING_KZ_3_0_STAGE1B_PASSPORTS.md`
+11. `knowledge/1c/evidence/ACCOUNTING_KZ_3_0_STAGE1B_EVIDENCE.md`
+12. `SESSION_NOTES.md`
 
-Создать:
+## Phase A — Run engineering checks
 
-```text
-docs/official-ui/
-├─ README.md
-├─ SOURCE_REGISTER.md
-├─ PORTAL_VERSION_TEMPLATE.md
-├─ SCREEN_INVENTORY_TEMPLATE.md
-├─ VALIDATION_RULE_TEMPLATE.md
-└─ CHANGELOG_TEMPLATE.md
+From a checkout of branch `mpe/stage-1-validation` run:
+
+```bash
+npm install
+npm run lint
+npm run typecheck
+npm run test
+npm run build
+npm run check:secrets
+npm run test:e2e
 ```
 
-Шаблоны должны требовать дату наблюдения, официальный источник, версию, viewport, список элементов, поведение, ошибки, методическую проверку и отличия учебной версии.
+Do not weaken tests to get green.
 
-### 3. Доменные модели
+If checks fail:
+- fix only Stage 1B.1/regression issues;
+- rerun all affected checks;
+- record exact command/result in `SESSION_NOTES.md`.
 
-Добавить типы и Zod-схемы:
+## Phase B — Desktop/mobile smoke
 
-- `OfficialPortalVersion`;
-- `PortalScreen`;
-- `PortalElement`;
-- `SimulationScenario`;
-- `SimulationStep`;
-- `SimulationAction`;
-- `ValidationRule`;
-- `SimulationSubmission`;
-- `TrainingDocumentStatus`.
+Verify `/learn/customer-card` on desktop and ~360px mobile viewport.
 
-Контент пока хранить локально, но через repository interface.
+Required:
+- training marker always visible;
+- task data readable;
+- section navigation usable;
+- create form usable;
+- save control usable;
+- result checklist readable;
+- no horizontal trap;
+- task panel does not prevent workspace use.
 
-### 4. Маршруты
+## Phase C — Learning-mode smoke
 
-Добавить:
+### Demo
+- use `Показать действие` through completion;
+- verify Demo does not mark lesson completed.
 
-- `/simulators` — каталог;
-- `/simulators/fno` — shell налоговой отчётности;
-- `/simulators/esf` — shell ИС ЭСФ;
-- `/simulators/:type/scenarios/:scenarioId` — учебный сценарий.
+### Guided
+- perform actions personally;
+- verify target spotlight advances by state;
+- open `Почему?`, hint1, hint2;
+- use show-action once and verify completion becomes assisted.
 
-### 5. UI-shell
+### Independent Test
+- confirm guidance is hidden;
+- complete scenario manually;
+- verify completion can be `completed_unassisted`.
 
-Создать desktop-first оболочки, которые допускают высокоточное дальнейшее воспроизведение:
+## Phase D — Owner review package
 
-- верхняя служебная область;
-- боковая или верхняя навигация согласно паспорту версии;
-- рабочая область;
-- таблица/журнал;
-- панель действий;
-- состояния loading/empty/error;
-- адаптация до 360 px без изменения desktop-логики.
+Present exactly one slice to owner.
 
-Пока не утверждены официальные паспорта, не придумывать окончательные тексты и координаты. Использовать явно обозначенные placeholder-компоненты.
+Ask owner to evaluate:
+1. Does the workspace feel close enough to 1C interaction logic to teach useful habits?
+2. Is the task panel clear?
+3. Is the target spotlight sufficient, or is an anchored floating coach required before broader work?
+4. Is `Что будет проверено` understandable before starting?
+5. Are per-check PASS/FAIL results understandable?
+6. Is mobile interaction acceptable?
 
-### 6. Предохранители
+Record feedback in:
+`docs/validation/STAGE1B1_OWNER_REVIEW.md`.
 
-Обязательно реализовать:
+Do not mark PASS without explicit owner decision.
 
-- постоянную полосу `УЧЕБНЫЙ СИМУЛЯТОР — ДАННЫЕ НЕ ОТПРАВЛЯЮТСЯ`;
-- водяной знак;
-- компонент `TrainingModeGuard`;
-- блокировку ввода реальных ИИН/БИН по configurable rule;
-- запрет полей реального пароля/ЭЦП;
-- network allowlist только для собственных ресурсов приложения;
-- учебную имитацию кнопок «Подписать» и «Отправить»;
-- подтверждение перед переходом на официальный портал;
-- журнал учебных событий без бухгалтерских данных.
+## Phase E — Fidelity evidence
 
-### 7. Тесты
+If a legally accessible Accounting KZ 3.0 build is available, observe only the narrow Counterparty workflow and upgrade the draft Interface Passport:
+- actual navigation path;
+- visible command names;
+- relevant field labels;
+- save/close behavior;
+- differences from Tutor.
 
-Минимум:
+Do not copy protected assets or bulk screenshots.
 
-- simulator routes доступны авторизованному mock-пользователю;
-- маркировка видна на всех simulator routes;
-- реальный ИИН/БИН отклоняется;
-- поле ЭЦП отсутствует;
-- «Отправить» не создаёт внешний network request;
-- переход на официальный портал требует подтверждения и открывает новую вкладку;
-- mobile viewport не скрывает учебную маркировку;
-- схемы контента отклоняют неизвестные версии и некорректные правила.
+If no accessible build exists, keep `EXACT_UI_OBSERVATION_PENDING`; this does not justify inventing details.
 
-### 8. Документация
+## Definition of Stage 1B.1 PASS
 
-Обновить:
+All are required:
+- engineering checks PASS;
+- desktop/mobile smoke PASS;
+- domain-state verification proven;
+- owner reviews all three modes;
+- owner accepts interaction direction;
+- blocking UX issues fixed;
+- remaining fidelity limitations explicitly documented;
+- owner explicitly authorizes Stage 1B.2 Invoice.
 
-- `README.md`;
-- `ARCHITECTURE.md`;
-- `DATA_MODEL.md`;
-- `ROADMAP.md`;
-- `STAGE_CHECKLIST.md`;
-- `VISUAL_PROGRESS.md`;
-- `SESSION_NOTES.md`.
+## STOP CONDITION
 
-## Вне этой итерации
-
-- точное воспроизведение конкретного экрана без утверждённого паспорта;
-- настоящая налоговая форма;
-- полноценный XML официального формата;
-- реальная ЭСФ;
-- ЭЦП, NCALayer и авторизация государственных порталов;
-- обращения к API КГД или ИС ЭСФ;
+Until the owner explicitly authorizes Stage 1B.2, do **not** implement:
+- customer invoice;
+- payment;
+- new Accounting KZ vertical slices;
+- FNO/ESF;
 - Supabase;
-- AI-проверка.
+- AI verification;
+- browser automation/computer vision;
+- International Track runtime/lessons.
 
-## Definition of Done
-
-- приложение собирается;
-- lint/typecheck/unit/build/secrets/e2e проходят;
-- маршруты и shell работают desktop/mobile;
-- внешняя отправка технически невозможна;
-- учебная маркировка постоянна;
-- создан исследовательский каталог;
-- документация и визуальный прогресс обновлены;
-- в `SESSION_NOTES.md` перечислены изменённые файлы, проверки, ограничения и следующий этап.
-
-## Формат итогового отчёта
-
-```markdown
-## Применённые документы
-- ...
-
-## Выполнено
-- ...
-
-## Изменённые файлы
-- ...
-
-## Проверки
-- npm run lint — PASS/FAIL
-- npm run typecheck — PASS/FAIL
-- npm run test — PASS/FAIL
-- npm run build — PASS/FAIL
-- npm run check:secrets — PASS/FAIL
-- npm run test:e2e — PASS/FAIL
-
-## Предохранители
-- ...
-
-## Известные ограничения
-- ...
-
-## Следующая итерация
-- ...
-```
+Atlas/research maintenance may continue only if it does not displace this gate.

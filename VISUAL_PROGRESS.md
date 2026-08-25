@@ -1,76 +1,124 @@
 # VISUAL PROGRESS — 1C Tutor KZ
 
-Обновлено: 2026-07-31.
+Обновлено: 2026-08-15.
+
+Прогресс отражает новую архитектуру после MPE pivot и не засчитывает документирование как готовый пользовательский workflow.
 
 ## Общая готовность
 
 ```text
-Фундамент и архитектура          █████████░  85%
-Frontend-прототип                █████████░  90%
-Исследование официальных UI      ░░░░░░░░░░   0%
-Supabase и синхронизация         ░░░░░░░░░░   0%
-Базовый курс 1С                  ██░░░░░░░░  15%
-Симулятор ФНО                    ░░░░░░░░░░   0%
-Симулятор ИС ЭСФ                 ░░░░░░░░░░   0%
-Комплексная сверка               ░░░░░░░░░░   0%
-Реальный контролируемый контур   ░░░░░░░░░░   0%
-Авторинг и сопровождение         ░░░░░░░░░░   0%
+MPE pivot / product foundation       ██████████ 100%
+Unified Accounting Knowledge Atlas   ██████░░░░  60%
+Training Workspace engine            ███████░░░  70%
+Guidance Engine                       ██████░░░░  60%
+Verification Engine v2                ███████░░░  75%
+Counterparty vertical slice           ███████░░░  70%
+Invoice vertical slice                █░░░░░░░░░  10%  (Atlas only; code blocked)
+Payment/advance vertical slice        █░░░░░░░░░  10%  (Atlas only; code blocked)
+Learning engine hardening             ██░░░░░░░░  20%
+Stage K1 full Atlas coverage          █████░░░░░  50%
+Broad Accounting KZ curriculum        ██░░░░░░░░  20%  (knowledge map, not lessons)
+Cross-configuration tracks            ██░░░░░░░░  20%  (Atlas inventory only)
+Professional Accountant layer         █░░░░░░░░░  10%  (architecture only)
+International Track architecture      ██████████ 100%  (design only)
+International capability research     █████░░░░░  50%
+Server persistence                    ░░░░░░░░░░   0%
+Real-1C transfer assessment           ░░░░░░░░░░   0%
+FNO / ESF                              ░░░░░░░░░░   0%
 ```
 
-**Ориентировочная готовность всего продукта: 19%.**
+## Что уже есть и переиспользуется
 
-## Текущий статус
+🟢 React + TypeScript + Vite frontend shell.
 
-🟢 Работает локальный frontend-прототип.
+🟢 Routing, local repositories, progress infrastructure, responsive/security setup и tests первого прототипа.
 
-🟢 Реализованы маршруты, mock-вход, 5 уроков, прогресс, подсказки и проверки.
+🟢 `knowledge/1c/` содержит source registry, taxonomy, graph schema, retrieval/ingestion rules, evidence, workflow records, draft Interface Passports, retrieval proof queries и cross-configuration inventories.
 
-🟢 Проект разделён на безопасные учебные контуры.
+🟢 Unified Atlas расширен для Accounting KZ + будущего International Accounting / IFRS без второго knowledge base.
 
-🟡 Cloudflare preview ещё не опубликован.
+🟢 Для Stage 1B.1 реализован embedded route `/learn/customer-card`.
 
-🟡 Уроки требуют сверки с конкретной версией 1С.
+🟢 Реализован deterministic counterparty domain state, save/reset, action log.
 
-🔴 Симуляторы ФНО и ИС ЭСФ ещё не созданы.
+🟢 Реализованы Demo / Guided / Independent Test.
 
-🔴 Нет серверной регистрации и синхронизации.
+🟢 Реализованы semantic targets, spotlight, condition-driven guidance, `Почему?`, hints и show-action.
 
-## Ближайший рубеж
+🟢 Реализован Verification Engine v2: existence/name/city/saved assertions с expected/actual/hint.
 
-### Milestone M2A — исследовательский каркас и shell ФНО
+🟢 Практический PASS больше не зависит от отдельного typed answer.
+
+🟢 Прогресс различает assisted/unassisted completion и считает hints/show-action/resets/attempts.
+
+🟢 Добавлены unit specifications и Playwright scenarios для нового workspace.
+
+🟡 Exact installed-build UI fidelity ещё не подтверждена observation-grade Interface Passport.
+
+🟢 Automated gate executed 2026-08-15: lint, typecheck, 14 unit tests, build, client-secrets check and full 6-test Playwright suite passed. The default parallel Playwright invocation hung in this Windows environment; the same suite passed with `--workers=1`.
+
+## Текущий рубеж
+
+### Milestone M1B.1 — Counterparty vertical slice — PRE-REVIEW
 
 ```text
-[ ] Cloudflare preview
-[ ] docs/official-ui/
-[ ] паспорт версии официального портала
-[ ] модели экранов, действий и правил проверки
-[ ] /simulators
-[ ] /simulators/fno
-[ ] /simulators/esf
-[ ] постоянная учебная маркировка
-[ ] запрет внешней отправки
-[ ] e2e тест предохранителей
+[x] Atlas bounded ingestion: create-counterparty
+[x] Workflow Record
+[x] draft Interface Passport + unresolved exact-build gaps
+[x] embedded Training Workspace shell
+[x] counterparty domain state
+[x] Demo (non-scored)
+[x] Guided Practice + target spotlight
+[x] Independent Test
+[x] state-based Verification v2
+[x] transparent PASS/FAIL assertions
+[x] assisted/unassisted completion metadata
+[x] deterministic reset
+[x] responsive CSS
+[x] unit/e2e test specifications written
+[ ] anchored floating coach bubble by target bounds
+[x] lint/typecheck/unit/build/secrets/e2e actually executed 2026-08-15
+[x] desktop/mobile manual smoke 2026-08-15 (1440px and 360px; no horizontal overflow)
+[ ] observation-grade UI Passport
+[ ] owner UX/fidelity PASS
 ```
 
-## Уровни готовности к тестированию
+## Knowledge Atlas status
 
-| Уровень | Статус | Что можно делать |
-|---|---:|---|
-| Технический тест владельцем | 🟡 Условно готов | Запускать локально и проверять интерфейс/уроки |
-| UX-альфа вторым пользователем | 🟡 После preview | Проверять понятность без реальных операций |
-| Практика в учебной 1С | 🟡 После сверки уроков | Выполнять базовые операции в отдельной базе |
-| Учебная налоговая отчётность | 🔴 Не готов | Нужен симулятор ФНО |
-| Учебная ЭСФ | 🔴 Не готов | Нужен симулятор ИС ЭСФ |
-| Реальная отправка | 🔴 Не функция продукта | Только контролируемое сопровождение на официальном портале |
+Current retrieval:
 
-## Риски
+`accounting-kz / 3.0 / counterparties / create-counterparty` → `IMPLEMENTATION_SUPPORT_READY / EXACT_UI_OBSERVATION_PENDING`.
 
-1. Официальные интерфейсы меняются без синхронного обновления курса.
-2. Высокая визуальная близость может вызвать путаницу без постоянной маркировки.
-3. Налоговые правила требуют методической проверки.
-4. Учебный XML не должен оказаться пригодным для реальной отправки.
-5. Пользователь может случайно работать не в той базе 1С.
+The Atlas supports semantic implementation and state verification. It does not yet authorize a pixel-fidelity claim for a specific Accounting KZ build.
+
+## International Track status
+
+Architecture is fixed but runtime implementation is deferred.
+
+Progression:
+
+`1C Tutor → Accounting KZ → Professional Accountant → International Accounting → IFRS → International Practice`.
+
+Current international work remains Atlas/research only. Initial market evidence prioritizes reconciliations, close, journal entries, accruals/prepayments, GL/TB, working papers and audit support over lecture-first IFRS.
+
+## Главные gates
+
+1. Нельзя заявлять exact 1C fidelity без observation-grade Interface Passport.
+2. Нельзя начать Invoice implementation до owner PASS Counterparty.
+3. Нельзя начать Payment implementation до owner PASS Invoice.
+4. Нельзя массово расширять курс до Stage K1 PASS.
+5. Нельзя превращать Atlas в зеркало ИТС/IFRS Standards или полный клон 1С.
+6. Нельзя внедрять Supabase/AI/vector DB как обязательную инфраструктуру без MPE value gate.
+7. International Track не должен вытеснять незавершённый основной learning engine.
+
+## Следующее действие
+
+1. Выполнить engineering checks в среде с checkout ветки.
+2. Открыть `/learn/customer-card` и пройти Demo / Guided / Independent Test.
+3. Зафиксировать owner UX feedback.
+4. Закрыть anchored coach/fidelity gaps, если они реально мешают обучению.
+5. Только после owner PASS разрешить Stage 1B.2 Invoice.
 
 ## Правило обновления
 
-После каждой законченной итерации обновлять проценты, текущий рубеж, риски и статус тестирования. Процент повышается только при наличии работающего кода, тестов и обновлённой документации.
+Проценты повышаются только при наличии фактического кода/данных/evidence и соответствующих проверок. Документальная готовность не выдаётся за готовность пользовательского workflow.

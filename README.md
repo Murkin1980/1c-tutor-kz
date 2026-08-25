@@ -1,114 +1,107 @@
-# 1C Tutor KZ — интерактивный тренажёр по 1С:Бухгалтерии для Казахстана
+# 1C Tutor KZ — интерактивный тренажёр по 1С и бухгалтерскому учёту
 
-## 1. Назначение проекта
+## Текущая продуктовая модель
 
-**1C Tutor KZ** — веб-тренажёр для самостоятельного практического обучения работе в «1С:Бухгалтерия для Казахстана» на примере деятельности индивидуального предпринимателя в мебельном бизнесе.
+1C Tutor KZ развивается как единая практическая образовательная система:
 
-Пользователь читает короткое задание в тренажёре, открывает учебную или облачную базу 1С в соседней вкладке, выполняет действие, возвращается в тренажёр и подтверждает результат. Тренажёр выдаёт подсказки, проверочные вопросы, эталонный результат и следующий шаг.
+`1C Tutor → Accounting KZ → Professional Accountant → International Accounting → IFRS → International Practice`.
 
-Проект не является копией 1С, не воспроизводит интерфейс 1С целиком и не подменяет официальную программу. Он является учебным навигатором и системой закрепления навыков.
+Core learning loop больше не строится вокруг обязательного открытия платного 1C:Fresh. Практика переносится во встроенную Training Workspace, где действия пользователя создают детерминированное учебное состояние, а результат проверяется по этому состоянию.
 
-## 2. Основной сценарий
+## Первый новый практический сценарий
 
-1. Пользователь входит в тренажёр.
-2. Выбирает курс и урок.
-3. Нажимает «Открыть 1С».
-4. 1С открывается в новой вкладке браузера.
-5. Пользователь выполняет конкретное действие в 1С.
-6. Возвращается в тренажёр.
-7. Отвечает на контрольный вопрос, вводит полученный результат или загружает снимок экрана.
-8. Получает обратную связь, баллы, подсказку и следующий шаг.
-9. Прогресс сохраняется и доступен с другого компьютера.
+Stage 1B.1 реализует:
 
-## 3. Целевая аудитория MVP
+`Карточка учебного покупателя` → `/learn/customer-card`.
 
-- владелец ИП в Казахстане;
-- начинающий пользователь 1С;
-- мебельщик, который хочет понимать собственный документооборот;
-- сотрудник, которого нужно обучить работе со счетами, реализацией, поступлениями, банком, кассой и базовыми отчётами.
+Поддерживается:
+- Demo / `Показать`;
+- Guided Practice / `Вести меня`;
+- Independent Test / `Проверить себя`;
+- semantic target spotlight;
+- condition-driven guidance;
+- `Почему?`, hints и show-action;
+- state-based Verification Engine v2;
+- transparent PASS/FAIL assertions;
+- assisted/unassisted completion;
+- deterministic reset.
 
-## 4. Рекомендуемый стек
+Сценарий использует только вымышленные данные:
+- `ТОО Учебный Покупатель`;
+- `Кызылорда`.
 
-- **Frontend:** React + TypeScript + Vite;
-- **UI:** Tailwind CSS + shadcn/ui или собственные простые компоненты;
-- **Backend:** Supabase;
-- **Авторизация:** Supabase Auth;
-- **База данных:** Supabase PostgreSQL;
-- **Файлы:** Supabase Storage;
-- **Деплой frontend:** Cloudflare Pages;
-- **Опциональный API/AI-proxy:** Cloudflare Workers;
-- **Тесты:** Vitest + React Testing Library + Playwright;
-- **Контент уроков:** Markdown/MDX или JSON в репозитории на первом этапе;
-- **Аналитика:** собственная таблица событий, без внешней аналитики в MVP.
+Практический PASS требует, чтобы сохранённая карточка действительно существовала в состоянии Training Workspace. Отдельный текстовый ответ не может завершить сценарий.
 
-## 5. Источник практической 1С
+## Fidelity status
 
-Приоритетный вариант для Казахстана — отдельная учебная база в **1С:Fresh Казахстан**, открываемая в соседней вкладке. Официальный сервис предоставляет доступ к «1С:Бухгалтерия для Казахстана» через интернет.
+Текущая версия — semantic / interaction-model replica.
 
-Альтернативный локальный вариант — бесплатная учебная версия платформы и «1С:Бухгалтерии 8». Она пригодна для освоения интерфейса, но российская учебная конфигурация не должна использоваться как эталон законодательства и учёта Казахстана.
+Atlas подтверждает workflow и структуру взаимодействия, но observation-grade Interface Passport конкретной доступной сборки Accounting KZ 3.0 ещё не завершён. Поэтому продукт не заявляет pixel-perfect совпадение с конкретной версией 1С.
 
-## 6. Ограничение по iframe
+Постоянно показывается маркировка:
 
-Не строить основной сценарий на встраивании 1С внутрь тренажёра. Внешний сервис может запрещать отображение во фрейме через `X-Frame-Options` или `Content-Security-Policy: frame-ancestors`.
+`УЧЕБНАЯ СРЕДА — НЕ 1С`.
 
-MVP должен работать по схеме:
+## Unified Accounting Knowledge Atlas
 
-- кнопка «Открыть 1С»;
-- `target="_blank"`;
-- сохранение текущего шага до перехода;
-- заметная кнопка «Я выполнил действие»;
-- возможность быстро вернуться к инструкции.
+`knowledge/1c/` является source of truth для:
+- 1C configurations/editions/workflows/interfaces;
+- Accounting KZ;
+- platform UI primitives;
+- ZUP/Trade/UNF/ERP inventories;
+- accounting concepts;
+- future local→IFRS bridges;
+- IFRS/IAS provenance/version/effective-date metadata;
+- international accounting capabilities;
+- cases/exercises/assessments.
 
-## 7. Первая версия курса
+Implementation rule:
 
-1. Знакомство с интерфейсом и учебной базой.
-2. Создание организации/ИП в учебной базе.
-3. Настройка учётной политики и реквизитов.
-4. Контрагенты.
-5. Номенклатура и услуги.
-6. Банковский счёт и касса.
-7. Счёт покупателю.
-8. Поступление аванса.
-9. Реализация товаров и услуг.
-10. Поступление материалов от поставщика.
-11. Оплата поставщику.
-12. Акт сверки.
-13. Контроль дебиторской и кредиторской задолженности.
-14. Базовые оборотно-сальдовые отчёты.
-15. Закрытие учебного месяца.
+`retrieve Atlas → identify gap → bounded ingestion → implement → link scenario back to Atlas`.
 
-## 8. Структура репозитория
+Не создавать отдельный IFRS Atlas.
+
+## Архитектура Stage 1B
 
 ```text
-/
-├─ README.md
-├─ FOUNDATION.md
-├─ CODER_INSTRUCTION.md
-├─ PRODUCT_REQUIREMENTS.md
-├─ ARCHITECTURE.md
-├─ COURSE_STRUCTURE.md
-├─ DATA_MODEL.md
-├─ ROADMAP.md
-├─ SECURITY_AND_LEGAL.md
-├─ .env.example
-├─ apps/
-│  └─ web/
-├─ packages/
-│  ├─ content/
-│  ├─ ui/
-│  └─ shared/
-├─ supabase/
-│  ├─ migrations/
-│  └─ seed.sql
-├─ docs/
-│  ├─ decisions/
-│  ├─ lesson-authoring.md
-│  └─ test-scenarios.md
-└─ public/
-   └─ course-assets/
+React + TypeScript + Vite
+├─ Learning Shell
+├─ Training Workspace
+│  ├─ deterministic training domain
+│  ├─ simulated screens/forms/lists
+│  └─ reset/seed
+├─ Guidance
+│  ├─ semantic targets
+│  ├─ spotlight
+│  └─ condition-driven steps
+├─ Verification Engine v2
+│  └─ domain-state assertions
+└─ ProgressRepository
+   ├─ localStorage fallback
+   └─ MiniBase sync through authenticated same-origin Pages Function
 ```
 
-## 9. Команды после создания проекта
+Frontend deployment target remains Cloudflare Pages.
+
+## MiniBase progress sync
+
+Owner-authorized infrastructure exception (2026-08-25): learner progress may be persisted through the existing `C:\Projects\minibase-cloudflare` platform while the practical lesson gate remains unchanged.
+
+The browser never receives a MiniBase secret. With `VITE_MINIBASE_SYNC=enabled`, it calls `/api/progress`; the Cloudflare Pages Function validates the signed Access JWT, restricts access to `MINIBASE_OWNER_EMAIL`, and calls MiniBase with server-only `MINIBASE_SECRET_KEY`. Local progress remains usable when the backend is unavailable.
+
+Required Pages variables/secrets and rollout steps are documented in `docs/deployment/CLOUDFLARE_MINIBASE_DEPLOYMENT_ASSESSMENT.md`.
+
+## Current repository state
+
+Active branch for the pivot:
+
+`mpe/stage-1-validation`
+
+Draft PR #2 contains the architecture reset, Atlas work, International Track design-pass and first Counterparty embedded workspace implementation.
+
+`main` remains the target production branch and should not receive the pivot until review/merge.
+
+## Local commands
 
 ```bash
 npm install
@@ -116,55 +109,52 @@ npm run dev
 npm run lint
 npm run typecheck
 npm run test
-npm run test:e2e
 npm run build
-```
-
-## 10. Определение готовности MVP
-
-MVP считается готовым, когда пользователь может:
-
-- зарегистрироваться;
-- выбрать курс;
-- пройти не менее 10 практических уроков;
-- открыть 1С в соседней вкладке;
-- сохранить ответ и прогресс;
-- получить подсказку и эталон;
-- продолжить обучение на другом устройстве;
-- увидеть общий процент прохождения;
-- сбросить только учебные результаты, не удаляя аккаунт.
-
-## 11. Главный принцип
-
-Сначала создать работающий тренажёр с ручным подтверждением результатов. Автоматическое распознавание действий внутри 1С, браузерное расширение, компьютерное зрение и глубокую интеграцию с 1С добавлять только после проверки полезности курса.
-
-## 12. Текущее состояние
-
-Завершена первая техническая итерация frontend-прототипа:
-
-- реализованы маршруты `/`, `/login`, `/dashboard`, `/courses/:courseSlug`, `/learn/:lessonId`, `/profile` и защищённый `/admin`;
-- mock-авторизация и прогресс работают через заменяемые browser repositories;
-- локальный демонстрационный курс содержит 2 модуля и 5 уроков;
-- движок поддерживает все семь типов проверки MVP;
-- Cloudflare Pages SPA fallback и безопасные заголовки находятся в `public/`;
-- автоматический GitHub Actions workflow пока не включён из-за исчерпанного лимита владельца; обязательные проверки выполняются локально.
-
-### Локальный запуск
-
-```bash
-npm install
-npm run dev
-```
-
-### Полная локальная проверка
-
-```bash
-npm run lint
-npm run typecheck
-npm run test
-npm run build
+npm run build:functions
 npm run check:secrets
 npm run test:e2e
 ```
 
-Playwright использует установленный Google Chrome для desktop и mobile viewport. Реальная регистрация, межустройственная синхронизация, серверная роль администратора и загрузка снимков переносятся на этап Supabase.
+The Stage 1B.1 implementation added tests, but this ChatGPT execution environment could not check out the GitHub branch because its container had no network/DNS access to GitHub. Current GitHub head also has no active CI status checks. Therefore the new code is `PRE-REVIEW`, not falsely marked engineering PASS.
+
+## Current gate
+
+Next work is **not** Invoice implementation.
+
+Follow `NEXT_STAGE_INSTRUCTION.md`:
+1. run engineering checks in a real checkout;
+2. smoke-test desktop/mobile;
+3. owner reviews Demo / Guided / Independent Test;
+4. record feedback in `docs/validation/STAGE1B1_OWNER_REVIEW.md`;
+5. resolve blocking UX/fidelity issues;
+6. only after explicit owner PASS start Stage 1B.2 Invoice.
+
+## International Accounting / IFRS
+
+International Track is already represented in architecture and Atlas, but runtime implementation is deferred until the 1C/Accounting KZ learning engine proves itself.
+
+No separate repository, product or knowledge base is authorized.
+
+Long-term direction focuses on verified professional capabilities such as reconciliations, close, journal entries, accruals/prepayments, GL/TB, working papers, audit support and IFRS treatment — not lecture completion alone.
+
+## Safety
+
+- fictional training data only;
+- no real IIN/BIN in training fixtures;
+- no EDS/NCALayer/bank credentials;
+- no government submission;
+- no automated control of real 1C;
+- no mandatory paid external service in the embedded core loop;
+- no official 1C logo/false affiliation;
+- no bulk copying of 1C or IFRS copyrighted content.
+
+## Source-of-truth order
+
+1. `FOUNDATION.md`
+2. `ROADMAP.md`
+3. `NEXT_STAGE_INSTRUCTION.md`
+4. `STAGE_CHECKLIST.md`
+5. `CODER_INSTRUCTION.md`
+6. `knowledge/1c/`
+7. architecture/product/data documentation
+8. `SESSION_NOTES.md`

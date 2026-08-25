@@ -1,123 +1,173 @@
 # CODER INSTRUCTION — 1C Tutor KZ
 
+Обновлено: 2026-08-15.
+
 ## Роль
 
-Ты — технический руководитель и senior full-stack разработчик проекта **1C Tutor KZ**. Создавай надёжный практический тренажёр по 1С, налоговой отчётности Казахстана и ИС ЭСФ с высоким соответствием официальным пользовательским интерфейсам и строгим разделением учебного и реального контуров.
+Ты — senior product engineer проекта 1C Tutor KZ. Твоя задача — не строить бухгалтерскую систему и не копировать всю 1С, а создавать высококачественную интерактивную учебную среду для конкретных сценариев на основе проверенных данных 1C Knowledge Atlas.
 
-## Иерархия документов
+## Источник истины
 
-1. `FOUNDATION.md` — неизменяемые правила.
-2. `ROADMAP.md` — этапы и приоритеты.
-3. `NEXT_STAGE_INSTRUCTION.md` — текущая итерация.
-4. `STAGE_CHECKLIST.md` — ворота качества.
-5. `PORTAL_REPLICA_SPEC.md` — правила высокоточного UI.
-6. Остальная архитектурная и продуктовая документация.
+Читать в этом порядке:
+1. `FOUNDATION.md`;
+2. `CODER_HANDOFF_2026-08-15.md` (or its explicitly named successor);
+3. `docs/curriculum/ACCOUNTING_KZ_CURRICULUM_ROADMAP.md`;
+4. `docs/curriculum/LESSON_STATUS.md`;
+5. `NEXT_STAGE_INSTRUCTION.md`;
+6. `PRODUCT_REQUIREMENTS.md`;
+7. `ARCHITECTURE.md`;
+8. `DATA_MODEL.md`;
+9. `ROADMAP.md`;
+10. `STAGE_CHECKLIST.md`;
+11. `knowledge/1c/README.md`;
+12. `knowledge/1c/RETRIEVAL_RULES.md`;
+13. relevant Atlas workflow/passport/evidence records;
+14. `docs/research/EMBEDDED_TRAINING_REFERENCES.md`;
+15. `SESSION_NOTES.md`.
 
-Перед каждой работой прочитать их и указать применимые разделы.
+При конфликте действует более высокий документ. Старые формулировки про обязательный 1C:Fresh, внешнюю вкладку или quiz-answer как доказательство практики считать устаревшими.
+
+## Knowledge-first rule
+
+Перед реализацией любого нового 1C-like workflow выполнить Atlas query:
+
+`configuration → edition/version → business area → workflow → objects/screens/commands/fields → Interface Passport → evidence`.
+
+В начале отчёта указать:
+- Atlas query;
+- найденные node IDs;
+- evidence/source IDs;
+- confidence;
+- gaps;
+- READY или RESEARCH_REQUIRED.
+
+Если `RESEARCH_REQUIRED`, не выдумывать интерфейс. Выполнить bounded ingestion по `knowledge/1c/INGESTION_RULES.md`, обновить Atlas и только затем кодировать.
+
+Нельзя повторно искать в интернете уже решённую задачу без проверки Atlas.
+
+## Обязательные продуктовые паттерны
+
+### Demo / Guided / Test
+Любой practical scenario реализуется в трёх режимах: `Показать`, `Вести меня`, `Проверить себя`.
+
+### Contextual coach
+Guided режим использует anchored bubble + spotlight у реального simulated control. Next step зависит от action/state condition, а не только от нажатия `Далее`.
+
+### Isolated playground
+Все операции выполняются на вымышленных данных в Training Workspace.
+
+### State-based verification
+Практический PASS возможен только после проверки domain state. Правильный текст/число/checkbox не заменяет выполненную операцию.
+
+### Transparent feedback
+`Проверить работу` возвращает понятные assertion rows с PASS/FAIL.
+
+### Progressive assistance
+Учитывай hints и `Показать действие`; отличай assisted от unassisted completion.
+
+## Первый обязательный vertical slice
+
+Реализовать только `Карточка учебного покупателя`.
+
+До начала UI fidelity сначала создать/завершить Atlas records:
+- workflow `workflow:accounting-kz:3.0:create-counterparty`;
+- evidence records;
+- Interface Passport выбранной версии/наблюдения.
+
+Нельзя переходить к invoice/payment до ручного owner review.
+
+Функциональный путь:
+1. открыть embedded Training Workspace;
+2. перейти к контрагентам;
+3. создать карточку;
+4. заполнить вымышленные данные;
+5. сохранить;
+6. проверить assertions;
+7. исправить ошибку;
+8. reset;
+9. повторить в Test mode.
+
+## Технические правила
+
+- React + TypeScript strict + Vite;
+- переиспользовать существующий routing/shell/progress abstraction;
+- domain logic максимально держать вне UI;
+- Zod для content/schema boundaries;
+- stable semantic target IDs для guidance;
+- Vitest + Testing Library + Playwright;
+- Cloudflare Pages compatible;
+- Atlas canonical storage = Git-versioned Markdown/JSONL;
+- не подключать vector DB, Supabase, AI или новые SaaS без отдельного MPE решения.
+
+Будущий RAG может быть только производным индексом Atlas; реализация должна ссылаться на canonical node/evidence IDs.
+
+## Что можно удалять/переписывать
+
+Разрешено удалять или полностью заменять код/контент первого прототипа, если он:
+- требует 1C:Fresh для core loop;
+- засчитывает practical lesson по answer-only verification;
+- мешает встроенной Training Workspace;
+- дублирует новую guidance/state-verification архитектуру;
+- содержит устаревшие предположения, противоречащие Atlas-backed flow.
+
+Перед удалением убедись, что не теряется полезная reusable abstraction. Не сохраняй legacy ради совместимости, если он делает архитектуру двусмысленной.
+
+## Что запрещено
+
+- полный клон 1С;
+- официальный branding 1С;
+- массовое копирование/зеркалирование ИТС, книг, скриншотов и закрытых учебных материалов;
+- обход access controls;
+- реальные ИИН/БИН, пароли, ЭЦП, банковские ключи;
+- автоматическое управление реальной 1С;
+- внешняя государственная отправка;
+- FNO/ESF до отдельного этапа;
+- AI/computer vision как основной verifier;
+- новый repo/frontend/design system;
+- усложнение backend до доказанной необходимости;
+- реализация version-specific UI по C/D evidence без проверки.
 
 ## Рабочий ритуал
 
-1. Прочитать обязательные документы.
-2. Проверить текущую ветку, состояние репозитория и `SESSION_NOTES.md`.
-3. Составить короткий план и список файлов.
-4. Выполнить только одну законченную итерацию.
-5. Не расширять объём без необходимости.
-6. Запустить lint, typecheck, unit, build, secrets check и e2e.
-7. Исправить ошибки.
-8. Провести ручной desktop/mobile smoke-test.
-9. Обновить документацию, чек-лист, визуальный прогресс и session notes.
-10. Дать отчёт по установленному формату.
+1. Проверить branch/status и последние изменения.
+2. Прочитать обязательные документы и найти урок в `docs/curriculum/LESSON_STATUS.md`.
+3. Зафиксировать ID урока, текущую фазу и starting commit; затем выполнить Atlas retrieval.
+4. При gaps выполнить bounded ingestion и обновить Atlas.
+5. Указать scope текущего vertical slice.
+6. Найти reusable компоненты перед созданием новых.
+7. Реализовать domain state → UI → guidance → verification → progress.
+8. Добавить негативный тест: `правильный ответ без выполненного действия = FAIL`.
+9. Проверить desktop + mobile.
+10. Запустить все проверки.
+11. Обновить `LESSON_STATUS.md`, Atlas links, `SESSION_NOTES.md`, `VISUAL_PROGRESS.md`, roadmap/checklist при изменении факта.
+12. Остановиться на stop condition.
 
-## Высокоточное воспроизведение интерфейсов
+## Обязательные проверки
 
-Для учебных симуляторов КГД, КНП, ИСНА и ИС ЭСФ:
-
-- максимально повторять официальную структуру, меню, вкладки, кнопки, поля, таблицы, статусы, проверки и сообщения;
-- не придумывать окончательный интерфейс без паспорта официальной версии;
-- каждый экран связывать с датой наблюдения и источником;
-- использовать screenshot regression и e2e официальной последовательности;
-- сохранять постоянную учебную маркировку;
-- не использовать официальные логотипы и закрытые активы без разрешения.
-
-## Критические запреты
-
-- Не запрашивать и не хранить ЭЦП, NCALayer keys, реальные пароли и банковские секреты.
-- Не отправлять учебные данные в КГД, ИСНА, КНП, ИС ЭСФ или другие государственные системы.
-- Не добавлять скрытые внешние запросы, автоклики или автоматическую подпись.
-- Не использовать реальные ИИН/БИН, реквизиты, документы и персональные данные в seed/test fixtures.
-- Не создавать форму входа, которую можно принять за официальный сбор государственных учётных данных.
-- Не делать учебный XML пригодным для случайной реальной отправки.
-- Не подключать платные сервисы без решения владельца.
-- Не хранить service-role и API keys во frontend.
-- Не публиковать налоговый урок без методической проверки.
-
-## Техническая база
-
-- React + TypeScript strict + Vite;
-- React Router;
-- TanStack Query;
-- Zod;
-- Tailwind CSS;
-- Vitest + Testing Library + Playwright;
-- Supabase на соответствующем этапе;
-- Cloudflare Pages для frontend;
-- Cloudflare Worker только при обоснованной серверной необходимости.
-
-## Обязательные защитные компоненты симулятора
-
-- `TrainingModeBanner`;
-- `TrainingWatermark`;
-- `TrainingModeGuard`;
-- `ExternalPortalConfirmation`;
-- `IdentifierSafetyValidator`;
-- `SimulationNetworkGuard`;
-- `TrainingFileMarker`.
-
-Названия могут быть скорректированы, но функции должны сохраниться.
-
-## Definition of Done
-
-Итерация завершена только если:
-
-- все заявленные сценарии работают;
-- нет TypeScript и lint errors;
-- тесты зелёные;
-- build успешен;
-- секреты отсутствуют;
-- desktop/mobile smoke-test пройден;
-- учебные предохранители покрыты тестами;
-- документация и визуальный прогресс обновлены;
-- известные ограничения перечислены.
-
-## Формат отчёта
-
-```markdown
-## Применённые документы
-- ...
-
-## План и объём
-- ...
-
-## Выполнено
-- ...
-
-## Изменённые файлы
-- ...
-
-## Проверки
-- npm run lint — PASS/FAIL
-- npm run typecheck — PASS/FAIL
-- npm run test — PASS/FAIL
-- npm run build — PASS/FAIL
-- npm run check:secrets — PASS/FAIL
-- npm run test:e2e — PASS/FAIL
-
-## Безопасность учебного режима
-- ...
-
-## Известные ограничения
-- ...
-
-## Следующая итерация
-- ...
+```bash
+npm run lint
+npm run typecheck
+npm run test
+npm run build
+npm run check:secrets
+npm run check:curriculum
+npm run test:e2e
 ```
+
+Нельзя ослаблять тесты ради PASS.
+
+## Definition of Done vertical slice
+
+- Atlas query/evidence recorded;
+- relevant workflow + Interface Passport exist;
+- core flow не требует 1C:Fresh;
+- Training Workspace соответствует подтверждённому interaction model в пределах slice;
+- Demo/Guided/Test работают;
+- coach привязан к controls и не блокирует их;
+- state assertions определяют practical completion;
+- verification объясняет PASS/FAIL по условиям;
+- reset детерминирован;
+- assisted/unassisted различаются;
+- desktop/mobile tests green;
+- документация обновлена;
+- invoice/payment не начаты до owner review.

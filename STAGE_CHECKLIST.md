@@ -1,126 +1,177 @@
 # STAGE CHECKLIST — 1C Tutor KZ
 
-Обновлено: 2026-07-31.
+Обновлено: 2026-08-15.
 
 ## Общие ворота каждой итерации
 
-- [ ] Прочитан `FOUNDATION.md`.
-- [ ] Проверен актуальный `ROADMAP.md`.
-- [ ] Указана версия официального интерфейса, если затронут симулятор.
-- [ ] Составлен короткий план и список файлов.
-- [ ] Использованы только вымышленные данные.
-- [ ] Нет реальных ИИН/БИН, ЭЦП, паролей и банковских ключей.
-- [ ] Нет сетевых вызовов на государственные системы из учебного режима.
-- [ ] Учебная маркировка видна на каждом экране симулятора.
-- [ ] Выполнены lint, typecheck, unit, build, secrets check и нужные e2e.
-- [ ] Обновлены `SESSION_NOTES.md` и `VISUAL_PROGRESS.md`.
+- [x] Прочитаны актуальные FOUNDATION / PRD / ARCHITECTURE / DATA_MODEL / ROADMAP / NEXT_STAGE.
+- [x] Проверен MPE scope и stop condition.
+- [x] Новый код расширяет существующий проект, а не создаёт параллельную систему.
+- [x] Для 1C-like workflow выполнен Atlas retrieval.
+- [x] Указаны Atlas node/evidence/source IDs и confidence.
+- [x] RESEARCH_REQUIRED gaps закрыты bounded ingestion или явно оставлены как fidelity blocker.
+- [x] Использованы только вымышленные данные.
+- [x] Нет реальных ИИН/БИН, ЭЦП, паролей, банковских ключей.
+- [x] Нет обязательного 1C:Fresh в новом Stage 1B.1 core loop.
+- [x] Training Workspace явно маркирован как учебный.
+- [x] Practical completion определяется domain state.
+- [x] Правильный quiz-answer без операции не даёт PASS.
+- [x] Есть reset к deterministic seed.
+- [x] Coach/подсказка не перекрывает активный control; текущая версия использует side panel + target spotlight.
+- [x] Desktop и mobile smoke/e2e фактически пройдены в исполняемой среде 2026-08-15.
+- [x] lint/typecheck/unit/build/secrets/e2e фактически PASS в исполняемой среде 2026-08-15; полный e2e прогон выполнен с `--workers=1`.
+- [x] SESSION_NOTES/VISUAL_PROGRESS/COVERAGE обновлены при изменении факта или явно отмечены pending.
 
-## Этап 1 — текущий frontend
+## Stage 1B.1 — Counterparty vertical slice
 
-- [x] Маршруты и mock-вход.
-- [x] Пять уроков.
-- [x] Семь типов проверки.
-- [x] Локальный прогресс.
-- [x] Desktop/mobile e2e.
-- [ ] Cloudflare preview.
-- [ ] Полный ручной проход владельцем.
-- [ ] Альфа-тест вторым пользователем.
-- [ ] Реестр UX-проблем.
+### Atlas prerequisite
+- [x] query `accounting-kz / 3.0 / counterparties / create-counterparty` выполнен.
+- [x] Workflow Record создан/обновлён.
+- [x] Interface Passport draft создан для выбранной semantic model.
+- [x] UI-sensitive facts имеют primary evidence на уровне workflow/topology.
+- [x] unresolved exact-build gaps не маскируются выдуманным интерфейсом.
+- [ ] observation-grade Interface Passport выбранной доступной сборки.
 
-## Этап 2 — исследование официальных интерфейсов
+### Domain
+- [x] `CustomerCardTrainingState` создан.
+- [x] `TrainingCounterparty` создан.
+- [x] seed содержит только fictional data.
+- [x] create/edit/save работают в reducer/domain model.
+- [x] reset полностью восстанавливает seed.
 
-- [ ] Создать каталог `docs/official-ui/`.
-- [ ] Для каждого портала указать официальный URL и назначение.
-- [ ] Зафиксировать дату и версию интерфейса.
-- [ ] Построить карту разделов и переходов.
-- [ ] Зафиксировать кнопки, поля, таблицы, фильтры и статусы.
-- [ ] Зафиксировать ошибки и форматно-логические проверки.
-- [ ] Зафиксировать desktop-разрешение и масштаб браузера.
-- [ ] Отделить публично доступные элементы от закрытых материалов.
-- [ ] Провести бухгалтерскую проверку сценария.
-- [ ] Создать регрессионный список отличий.
+### Workspace UI
+- [x] embedded workspace route/surface `/learn/customer-card`.
+- [x] 1C-like navigation shell в пределах semantic model.
+- [x] список контрагентов.
+- [x] create command.
+- [x] карточка контрагента.
+- [x] save command.
+- [x] training banner `УЧЕБНАЯ СРЕДА — НЕ 1С`.
+- [x] никакого required external-tab flow для `customer-card`.
+- [x] responsive desktop/mobile CSS layout реализован.
+- [x] manual mobile/desktop smoke-test в запущенном приложении выполнен 2026-08-15; viewport 1440px и 360px без горизонтального overflow.
 
-## Этап 3 — Supabase
+### Demo
+- [x] Demo может пройти весь сценарий через `Показать действие`.
+- [x] объяснения краткие и связаны с текущим условием.
+- [x] Demo не создаёт scored completion.
 
-- [ ] Auth и восстановление пароля.
-- [ ] Миграции и seed.
-- [ ] RLS на всех таблицах.
-- [ ] Серверный прогресс и заметки.
-- [ ] Роли learner/reviewer/admin.
-- [ ] Приватный Storage.
-- [ ] Экспорт и удаление данных.
-- [ ] Проверка входа с двух устройств.
+### Guided Practice
+- [x] semantic target registry через `data-training-target`.
+- [x] spotlight виден на текущем target.
+- [x] шаг меняется только после требуемого action/state.
+- [x] `Почему?` работает.
+- [x] hint 1 работает.
+- [x] hint 2 работает.
+- [x] `Показать действие/Сделать за меня` работает и учитывается как помощь.
+- [x] сценарий condition-driven, а не Next-button-driven.
+- [ ] отдельный anchored floating coach bubble, физически привязанный к target bounds; текущая версия использует side panel + spotlight.
 
-## Этап 4 — базовый курс 1С
+### Independent Test
+- [x] пошаговые bubbles/guidance скрыты.
+- [x] видна задача/исходные данные/проверка.
+- [x] пользователь свободно навигирует в supported workspace.
+- [x] result может быть `completed_unassisted` или `completed_assisted`.
 
-- [ ] Не менее 15 уроков.
-- [ ] Каждый урок проверен на выбранной версии 1С.
-- [ ] Есть дата проверки и проверяющий.
-- [ ] Есть исходные данные, ожидаемый результат и типовые ошибки.
-- [ ] Есть связка документов и отчётов.
-- [ ] Есть подготовка показателей для ФНО и ЭСФ.
-- [ ] Нет действий в реальной рабочей базе.
+### Verification v2
+- [x] проверяется existence.
+- [x] проверяется expected name.
+- [x] проверяется expected city.
+- [x] проверяется saved state.
+- [x] отображается PASS/FAIL по каждому assertion.
+- [x] failure feedback показывает expected/actual/hint.
+- [x] typed expected text alone => FAIL по unit spec.
+- [x] unit test описывает state-only completion path.
 
-## Этап 5 — симулятор ФНО
+### Progress
+- [x] mode сохраняется.
+- [x] attempts считаются.
+- [x] resets считаются.
+- [x] hints/show-action считаются.
+- [x] `completed_unassisted` различается от `completed_assisted`.
 
-- [ ] Journal/list screen.
-- [ ] Выбор формы и периода.
-- [ ] Черновик и автосохранение.
-- [ ] Разделы формы и навигация.
-- [ ] Обязательные поля.
-- [ ] Арифметические и логические проверки.
-- [ ] Ошибки и предупреждения.
-- [ ] Учебный импорт/экспорт XML.
-- [ ] Учебный PDF.
-- [ ] Имитация подписи и статусов.
-- [ ] Запрет внешней отправки.
-- [ ] Запрет реальных идентификаторов.
-- [ ] Визуальное сравнение с официальным интерфейсом.
-- [ ] Бухгалтерская приёмка.
+### Automated test coverage added
+- [x] initial state cannot PASS.
+- [x] correct unsaved draft cannot PASS.
+- [x] expected saved state PASS.
+- [x] wrong city produces field-level FAIL.
+- [x] guidance advances by state.
+- [x] deterministic reset covered.
+- [x] Playwright spec for guided completion added.
+- [x] Playwright spec for Independent Test added.
+- [x] tests actually executed in this environment 2026-08-15.
 
-## Этап 6 — симулятор ИС ЭСФ
+### Owner gate
+- [ ] owner прошёл Demo.
+- [ ] owner прошёл Guided.
+- [ ] owner прошёл Independent Test.
+- [ ] интерфейс признан достаточно похожим по логике для обучения.
+- [ ] проверка результата понятна.
+- [ ] owner разрешил переход к invoice slice.
 
-- [ ] Журнал ЭСФ.
-- [ ] Создание ЭСФ.
-- [ ] Все обязательные реквизиты.
-- [ ] Товарные строки и суммы.
-- [ ] Проверка даты оборота.
-- [ ] НДС и контроль итогов.
-- [ ] Происхождение товара.
-- [ ] Форматно-логический контроль.
-- [ ] Исправленная и дополнительная ЭСФ.
-- [ ] Учебные статусы регистрации и отклонения.
-- [ ] Сверка с реализацией 1С.
-- [ ] Запрет внешней отправки и ЭЦП.
-- [ ] Визуальное сравнение с официальным интерфейсом.
+## Stage 1B.2 — Invoice
 
-## Этап 7 — комплексная сверка
+Не начинать, пока owner gate 1B.1 не PASS.
 
-- [ ] 1С ↔ банк.
-- [ ] 1С ↔ первичка.
-- [ ] 1С ↔ ФНО.
-- [ ] 1С ↔ ЭСФ.
-- [ ] Набор намеренных ошибок.
-- [ ] Контрольные соотношения.
-- [ ] Итоговый экзаменационный кейс.
+- [x] Atlas workflow/evidence skeleton.
+- [ ] observation-grade Interface Passport.
+- [ ] переиспользованы workspace/guidance/verification primitives в коде invoice.
+- [ ] counterparty selection.
+- [ ] invoice lines.
+- [ ] quantity/price/total.
+- [ ] save/status.
+- [ ] Demo/Guided/Test.
+- [ ] state assertions.
+- [ ] owner PASS.
 
-## Этап 8 — реальный контролируемый контур
+## Stage 1B.3 — Payment
 
-- [ ] Отдельный режим с усиленным предупреждением.
-- [ ] Только ссылки на официальные домены.
-- [ ] Проверка организации и периода.
-- [ ] Контрольные суммы до подписи.
-- [ ] Тренажёр не получает ключ ЭЦП.
-- [ ] Нет автоматического клика или отправки.
-- [ ] Пользователь подтверждает каждый критический шаг.
-- [ ] Первая отправка рекомендована под контролем специалиста.
+Не начинать, пока 1B.2 не PASS.
 
-## Критерий готовности к тесту женой
+- [x] Atlas workflow/evidence skeleton.
+- [ ] observation-grade Interface Passport.
+- [ ] payment state.
+- [ ] linkage to counterparty/invoice.
+- [ ] amount/status.
+- [ ] derived balance.
+- [ ] Demo/Guided/Test.
+- [ ] state assertions.
+- [ ] owner PASS.
 
-- [ ] Есть стабильная preview-ссылка.
-- [ ] Владелец прошёл все доступные уроки без блокирующих ошибок.
-- [ ] Все инструкции совпадают с выбранной версией 1С/портала.
-- [ ] Прогресс не теряется в обычном сценарии.
-- [ ] Нельзя случайно перейти к реальной отправке из симулятора.
-- [ ] Учебный режим понятен без устных объяснений.
-- [ ] Подготовлен лист обратной связи: непонятно / не совпадает / опасное действие / лишний шаг.
+## Stage K1 — Knowledge Atlas gate
+
+До Stage 2:
+- [x] platform common model.
+- [x] Accounting KZ core workflow inventory.
+- [x] HRM/ZUP KZ high-level inventory started.
+- [x] Trade KZ high-level inventory started.
+- [x] UNF KZ high-level inventory started.
+- [x] ERP KZ high-level inventory started.
+- [ ] graph validates: unique nodes, valid edges, source provenance.
+- [x] `knowledge/1c/COVERAGE.md` актуален.
+- [x] five retrieval proof queries documented.
+- [x] no bulk copyrighted corpus committed.
+
+## International Track gate
+
+- [x] `EXTEND_EXISTING` зафиксирован.
+- [x] Atlas schema расширен backward-compatible.
+- [x] IFRS provenance/effective-date/licensing rules зафиксированы.
+- [x] curriculum skeleton и topic bridges созданы.
+- [x] initial market/capability research выполнен.
+- [ ] International runtime/lessons не начинать до нового MPE implementation gate.
+
+## Архитектурные красные флаги
+
+Немедленно остановиться и вернуть задачу через MPE, если требуется:
+- полный клон 1С;
+- новый repository/frontend;
+- новый backend только ради одного vertical slice;
+- real 1C automation;
+- credential capture;
+- FNO/ESF до roadmap gate;
+- AI/computer vision как замена deterministic verification;
+- vector database как новый canonical source of truth;
+- массовая реализация нескольких сценариев до PASS текущего slice;
+- version-specific UI без достаточного Atlas evidence;
+- International Track начинает вытеснять незавершённый основной learning engine без нового MPE gate.

@@ -1,0 +1,184 @@
+# Stage 1B.1 — Owner UX / Fidelity Review
+
+Status: `PENDING_OWNER_REVIEW`
+Date: 2026-08-15
+Route: `/learn/customer-card`
+
+## Curriculum-depth feedback — 2026-08-24
+
+Owner feedback (verbatim):
+
+> Продажу — это какие-то детские вопросы. Постарайся ёмкие уроки делать. Распредели их, вот те семьдесят семь уроков распределить по нормальным, там, часового-двухчасового урока примерно в реале.
+
+Classification: `IMPORTANT — lesson granularity and practical depth`.
+
+Remediation:
+
+- removed the answer-only invoice arithmetic exercise and the legacy 5–8 minute launch/navigation quizzes from the active learner route;
+- removed the completed legacy welcome checkbox from the published learner route because it still depended on an external 1C:Fresh tab and lasted only five minutes;
+- reframed the implemented customer-card scenario as a 75-minute practice block with Demo, Guided, intentional failure/diagnosis, Independent Test and delayed repetition;
+- grouped all 77 atomic curriculum units into one orientation plus 28 substantial 60–120 minute sessions in `docs/curriculum/ACCOUNTING_KZ_SESSION_PLAN.md`;
+- kept Invoice implementation blocked: curriculum redesign is not owner acceptance of the current workspace modes and is not authorization to bypass the vertical-slice gate.
+
+Owner curriculum decision: `PASS — substantial-session plan accepted`.
+
+This accepts `ACCOUNTING_KZ_SESSION_PLAN.md` only. The interaction-mode checklist and authorization of Invoice remain pending.
+
+## Owner feedback / remediation
+
+Date: 2026-08-16
+
+Owner feedback (verbatim):
+
+> сперва не сразу сообразил куда нажимать. потом понял. другие могут не понять
+
+Classification: `Stage 1B.1 initial discoverability UX issue`.
+
+Remediation status: `PASS WITH REMEDIATION` pending final owner acceptance. Owner retest reported that the restored screen looked normal. The approved Driver.js Hints experiment is now integrated as a single non-blocking beacon in Demo/Guided; Independent remains free of coaching, beacon, overlay, and popover.
+
+### Follow-up screen regression
+
+Owner subsequently reported that the screen appeared unstyled and the visual order/layout was broken. Root cause was commit `4800a70`, which replaced the complete `training-workspace.css` contents with only the `.training-start-cue` rule.
+
+The stylesheet was restored from parent commit `899c956`, with `.training-start-cue` retained at the end. Authenticated browser smoke now confirms the shell, grid, sidebar, task panel, form, buttons, responsive layout, and mode visibility at desktop `1440x900` and mobile `360x800`. Screenshots:
+
+- `test-results/training-workspace-desktop-1440x900.png`
+- `test-results/training-workspace-mobile-360x800.png`
+
+Engineering checks and serial E2E are green. Owner retest is still pending; this remediation does not change the owner decision.
+
+## Review scope
+
+Only the first Counterparty vertical slice is in scope.
+
+Do not review Invoice/Payment implementation because those slices are blocked until this gate passes.
+
+## Preconditions
+
+- user is logged in as learner;
+- open `/learn/customer-card`;
+- use only fictional scenario data;
+- if a deployed preview is unavailable, run the branch locally.
+
+## Local preview fallback
+
+From the repository root on the review machine:
+
+```bash
+npm install
+npm run dev -- --host 127.0.0.1 --port 4173
+```
+
+Open:
+
+`http://127.0.0.1:4173/learn/customer-card`
+
+For a phone or another device on the same LAN, start Vite with `--host 0.0.0.0`, then open the same route using the review machine's reachable IPv4 address and port `4173`. The exact LAN address depends on the local network and is not part of the repository.
+
+## 1. Demo — `Показать`
+
+- [ ] route is understandable;
+- [ ] explanations are concise;
+- [ ] `Показать действие` demonstrates the whole flow;
+- [ ] Demo does not incorrectly count as independent completion;
+- [ ] training marker is obvious.
+
+Owner notes:
+
+> pending
+
+## 2. Guided Practice — `Вести меня`
+
+- [ ] target spotlight is obvious;
+- [ ] next instruction changes only after the relevant action/state;
+- [ ] `Почему?` is useful;
+- [ ] hint 1 is useful without giving everything away;
+- [ ] hint 2 is sufficiently explicit;
+- [ ] using show-action is clearly treated as assistance;
+- [ ] task panel does not block the simulated application.
+
+Owner notes:
+
+> pending
+
+## 3. Independent Test — `Проверить себя`
+
+- [ ] step guidance is hidden;
+- [ ] task/source data remain sufficient;
+- [ ] user can navigate freely;
+- [ ] successful manual work is marked unassisted;
+- [ ] wrong state cannot pass.
+
+Owner notes:
+
+> pending
+
+## 4. Verification clarity
+
+Before task:
+- [ ] `Что будет проверено` is clear.
+
+After task:
+- [ ] each PASS/FAIL line is understandable;
+- [ ] expected value is useful;
+- [ ] actual value is useful on failure;
+- [ ] corrective hint is specific enough;
+- [ ] result does not feel like an opaque quiz.
+
+Owner notes:
+
+> pending
+
+## 5. 1C learning fidelity
+
+Current fidelity level:
+`SEMANTIC / INTERACTION MODEL — exact installed-build UI observation pending`.
+
+Evaluate:
+- [ ] navigation logic is directionally useful for learning 1C;
+- [ ] list → create → form → save mental model is appropriate;
+- [ ] terminology is not misleading;
+- [ ] density/layout is sufficiently 1C-like for the training goal;
+- [ ] lack of pixel-perfect fidelity is acceptable at this stage.
+
+### Anchored coach decision
+
+Choose one after trying the slice:
+- [ ] current side panel + spotlight is sufficient for next slice;
+- [ ] anchored floating coach is required before Invoice;
+- [ ] anchored coach can be deferred to Stage 1C hardening.
+
+## 6. Mobile
+
+- [ ] usable around 360px width;
+- [ ] target/control remains tappable;
+- [ ] task information remains readable;
+- [ ] form can be completed without horizontal trap;
+- [ ] result checklist remains readable.
+
+Owner notes:
+
+> pending
+
+## Blocking issues
+
+| Severity | Issue | Expected fix |
+|---|---|---|
+| Medium | Initial `Продажи` action was not immediately discoverable for a first-time learner. | Add a visible `Начните здесь` cue naming the first click in Demo/Guided; keep Independent coaching-free. |
+
+## Owner decision
+
+One of:
+- `PASS — authorize Stage 1B.2 Invoice`
+- `PASS WITH REMEDIATION — fix listed items, then Invoice may start`
+- `FAIL — remain in Stage 1B.1`
+
+Decision: `PENDING`
+
+Driver.js experiment status: integrated in Stage 1B.1, pending owner visual acceptance. Stage 1B.2 remains blocked.
+
+Engineering revalidation on 2026-08-17 passed lint, typecheck, unit tests, build, secrets scan, and serial E2E (`10/10` desktop/mobile). Manual browser smoke at `1440x900` and `360x800` confirmed the non-blocking beacon, no overlay/popover, no horizontal overflow, and the universal initial cue `Нажмите «Продажи» в меню.` Owner visual acceptance and authorization remain pending.
+
+## Explicit authorization
+
+Stage 1B.2 Invoice remains **BLOCKED** until the owner explicitly changes the decision above.

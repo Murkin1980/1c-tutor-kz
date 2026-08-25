@@ -6,14 +6,7 @@ export type LessonStatus =
   | "completed"
   | "needs_retry";
 
-export type Verification =
-  | { type: "self_confirm"; prompt: string }
-  | { type: "single_choice"; prompt: string; options: string[]; expected: string }
-  | { type: "multiple_choice"; prompt: string; options: string[]; expected: string[] }
-  | { type: "text_exact"; prompt: string; expected: string }
-  | { type: "number"; prompt: string; expected: number; tolerance: number; unit: "KZT" }
-  | { type: "sequence"; prompt: string; items: string[]; expected: string[] }
-  | { type: "screenshot_manual"; prompt: string };
+export type PracticeMode = "embedded";
 
 export interface Lesson {
   id: string;
@@ -25,9 +18,9 @@ export interface Lesson {
   sourceData: Record<string, string>;
   steps: string[];
   hints: string[];
-  verification: Verification;
   expectedResult: string;
-  externalAppUrl: string;
+  practiceMode?: PracticeMode;
+  practicalScenarioId?: string;
   reviewedAt: string;
   configurationVersion: string;
 }

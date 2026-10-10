@@ -179,6 +179,8 @@
 
 ## Этап 10. Подкрепление и аналитика — 0%
 
+- [ ] bounded checkpoint: **EXP-23 quiz/verification model reuse** — map first-attempt scoring, per-mistake feedback, explicit show-answer and compatible choice/blanks/grid/tap semantics onto the existing verification engine; see `docs/decisions/EXP23_QUIZ_MODEL_REUSE.md`; do not interrupt Stage 2A;
+
 - карта навыков;
 - серии занятий;
 - повторение ошибок;

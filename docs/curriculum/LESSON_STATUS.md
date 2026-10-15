@@ -1,13 +1,13 @@
 # Accounting KZ curriculum — canonical lesson status ledger
 
-Updated: 2026-08-24
+Updated: 2026-10-15
 
-Branch: `mpe/stage-1-validation`
+Branch: `agent/antigravity-sales-cycle-spec` (base: `mpe/stage-1-validation`)
 
-Current lesson: `AKZ-M03-L01`
+Current lesson: `AKZ-M03-L02` (Session 06: Продажа по предоплате: счёт → оплата → реализация → контроль долга)
 
-Current gate: `OWNER_REVIEW_PENDING`
-Next authorized implementation: **none until explicit owner authorization**
+Current gate: `READY`
+Next authorized implementation: **Session 06 / AKZ-M03-L02, AKZ-M03-L03, AKZ-M03-L04** per `STAGE_2_SALES_CYCLE_SPEC.md`
 
 ## Mandatory use
 
@@ -31,18 +31,15 @@ Phases:
 
 ## Current checkpoint
 
-`AKZ-M03-L01 — Create customer card`
+`Session 06 (AKZ-M03-L02, AKZ-M03-L03, AKZ-M03-L04) — Продажа по предоплате: счёт → оплата → реализация → контроль долга`
 
-- Status: `OWNER_REVIEW`.
-- Implemented through: `TESTS`.
-- Current implementation: `/learn/customer-card` with Demo/Guided/Test, Driver.js turquoise beacon, deterministic state verification and desktop/mobile E2E.
-- Last verified commit: `1181723`.
-- Meaning of commit: last verified implementation checkpoint for this lesson; curriculum-document commits may be newer.
-- Remaining: owner completes/accepts all three learning modes and explicitly authorizes `AKZ-M03-L02`.
-- Curriculum presentation checkpoint: the legacy launch/navigation quizzes and answer-only invoice exercise were removed from the learner route; `AKZ-M03-L01` is now framed as a 75-minute Demo → Guided → diagnostic correction → Independent practice block. This does not authorize Invoice implementation.
-- Owner accepted the one-orientation + 28-substantial-session curriculum plan on 2026-08-24. This acceptance does not close the `AKZ-M03-L01` workspace owner gate.
-- Owner explicitly authorized MiniBase connection on 2026-08-25 as an infrastructure-only exception. It does not authorize `AKZ-M03-L02` or change the current practical lesson.
-- Do not start Invoice, Payment or another lesson before this gate changes.
+- Status: `READY`.
+- Implemented through: `PASSPORT / SPECIFICATION` (Specification approved in `STAGE_2_SALES_CYCLE_SPEC.md`).
+- Owner decision on AKZ-M03-L01 (Customer card): passed, but deemed "слишком простым" for a standalone lesson. Owner authorized proceeding to full 120-minute commercial cycle.
+- Next authorized implementation: Arena implements the unified 120-minute practical session in Training Workspace per `STAGE_2_SALES_CYCLE_SPEC.md`.
+- Methodological mandate: Customer invoice cannot exist in isolation from payment and realization; the entire cycle is verified by environment state.
+- Allowed Arena files: restricted to `src/features/training-workspace/...`, `e2e/sales-cycle-workspace.spec.ts`, `docs/curriculum/LESSON_STATUS.md`, `SESSION_NOTES.md`.
+- Do not start unapproved lessons or expand scope outside the specification.
 
 ## Lesson register
 
@@ -62,10 +59,10 @@ Phases:
 | AKZ-M02-L03 | Posting and movements | PLANNED | — | Atlas retrieval |
 | AKZ-M02-L04 | First turnover balance sheet | PLANNED | — | Atlas retrieval |
 | AKZ-M02-L05 | Account card and trace | PLANNED | — | Atlas retrieval |
-| AKZ-M03-L01 | Customer card | OWNER_REVIEW | TESTS | Owner modes review and explicit decision |
-| AKZ-M03-L02 | Customer invoice | PLANNED | Atlas skeleton | Await M03-L01 owner PASS, then Passport |
-| AKZ-M03-L03 | Incoming customer payment/advance | PLANNED | Atlas skeleton | Await M03-L02 PASS, then Passport |
-| AKZ-M03-L04 | Realization/shipment | PLANNED | Atlas inventory | Await M03-L03 PASS |
+| AKZ-M03-L01 | Customer card | DONE | OWNER | Accepted by owner; evaluated as too simple in isolation; authorized Session 06 |
+| AKZ-M03-L02 | Customer invoice | READY | SPECIFICATION | Implement Training Workspace per STAGE_2_SALES_CYCLE_SPEC.md |
+| AKZ-M03-L03 | Incoming customer payment/advance | READY | SPECIFICATION | Implement Training Workspace per STAGE_2_SALES_CYCLE_SPEC.md |
+| AKZ-M03-L04 | Realization/shipment | READY | SPECIFICATION | Implement Training Workspace per STAGE_2_SALES_CYCLE_SPEC.md |
 | AKZ-M03-L05 | Customer return | PLANNED | Atlas inventory | Workflow deepening |
 | AKZ-M03-L06 | Customer contract and settlement settings | PLANNED | Atlas inventory | Workflow deepening |
 | AKZ-M03-L07 | Reconciliation and customer debt | PLANNED | Atlas inventory | Workflow deepening |
@@ -126,23 +123,38 @@ Phases:
 | AKZ-M14-L02 | Report variants/personalization | PLANNED | Atlas inventory | Report Passport |
 | AKZ-M14-L03 | Backup/update/support concepts | PLANNED | Atlas inventory | Safe operations scope |
 
-## Active resume record — AKZ-M03-L01
+## Active resume record — AKZ-M03-L02
+
+```text
+Lesson ID: AKZ-M03-L02 (with AKZ-M03-L03, AKZ-M03-L04 in Session 06)
+Owner/agent: Murat / Antigravity / Arena
+Branch: agent/antigravity-sales-cycle-spec
+Starting implementation commit: pending Arena implementation
+Last verified implementation commit: 1181723 (AKZ-M03-L01 foundation)
+Status: READY
+Current phase: DOMAIN
+Completed: Owner review of AKZ-M03-L01 recorded; Stage 2 120-minute specification authored (STAGE_2_SALES_CYCLE_SPEC.md); 18 deterministic assertions defined; 3 diagnostic errors modeled; Atlas evidence mapped.
+Primary files: STAGE_2_SALES_CYCLE_SPEC.md; docs/curriculum/LESSON_STATUS.md
+Checks passed: curriculum check PASS, lint PASS, typecheck PASS, unit PASS, secrets PASS
+Known defects: none
+Blocker/unblock condition: unblocked by owner decision; specification ready; awaiting Arena coding implementation
+Exact next action: Arena implements salesCycleScenario.ts, salesCycleVerification.ts, salesCycleGuidance.ts, and SalesCycleTrainingWorkspace.tsx per STAGE_2_SALES_CYCLE_SPEC.md
+Last updated: 2026-10-15
+```
+
+## Completed record — AKZ-M03-L01
 
 ```text
 Lesson ID: AKZ-M03-L01
-Owner/agent: Murat / Codex / next assigned contributor
+Owner/agent: Murat / Codex
 Branch: mpe/stage-1-validation
 Starting implementation commit: 0b12de5
 Last verified implementation commit: 1181723
-Status: OWNER_REVIEW
+Status: DONE
 Current phase: OWNER
 Completed: Atlas skeleton, domain, UI, Demo/Guided/Test, Driver.js beacon, state verification, unit/E2E, desktop/mobile smoke
-Primary files: src/features/training-workspace/CustomerCardTrainingWorkspace.tsx; src/features/training-workspace/training-workspace.css; src/features/training-workspace/domain/customerCardScenario.ts; src/features/training-workspace/domain/customerCardVerification.ts; src/features/training-workspace/guidance/customerCardGuidance.ts; e2e/customer-card-workspace.spec.ts
-Checks passed: format, lint, typecheck, unit, build, secrets; focused customer-card E2E 8/8 desktop/mobile at commit 1181723
-Known defects: no confirmed engineering defect; observation-grade Accounting KZ Interface Passport remains pending
-Blocker/unblock condition: Stage 1B.2 is blocked until Murat explicitly accepts all three modes and authorizes AKZ-M03-L02
-Exact next action: Murat reviews Demo, Guided and Independent; record PASS / PASS WITH REMEDIATION / FAIL in docs/validation/STAGE1B1_OWNER_REVIEW.md and this ledger
-Last updated: 2026-08-20
+Result: Owner reviewed and accepted as foundation, but evaluated as too simple in isolation. Authorized composite Session 06.
+Last updated: 2026-10-15
 ```
 
 ## Resume record template
@@ -167,6 +179,7 @@ Last updated:
 
 ## Change log
 
+- 2026-10-15 — Owner reviewed `AKZ-M03-L01` (Customer Card) and noted it is too simple as a standalone lesson; owner authorized 120-minute practical session covering «Продажа по предоплате: счёт → оплата → реализация → контроль долга». Specification `STAGE_2_SALES_CYCLE_SPEC.md` authored. Marked `AKZ-M03-L01` as `DONE`, `AKZ-M03-L02`–`L04` as `READY`.
 - 2026-08-25 — MiniBase progress integration authorized separately; curriculum execution gate remains `OWNER_REVIEW`.
 - 2026-08-24 — owner accepted the substantial-session curriculum plan; MiniBase recorded as the required future server-persistence platform; practical workspace gate remains `OWNER_REVIEW`.
 - 2026-08-24 — 77 atomic skill units grouped one-to-one into one orientation plus 28 substantial learner sessions; legacy micro-quizzes removed from the active learner route. Current owner gate remains unchanged.

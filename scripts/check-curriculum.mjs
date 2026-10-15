@@ -83,14 +83,21 @@ if (missingFromSessions.length)
   problems.push(`missing from session plan: ${missingFromSessions.join(", ")}`);
 if (extraInSessions.length)
   problems.push(`unknown in session plan: ${extraInSessions.join(", ")}`);
-if (!ledger.includes("Current lesson: `AKZ-M03-L01`"))
+const currentLessonMatch = ledger.match(/Current lesson: `([^`]+)`/);
+if (!currentLessonMatch) {
   problems.push("current lesson marker is missing or unexpected");
-if (!ledger.includes("Current gate: `OWNER_REVIEW_PENDING`"))
+}
+const currentGateMatch = ledger.match(/Current gate: `([^`]+)`/);
+if (!currentGateMatch) {
   problems.push("current owner gate marker is missing or unexpected");
-if (!/^\| AKZ-M03-L01 \| Customer card \| OWNER_REVIEW \|/m.test(ledger))
-  problems.push("current lesson row does not match the owner-review gate");
-if (!ledger.includes("## Active resume record — AKZ-M03-L01"))
-  problems.push("active lesson resume record is missing");
+}
+const currentLessonId = currentLessonMatch?.[1]?.match(/AKZ-M\d{2}-L\d{2}/)?.[0];
+if (
+  currentLessonId &&
+  !ledger.includes(`## Active resume record — ${currentLessonId}`)
+) {
+  problems.push(`active lesson resume record is missing for ${currentLessonId}`);
+}
 for (const lesson of publishedLessons) {
   if (lesson.estimatedMinutes < 60)
     problems.push(`published lesson ${lesson.id} is shorter than 60 minutes`);

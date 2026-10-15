@@ -9,6 +9,7 @@ import { LandingPage } from "../routes/LandingPage";
 import { LoginPage } from "../routes/LoginPage";
 import { NotFoundPage } from "../routes/NotFoundPage";
 import { ProfilePage } from "../routes/ProfilePage";
+import { SalesCycleLessonPage } from "../routes/SalesCycleLessonPage";
 import { Layout } from "../shared/Layout";
 import { AdminRoute, PrivateRoute } from "../shared/RouteGuards";
 
@@ -27,6 +28,10 @@ export function App() {
                 <Route
                   path="learn/customer-card"
                   element={<CustomerCardLessonPage />}
+                />
+                <Route
+                  path="learn/sales-prepayment-cycle"
+                  element={<SalesCycleLessonPage />}
                 />
                 <Route path="profile" element={<ProfilePage />} />
                 <Route element={<AdminRoute />}>

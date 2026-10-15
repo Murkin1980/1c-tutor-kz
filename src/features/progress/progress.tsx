@@ -27,6 +27,23 @@ export interface LessonProgress {
   updatedAt: string;
 }
 export type ProgressMap = Record<string, LessonProgress>;
+
+/** Never downgrades an earlier completion: a later demo, retry or assisted run keeps the best result. */
+export function mergeLessonProgress(
+  saved: LessonProgress | undefined,
+  patch: Partial<LessonProgress>,
+): Partial<LessonProgress> {
+  if (saved?.status !== "completed") return patch;
+  const next = { ...patch, status: "completed" as const };
+  if (
+    saved.completionKind === "completed_unassisted" ||
+    !patch.completionKind
+  ) {
+    next.completionKind = saved.completionKind;
+  }
+  return next;
+}
+
 export interface ProgressRepository {
   getAll(): ProgressMap;
   save(progress: LessonProgress): void | Promise<void>;

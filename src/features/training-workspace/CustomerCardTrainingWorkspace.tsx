@@ -1,6 +1,5 @@
-import { Check, CircleHelp, MousePointerClick, RotateCcw, Sparkles, X } from "lucide-react";
-import { hints, type Hints } from "driver.js/hints";
-import { useEffect, useMemo, useReducer, useRef, useState, type ReactNode } from "react";
+import { Check, CircleHelp, MousePointerClick, Sparkles } from "lucide-react";
+import { useMemo, useReducer, useState } from "react";
 import { useProgress } from "../progress/progress";
 import {
   createCustomerCardSeed,
@@ -11,14 +10,11 @@ import {
 } from "./domain/customerCardScenario";
 import { verifyCustomerCardState } from "./domain/customerCardVerification";
 import { getCustomerCardGuidance } from "./guidance/customerCardGuidance";
+import { Target, TrainingHeader, VerificationResults } from "./shared/TrainingChrome";
+import { useGuidanceBeacon } from "./shared/useGuidanceBeacon";
 import "./training-workspace.css";
-import "driver.js/dist/hints.css";
 
 const lessonId = "customer-card";
-
-function Target({ id, children, className = "" }: { id: string; children: ReactNode; className?: string }) {
-  return <div data-training-target={id} className={className}>{children}</div>;
-}
 
 export function CustomerCardTrainingWorkspace() {
   const [state, dispatch] = useReducer(reduceCustomerCardState, undefined, createCustomerCardSeed);
@@ -34,54 +30,9 @@ export function CustomerCardTrainingWorkspace() {
   const guidance = useMemo(() => mode === "test" ? null : getCustomerCardGuidance(state), [mode, state]);
   const verification = useMemo(() => verifyCustomerCardState(state), [state]);
   const activeTarget = mode === "test" ? undefined : guidance?.targetId;
-  const hintsRef = useRef<Hints | null>(null);
   const assisted = sessionHintCount > 0 || sessionShowActionCount > 0;
 
-  useEffect(() => {
-    const currentHints = hintsRef.current ?? hints({
-      overlay: false,
-      beacon: {
-        side: "right",
-        align: "center",
-        animate: true,
-        className: "training-driver-hint",
-      },
-    });
-    hintsRef.current = currentHints;
-
-    currentHints.hide();
-    if (!activeTarget || !guidance) {
-      currentHints.setHints([]);
-      return;
-    }
-
-    const target = document.querySelector(`[data-training-target="${activeTarget}"]`);
-    if (!target) {
-      currentHints.setHints([]);
-      return;
-    }
-
-    currentHints.setHints([{
-      id: guidance.id,
-      element: target,
-      beacon: {
-        side: "right",
-        align: "center",
-        animate: true,
-        className: "training-driver-hint",
-      },
-    }]);
-    currentHints.show();
-
-    return () => {
-      currentHints.hide();
-    };
-  }, [activeTarget, guidance]);
-
-  useEffect(() => () => {
-    hintsRef.current?.hide();
-    hintsRef.current = null;
-  }, []);
+  useGuidanceBeacon(activeTarget, guidance);
 
   const persistSessionMeta = (patch: Record<string, unknown> = {}) => {
     update(lessonId, {
@@ -177,19 +128,7 @@ export function CustomerCardTrainingWorkspace() {
   };
 
   return <div className="training-shell">
-    <div className="training-banner"><strong>УЧЕБНАЯ СРЕДА — НЕ 1С</strong><span>Вымышленные данные. Никаких реальных реквизитов.</span></div>
-
-    <div className="training-toolbar">
-      <div>
-        <span>Режим обучения</span>
-        <div className="training-mode-tabs">
-          <button className={mode === "demo" ? "active" : ""} onClick={() => changeMode("demo")}>Показать</button>
-          <button className={mode === "guided" ? "active" : ""} onClick={() => changeMode("guided")}>Вести меня</button>
-          <button className={mode === "test" ? "active" : ""} onClick={() => changeMode("test")}>Проверить себя</button>
-        </div>
-      </div>
-      <button className="training-reset" onClick={() => reset(true)}><RotateCcw size={16}/> Начать заново</button>
-    </div>
+    <TrainingHeader mode={mode} onModeChange={changeMode} onReset={() => reset(true)} />
 
     <div className="training-grid">
       <section className="training-app" aria-label="Учебная рабочая область">
@@ -277,14 +216,7 @@ export function CustomerCardTrainingWorkspace() {
 
         <button className="training-verify" onClick={verify}>Проверить работу</button>
 
-        {verificationVisible && <div role="status" aria-live="polite" className={`training-results ${verification.passed ? "success" : "error"}`}>
-          <h3>{verification.passed ? (mode === "demo" ? "Демонстрация завершена" : "Работа выполнена") : "Нужно исправить"}</h3>
-          {verification.assertions.map((item) => <div className="training-result-row" key={item.id}>
-            <span>{item.passed ? <Check size={17}/> : <X size={17}/>}</span>
-            <div><strong>{item.label}</strong><p>Ожидалось: {item.expected}</p>{!item.passed && <><p>Сейчас: {item.actual}</p><small>{item.hint}</small></>}</div>
-          </div>)}
-          {!verification.passed && <button onClick={() => setVerificationVisible(false)}>Исправить и проверить снова</button>}
-        </div>}
+        {verificationVisible && <VerificationResults verification={verification} mode={mode} onDismiss={() => setVerificationVisible(false)} />}
       </aside>
     </div>
   </div>;

@@ -1,6 +1,6 @@
 # Accounting KZ curriculum — canonical lesson status ledger
 
-Updated: 2026-08-24
+Updated: 2026-10-15
 
 Branch: `mpe/stage-1-validation`
 
@@ -44,6 +44,16 @@ Phases:
 - Owner explicitly authorized MiniBase connection on 2026-08-25 as an infrastructure-only exception. It does not authorize `AKZ-M03-L02` or change the current practical lesson.
 - Do not start Invoice, Payment or another lesson before this gate changes.
 
+## Owner-authorized parallel checkpoint — Session 06
+
+On 2026-10-15 the owner explicitly authorized one complete 120-minute session in parallel with the `AKZ-M03-L01` owner gate:
+
+`Session 06 — Продажа по предоплате: счёт → оплата → реализация → контроль долга` (`AKZ-M03-L02`, `AKZ-M03-L03`, `AKZ-M03-L04`).
+
+- Status: `OWNER_REVIEW` (engineering checks complete, owner acceptance pending).
+- Route: `/learn/sales-prepayment-cycle`.
+- This authorization does not change the `AKZ-M03-L01` gate and does not authorize Session 07 or any other lesson.
+
 ## Lesson register
 
 | ID | Lesson | Status | Last completed phase | Exact next action |
@@ -63,9 +73,9 @@ Phases:
 | AKZ-M02-L04 | First turnover balance sheet | PLANNED | — | Atlas retrieval |
 | AKZ-M02-L05 | Account card and trace | PLANNED | — | Atlas retrieval |
 | AKZ-M03-L01 | Customer card | OWNER_REVIEW | TESTS | Owner modes review and explicit decision |
-| AKZ-M03-L02 | Customer invoice | PLANNED | Atlas skeleton | Await M03-L01 owner PASS, then Passport |
-| AKZ-M03-L03 | Incoming customer payment/advance | PLANNED | Atlas skeleton | Await M03-L02 PASS, then Passport |
-| AKZ-M03-L04 | Realization/shipment | PLANNED | Atlas inventory | Await M03-L03 PASS |
+| AKZ-M03-L02 | Customer invoice | OWNER_REVIEW | TESTS | Session 06 owner review (`/learn/sales-prepayment-cycle`); Interface Passport pending |
+| AKZ-M03-L03 | Incoming customer payment/advance | OWNER_REVIEW | TESTS | Session 06 owner review; settlement rule needs specialist review |
+| AKZ-M03-L04 | Realization/shipment | OWNER_REVIEW | TESTS | Session 06 owner review; Interface Passport pending |
 | AKZ-M03-L05 | Customer return | PLANNED | Atlas inventory | Workflow deepening |
 | AKZ-M03-L06 | Customer contract and settlement settings | PLANNED | Atlas inventory | Workflow deepening |
 | AKZ-M03-L07 | Reconciliation and customer debt | PLANNED | Atlas inventory | Workflow deepening |
@@ -145,6 +155,24 @@ Exact next action: Murat reviews Demo, Guided and Independent; record PASS / PAS
 Last updated: 2026-08-20
 ```
 
+## Active resume record — Session 06 (AKZ-M03-L02..L04)
+
+```text
+Lesson ID: AKZ-M03-L02, AKZ-M03-L03, AKZ-M03-L04 (Session 06)
+Owner/agent: Murat / Arena agent
+Branch: arena/addd7f0a-1c-tutor-kz (requested name agent/arena-sales-cycle-implementation; session branch name is fixed)
+Starting commit: 883b42a (mpe/stage-1-validation)
+Status: OWNER_REVIEW
+Current phase: OWNER
+Completed: domain (customer, invoice+lines, calculated total, incoming payment/advance, realization, document states, derived settlement), UI, Demo/Guided/Test, guidance, intentional error chain, 8 state assertions, unit/component/E2E desktop+mobile
+Files changed: src/features/training-workspace/SalesCycleTrainingWorkspace.tsx; sales-cycle.css; domain/salesCycleScenario.ts; domain/salesCycleVerification.ts; guidance/salesCycleGuidance.ts; shared/TrainingChrome.tsx; shared/useGuidanceBeacon.ts; src/routes/SalesCycleLessonPage.tsx; src/content/course.json; e2e/sales-cycle-workspace.spec.ts
+Checks passed: lint, typecheck, unit 52/52, build, secrets, curriculum, E2E 20/20 (--workers=1, desktop 1440 + mobile 360)
+Known defects: no confirmed engineering defect; Interface Passport for invoice/payment/realization not observed; settlement rule (balance = posted realizations − posted payments) is a Tutor teaching model pending specialist review
+Blocker/unblock condition: owner review of all three modes and the diagnostic exercise
+Exact next action: Murat reviews Demo, Guided, error-repair and Independent at /learn/sales-prepayment-cycle and records a decision in docs/validation/SALES_CYCLE_IMPLEMENTATION_STATUS.md and this ledger
+Last updated: 2026-10-15
+```
+
 ## Resume record template
 
 When a lesson becomes active, append this block below the register and keep it current:
@@ -167,6 +195,7 @@ Last updated:
 
 ## Change log
 
+- 2026-10-15 — owner authorized Session 06 (sales by prepayment, `AKZ-M03-L02..L04`) as a parallel checkpoint; implemented and moved to `OWNER_REVIEW`. `AKZ-M03-L01` gate unchanged.
 - 2026-08-25 — MiniBase progress integration authorized separately; curriculum execution gate remains `OWNER_REVIEW`.
 - 2026-08-24 — owner accepted the substantial-session curriculum plan; MiniBase recorded as the required future server-persistence platform; practical workspace gate remains `OWNER_REVIEW`.
 - 2026-08-24 — 77 atomic skill units grouped one-to-one into one orientation plus 28 substantial learner sessions; legacy micro-quizzes removed from the active learner route. Current owner gate remains unchanged.

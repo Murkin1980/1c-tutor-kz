@@ -1,5 +1,13 @@
 # SESSION NOTES
 
+## 2026-10-15 — Session 06 sales-by-prepayment practice (owner-authorized)
+
+- Owner explicitly authorized one complete 120-minute trainer «Продажа по предоплате: счёт → оплата → реализация → контроль долга»; MPE disposition `EXTEND_EXISTING`. Base `mpe/stage-1-validation` @ `883b42a`; `origin/main` not merged. Requested spec branch `agent/antigravity-sales-cycle-spec` was not on the remote — owner instruction + Session plan + Atlas W2/W3 used as spec.
+- Added route `/learn/sales-prepayment-cycle`: linked domain (customer, invoice lines, calculated total, incoming payment/advance, realization, saved/posted states, derived settlement), Demo/Guided/Independent, intentional error chain repaired without reset, 8 state assertions.
+- Extracted shared Training Workspace primitives (`useGuidanceBeacon`, `TrainingHeader`, `Target`, `VerificationResults`) and reused them in the customer-card workspace without behavior change; added `mergeLessonProgress` so completions are never downgraded.
+- Checks: lint PASS, typecheck PASS, unit 52/52 PASS, build PASS, secrets PASS, curriculum PASS, `test:e2e --workers=1` 20/20 PASS (desktop + 360 px mobile).
+- MiniBase API, Cloudflare Access, ФНО/ЭСФ and production untouched. Evidence: `docs/validation/SALES_CYCLE_IMPLEMENTATION_STATUS.md`; ledger updated (`AKZ-M03-L02..L04` → `OWNER_REVIEW`).
+
 ## 2026-08-25 — MiniBase progress integration engineering checkpoint
 
 - Owner explicitly authorized MiniBase connection; MPE disposition remains `EXTEND_EXISTING` and Invoice remains blocked.

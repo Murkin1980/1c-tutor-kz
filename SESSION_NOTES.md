@@ -441,3 +441,4 @@ Root review found one remaining desktop-specific phrase in the initial Guided hi
 - Recorded `AKZ-M03-L01` as the accepted foundation and moved the active owner gate to Session 06 (`AKZ-M03-L02..L04`).
 - Training documents remain intentionally resettable workspace state; only learner progress is persisted. Synchronizing simulated documents is outside this checkpoint.
 - Validation: curriculum PASS (77 units / 29 sessions); lint PASS; typecheck PASS; unit 55/55 PASS; client build PASS; Pages Functions build PASS; secrets PASS; focused sales-cycle E2E 10/10 PASS; full desktop/mobile E2E 20/20 PASS.
+- Cloudflare Pages owner-review preview deployed from `abf3a2f` to `https://a85d4904.1c-tutor-kz.pages.dev` with branch alias `https://mpe-stage-1-validation.1c-tutor-kz.pages.dev`. Post-deploy smoke: root 200, `/learn/sales-prepayment-cycle` 200, current bundle contains the sales route and teaching-model notice, unauthenticated `/api/progress` 401.

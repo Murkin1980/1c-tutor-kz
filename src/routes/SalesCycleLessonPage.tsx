@@ -5,14 +5,8 @@ import { SalesCycleTrainingWorkspace } from "../features/training-workspace/Sale
 
 export function SalesCycleLessonPage() {
   return (
-    <main className="customer-card-lesson-page">
-      <div
-        style={{
-          maxWidth: 1400,
-          margin: "0 auto",
-          padding: "20px clamp(12px, 3vw, 32px) 48px",
-        }}
-      >
+    <main className="sales-cycle-lesson-page">
+      <div className="sales-cycle-lesson-content">
         <Link to={`/courses/${course.slug}`} className="back-link">
           <ChevronLeft size={16} /> К содержанию курса
         </Link>

@@ -209,7 +209,18 @@ test("independent test hides step help and records completed_unassisted", async 
   await expect(page.locator(".driver-hint")).toHaveCount(0);
   results = await verify(page);
   await expect(results.getByText("Работа выполнена")).toBeVisible();
+  await expect(page.getByText("Учебная модель расчёта")).toBeVisible();
   await expectNoHorizontalScroll(page);
+  if (isMobile) {
+    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+    const navigationBox = await page.locator(".mobile-nav").boundingBox();
+    const resultsBox = await results.boundingBox();
+    expect(navigationBox).not.toBeNull();
+    expect(resultsBox).not.toBeNull();
+    expect(resultsBox!.y + resultsBox!.height).toBeLessThanOrEqual(
+      navigationBox!.y,
+    );
+  }
   await page.screenshot({
     path: `test-results/sales-cycle-pass-${isMobile ? "mobile-360x800" : "desktop-1440x900"}.png`,
     fullPage: false,

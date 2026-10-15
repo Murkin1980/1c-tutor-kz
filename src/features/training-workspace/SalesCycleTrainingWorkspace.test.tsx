@@ -180,7 +180,7 @@ describe("sales-by-prepayment workspace learning modes", () => {
       within(results).getByText("Правильный покупатель в счёте"),
     ).toBeInTheDocument();
     expect(
-      within(results).getByText("Итоговый долг / аванс покупателя"),
+      within(results).getByText("Остаток по учебной модели"),
     ).toBeInTheDocument();
     expect(results.querySelectorAll('[data-passed="false"]')).toHaveLength(8);
     expect(progress().status).toBe("needs_retry");

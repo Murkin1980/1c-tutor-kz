@@ -1,168 +1,62 @@
-# NEXT STAGE INSTRUCTION — Stage 1B.1 Engineering Verification + Owner Review
+# NEXT STAGE INSTRUCTION — Session 06 Owner Review
 
-## Canonical handoff
+## Canonical checkpoint
 
-Start with `CODER_HANDOFF_2026-08-15.md`.
+MPE disposition: `EXTEND_EXISTING`.
 
-Before selecting any lesson, also read:
-- `docs/curriculum/ACCOUNTING_KZ_CURRICULUM_ROADMAP.md`;
-- `docs/curriculum/LESSON_STATUS.md`.
+The active checkpoint is the 120-minute embedded practice:
 
-`LESSON_STATUS.md` is the canonical shared resume ledger for Murat, Codex and external coders. Update it in the same commit as every lesson checkpoint.
+`Session 06 — Продажа по предоплате: счёт → оплата → реализация → контроль долга`
 
-That file is the short operational continuation guide for Codex. This document remains the detailed stage gate.
+It covers `AKZ-M03-L02`, `AKZ-M03-L03` and `AKZ-M03-L04` at:
 
-## MPE decision
+`/learn/sales-prepayment-cycle`
 
-`EXTEND_EXISTING`
+The Arena implementation at commit `e47c100` is the implementation base. Do not replace it with the conflicting 100%-prepayment draft from `agent/antigravity-sales-cycle-spec`.
 
-The first embedded Counterparty vertical slice now exists in code. Do **not** start Invoice implementation yet.
+## Current gate
 
-## Current state
+Status: `OWNER_REVIEW_PENDING`.
 
-Implemented:
-- route `/learn/customer-card`;
-- deterministic customer-card domain state;
-- create/edit/save/reset;
-- Demo / Guided / Independent Test;
-- semantic targets + spotlight;
-- condition-driven guidance;
-- `Почему?`, hint ladder and show-action;
-- state-based Verification Engine v2;
-- per-assertion expected/actual/hint feedback;
-- assisted/unassisted completion metadata;
-- unit-test specifications;
-- Playwright guided + independent specs;
-- customer-card content marked `practiceMode: embedded`;
-- no required 1C:Fresh dependency in this lesson.
+Engineering implementation exists for:
 
-Still open:
-- actual lint/typecheck/unit/build/secrets/e2e execution;
-- desktop/mobile manual smoke;
-- observation-grade Interface Passport for a legally accessible Accounting KZ 3.0 build;
-- anchored floating coach by actual target bounds (current implementation uses side panel + spotlight);
-- owner UX/fidelity review.
+- Demo / `Показать`;
+- Guided / `Вести меня`;
+- diagnostic error repair without reset;
+- Independent / `Проверить себя`;
+- deterministic verification from persisted workspace documents;
+- assisted/unassisted learner progress;
+- local progress with optional MiniBase synchronization;
+- desktop and mobile browser coverage.
 
-## Mandatory reading
+`AKZ-M03-L01` is accepted as the completed foundation. The owner explicitly authorized Session 06 after finding the standalone customer-card lesson too simple.
 
-Before changing code, read:
-1. `CODER_HANDOFF_2026-08-15.md`
-2. `FOUNDATION.md`
-3. `ARCHITECTURE.md`
-4. `DATA_MODEL.md`
-5. `ROADMAP.md`
-6. `STAGE_CHECKLIST.md`
-7. `CODER_INSTRUCTION.md`
-8. `knowledge/1c/COVERAGE.md`
-9. `knowledge/1c/workflows/ACCOUNTING_KZ_3_0_STAGE1B_CORE.md`
-10. `knowledge/1c/interfaces/ACCOUNTING_KZ_3_0_STAGE1B_PASSPORTS.md`
-11. `knowledge/1c/evidence/ACCOUNTING_KZ_3_0_STAGE1B_EVIDENCE.md`
-12. `SESSION_NOTES.md`
+## Methodology boundary
 
-## Phase A — Run engineering checks
+The session uses a fictional scenario:
 
-From a checkout of branch `mpe/stage-1-validation` run:
+- invoice: 330 000 KZT;
+- incoming prepayment: 165 000 KZT (50%);
+- realization: 330 000 KZT;
+- resulting Tutor balance: customer debt 165 000 KZT.
 
-```bash
-npm install
-npm run lint
-npm run typecheck
-npm run test
-npm run build
-npm run check:secrets
-npm run test:e2e
-```
+The balance formula is an explicitly labeled Tutor teaching model. Do not present it as evidence of exact postings, advance-offset behavior or form behavior in a concrete Accounting KZ 3.0 build. Those claims require an observation-grade Interface Passport or specialist approval.
 
-Do not weaken tests to get green.
+## Required owner walkthrough
 
-If checks fail:
-- fix only Stage 1B.1/regression issues;
-- rerun all affected checks;
-- record exact command/result in `SESSION_NOTES.md`.
+1. Complete Demo and confirm that it explains the whole chain without granting completion.
+2. Complete Guided and inspect the two-level hints and `Почему?` explanations.
+3. Load the diagnostic chain, identify the wrong payment and unposted realization, and repair both without resetting.
+4. Complete Independent without guidance.
+5. Repeat Demo or Guided and verify that the previous best completion result is not downgraded.
+6. Check the mobile route at approximately 360 px and confirm that the fixed bottom navigation does not cover the final controls/results.
 
-## Phase B — Desktop/mobile smoke
+Record `PASS`, `PASS WITH REMEDIATION` or `FAIL` in `docs/validation/SALES_CYCLE_IMPLEMENTATION_STATUS.md` and `docs/curriculum/LESSON_STATUS.md`.
 
-Verify `/learn/customer-card` on desktop and ~360px mobile viewport.
+## Stop boundary
 
-Required:
-- training marker always visible;
-- task data readable;
-- section navigation usable;
-- create form usable;
-- save control usable;
-- result checklist readable;
-- no horizontal trap;
-- task panel does not prevent workspace use.
+Do not implement Session 07 or later lessons before the Session 06 owner decision.
 
-## Phase C — Learning-mode smoke
+Do not add dependencies, a second persistence system, real 1C access, real identifiers, VAT/ESF logic, accounting entries, tax claims or production deployment as part of this checkpoint.
 
-### Demo
-- use `Показать действие` through completion;
-- verify Demo does not mark lesson completed.
-
-### Guided
-- perform actions personally;
-- verify target spotlight advances by state;
-- open `Почему?`, hint1, hint2;
-- use show-action once and verify completion becomes assisted.
-
-### Independent Test
-- confirm guidance is hidden;
-- complete scenario manually;
-- verify completion can be `completed_unassisted`.
-
-## Phase D — Owner review package
-
-Present exactly one slice to owner.
-
-Ask owner to evaluate:
-1. Does the workspace feel close enough to 1C interaction logic to teach useful habits?
-2. Is the task panel clear?
-3. Is the target spotlight sufficient, or is an anchored floating coach required before broader work?
-4. Is `Что будет проверено` understandable before starting?
-5. Are per-check PASS/FAIL results understandable?
-6. Is mobile interaction acceptable?
-
-Record feedback in:
-`docs/validation/STAGE1B1_OWNER_REVIEW.md`.
-
-Do not mark PASS without explicit owner decision.
-
-## Phase E — Fidelity evidence
-
-If a legally accessible Accounting KZ 3.0 build is available, observe only the narrow Counterparty workflow and upgrade the draft Interface Passport:
-- actual navigation path;
-- visible command names;
-- relevant field labels;
-- save/close behavior;
-- differences from Tutor.
-
-Do not copy protected assets or bulk screenshots.
-
-If no accessible build exists, keep `EXACT_UI_OBSERVATION_PENDING`; this does not justify inventing details.
-
-## Definition of Stage 1B.1 PASS
-
-All are required:
-- engineering checks PASS;
-- desktop/mobile smoke PASS;
-- domain-state verification proven;
-- owner reviews all three modes;
-- owner accepts interaction direction;
-- blocking UX issues fixed;
-- remaining fidelity limitations explicitly documented;
-- owner explicitly authorizes Stage 1B.2 Invoice.
-
-## STOP CONDITION
-
-Until the owner explicitly authorizes Stage 1B.2, do **not** implement:
-- customer invoice;
-- payment;
-- new Accounting KZ vertical slices;
-- FNO/ESF;
-- Supabase;
-- AI verification;
-- browser automation/computer vision;
-- International Track runtime/lessons.
-
-Atlas/research maintenance may continue only if it does not displace this gate.
+Training Workspace document state remains an isolated resettable scenario. MiniBase persists learner progress only; extending it to synchronize live simulated documents is a separate product decision, not part of this correction.

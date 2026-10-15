@@ -34,14 +34,24 @@ export function mergeLessonProgress(
   patch: Partial<LessonProgress>,
 ): Partial<LessonProgress> {
   if (saved?.status !== "completed") return patch;
-  const next = { ...patch, status: "completed" as const };
-  if (
-    saved.completionKind === "completed_unassisted" ||
-    !patch.completionKind
-  ) {
-    next.completionKind = saved.completionKind;
-  }
-  return next;
+  const upgradesAssistedResult =
+    saved.completionKind === "completed_assisted" &&
+    patch.status === "completed" &&
+    patch.completionKind === "completed_unassisted";
+
+  if (upgradesAssistedResult) return patch;
+
+  return {
+    ...patch,
+    status: saved.status,
+    currentStep: saved.currentStep,
+    answer: saved.answer,
+    practiceMode: saved.practiceMode,
+    completionKind: saved.completionKind,
+    hintCount: saved.hintCount,
+    showActionCount: saved.showActionCount,
+    resetCount: saved.resetCount,
+  };
 }
 
 export interface ProgressRepository {

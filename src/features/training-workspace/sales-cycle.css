@@ -387,3 +387,38 @@
 .sc-shell .sc-source {
   margin-top: 14px;
 }
+
+.sales-cycle-lesson-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px clamp(12px, 3vw, 32px) 48px;
+}
+
+.sc-model-notice {
+  display: grid;
+  gap: 4px;
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid #f5c542;
+  border-radius: 8px;
+  background: #fffdf4;
+  color: #475467;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.sc-model-notice strong {
+  color: #1d2939;
+}
+
+.sc-model-summary {
+  color: #667085;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+@media (max-width: 720px) {
+  .sales-cycle-lesson-content {
+    padding-bottom: calc(96px + env(safe-area-inset-bottom));
+  }
+}

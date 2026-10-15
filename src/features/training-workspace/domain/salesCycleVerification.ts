@@ -183,11 +183,11 @@ export function verifySalesCycleState(
     },
     {
       id: "settlement.balance",
-      label: "Итоговый долг / аванс покупателя",
+      label: "Остаток по учебной модели",
       passed: settlement.balance === SALES_CYCLE_EXPECTED.finalBalance,
       expected: describeBalance(SALES_CYCLE_EXPECTED.finalBalance),
       actual: `${describeBalance(settlement.balance)} (отгружено ${formatKzt(settlement.shipped)}, оплачено ${formatKzt(settlement.paid)})`,
-      hint: "Остаток рассчитывается системой по проведённым документам. Сверьте его в отчёте «Расчёты с покупателями».",
+      hint: "В этом тренажёре остаток равен проведённой реализации минус проведённая оплата. Сверьте документы и учебный отчёт.",
     },
   ];
 

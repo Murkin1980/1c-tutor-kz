@@ -5,9 +5,9 @@ Decision: `EXTEND_EXISTING`
 Status: `ENGINEERING GATE PASS / PENDING OWNER REVIEW`
 Route: `/learn/sales-prepayment-cycle`
 Coverage units: `AKZ-M03-L02` (invoice), `AKZ-M03-L03` (incoming payment/advance), `AKZ-M03-L04` (realization)
-Base: `mpe/stage-1-validation` @ `883b42a`; `origin/main` was not merged.
+Base implementation: Arena commit `e47c100` from `mpe/stage-1-validation` @ `883b42a`; corrected on `codex/sales-cycle-integration`. `origin/main` was not merged.
 
-Spec input: the requested spec commit from `agent/antigravity-sales-cycle-spec` was not present on the remote at implementation time. The owner instruction of 2026-10-15, the Session 06 row of `ACCOUNTING_KZ_SESSION_PLAN.md` and Atlas workflows W2/W3 (`knowledge/1c/workflows/ACCOUNTING_KZ_3_0_STAGE1B_CORE.md`) were used as the spec.
+Spec reconciliation: the later `agent/antigravity-sales-cycle-spec` draft conflicts with the implementation (100% prepayment / zero balance versus 50% prepayment / remaining debt) and contains unsupported settlement semantics. The owner-directed Arena scenario remains canonical because it is more diagnostic and stays inside the existing Atlas boundary. The Antigravity draft is not merged.
 
 ## Scenario (fictional data, KZT, ru-KZ formatting)
 
@@ -43,7 +43,7 @@ Spec input: the requested spec commit from `agent/antigravity-sales-cycle-spec` 
 5. `payment.linked` — проведённое поступление от покупателя связано со счётом-основанием (unlinked / wrong payer / saved-not-posted reported separately).
 6. `payment.amount` — сумма предоплаты 165 000 ₸ по проведённым связанным поступлениям.
 7. `realization.posted` — реализация на основании счёта проведена.
-8. `settlement.balance` — итоговый долг/аванс, рассчитанный системой, = долг 165 000 ₸.
+8. `settlement.balance` — остаток по явно обозначенной учебной модели Tutor = долг 165 000 ₸.
 
 Each assertion exposes expected / actual / hint. A separately entered correct number cannot pass: totals and balances are derived from persisted documents only (covered by unit tests).
 
@@ -57,14 +57,15 @@ Extracted from the customer-card workspace without behavior change: `shared/useG
 
 ## Engineering checks (2026-10-15, sandbox, Node 22)
 
-| Command | Result |
-|---|---|
-| `npm run lint` | PASS |
-| `npm run typecheck` | PASS |
-| `npm run test` | PASS — 9 files, 52 tests |
-| `npm run build` | PASS |
-| `npm run check:secrets` | PASS |
-| `npm run check:curriculum` | PASS — 77 units, 29 sessions |
+| Command                           | Result                                           |
+| --------------------------------- | ------------------------------------------------ |
+| `npm run lint`                    | PASS                                             |
+| `npm run typecheck`               | PASS                                             |
+| `npm run test`                    | PASS — 9 files, 55 tests                         |
+| `npm run build`                   | PASS                                             |
+| `npm run build:functions`         | PASS                                             |
+| `npm run check:secrets`           | PASS                                             |
+| `npm run check:curriculum`        | PASS — 77 units, 29 sessions                     |
 | `npm run test:e2e -- --workers=1` | PASS — 20/20 (desktop 1440×900 + mobile 360×800) |
 
 E2E browser note: the sandbox could not download Playwright's Chrome; a Chromium build from the npm package `@sparticuz/chromium` was installed at `/opt/google/chrome/chrome` outside the repository to satisfy `channel: "chrome"`. No repository config was changed for this.
@@ -72,7 +73,8 @@ E2E browser note: the sandbox could not download Playwright's Chrome; a Chromium
 ## Known gaps / not verified
 
 - Observation-grade Interface Passport for invoice, bank receipt and realization forms (labels/placement are semantic, not pixel-accurate).
-- Settlement rule is a Tutor teaching model; Atlas W3 requires specialist review of exact settlement behavior.
+- Settlement rule is visibly labeled in the learner interface as a Tutor teaching model; Atlas W3 still requires specialist review of exact settlement behavior.
+- MiniBase synchronizes `LessonProgress`, including per-assertion results and completion kind. Live simulated documents intentionally remain resettable local workspace state and are not synchronized.
 - No contract/договор, VAT, accounting entries or ESF in this session (by scope).
 - Manual owner walkthrough on a physical phone, real touch keyboards and screen readers not performed; mobile verified at 360 px viewport in headless Chromium.
 - Workspace state is not persisted across page reloads (only progress is).

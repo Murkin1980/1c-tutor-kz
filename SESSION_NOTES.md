@@ -53,6 +53,7 @@ Codex Router review caused five hardening changes before commit: the roadmap now
 Owner disliked the gold glow around the active guidance target and requested a turquoise variant. The Driver.js beacon accent changed from gold `#c69300` to turquoise `#0f9f9a`; the outer glow now uses the matching translucent turquoise. Guidance behavior, target positioning, yellow action controls, and Independent mode remain unchanged.
 
 Verification:
+
 - `npm run lint` — PASS;
 - `npm run typecheck` — PASS;
 - `npm run build` — PASS;
@@ -118,6 +119,7 @@ Canonical continuation file added:
 Codex must NOT add new business functionality first.
 
 Required order:
+
 1. sync `mpe/stage-1-validation`;
 2. read handoff + stage source-of-truth docs;
 3. run lint/typecheck/unit/build/secrets/e2e;
@@ -153,6 +155,7 @@ Implementation followed the updated plan and stopped before Invoice.
 ### Implemented code
 
 Created:
+
 - `src/features/training-workspace/domain/customerCardScenario.ts`;
 - `src/features/training-workspace/domain/customerCardVerification.ts`;
 - `src/features/training-workspace/guidance/customerCardGuidance.ts`;
@@ -164,6 +167,7 @@ Created:
 - `docs/validation/STAGE1B1_OWNER_REVIEW.md`.
 
 Updated:
+
 - `src/app/App.tsx`;
 - `src/routes/CoursePage.tsx`;
 - `src/entities/course.ts`;
@@ -190,18 +194,21 @@ The current screen is a semantic interaction model based on Atlas evidence. It d
 ### Domain / verification
 
 Deterministic state contains:
+
 - current supported screen;
 - counterparty draft;
 - saved fictional counterparties;
 - action log.
 
 Required state:
+
 - saved counterparty exists;
 - name = `ТОО Учебный Покупатель`;
 - city = `Кызылорда`;
 - saved state = true.
 
 Verification Engine v2 returns per-check:
+
 - PASS/FAIL;
 - expected;
 - actual;
@@ -212,6 +219,7 @@ Knowing or typing the expected name outside the workspace cannot complete the pr
 ### Learning modes
 
 Implemented:
+
 - Demo / `Показать`;
 - Guided / `Вести меня`;
 - Independent Test / `Проверить себя`.
@@ -225,6 +233,7 @@ Independent Test hides guidance and spotlight.
 ### Progress semantics
 
 Existing local progress repository was extended additively with optional:
+
 - `practiceMode`;
 - `completionKind`;
 - `hintCount`;
@@ -232,6 +241,7 @@ Existing local progress repository was extended additively with optional:
 - `resetCount`.
 
 Completion can be:
+
 - `completed_unassisted`;
 - `completed_assisted`.
 
@@ -293,6 +303,7 @@ Engineering and smoke checks are complete. Owner review remains `PENDING_OWNER_R
 ### Tests added
 
 Unit specifications cover:
+
 - initial state cannot PASS;
 - correct data before save cannot PASS;
 - correct saved object PASS;
@@ -301,6 +312,7 @@ Unit specifications cover:
 - reset returns deterministic seed.
 
 Playwright specifications cover:
+
 - guided successful flow;
 - initial explicit failure;
 - independent mode hides guidance and completes manually.
@@ -322,6 +334,7 @@ Owner reported that the screen appeared unstyled and the visual order/layout was
 Blocker fix: restored the complete stylesheet from parent commit `899c956` and retained the `.training-start-cue` rule at the end of the file. No JSX flow, business scope, or `minibase/` files were changed.
 
 Verification:
+
 - `npm run lint` — PASS;
 - `npm run typecheck` — PASS;
 - `npm run test` — PASS (6 files, 14 tests);
@@ -332,6 +345,7 @@ Verification:
 - mode visibility — Demo/Guided cue visible; Independent cue, coaching, and spotlight hidden.
 
 Screenshots:
+
 - `test-results/training-workspace-desktop-1440x900.png`;
 - `test-results/training-workspace-mobile-360x800.png`.
 
@@ -344,6 +358,7 @@ Owner approved replacing the experimental custom halo with the reusable `Driver.
 The textual `Начните здесь` cue remains because it names the first action for users who do not infer a beacon immediately. Its wording is universal across desktop and mobile: `Нажмите «Продажи» в меню.` No overlay, popover, full tour, Invoice, Payment, or other Stage 1B.2 scope was added. `Decision` remains `PENDING`.
 
 Implementation verification completed the engineering checks below; owner visual acceptance is still pending. The updated E2E coverage checks:
+
 - one beacon in Demo and Guided;
 - beacon absence in Independent;
 - beacon rebind after target advancement;
@@ -354,6 +369,7 @@ Implementation verification completed the engineering checks below; owner visual
 - reduced-motion static behavior.
 
 Verification result:
+
 - `npm install` — PASS; added `driver.js@1.8.0` (npm reports the existing 5 audit vulnerabilities and esbuild allow-scripts notice);
 - `npm run lint` — PASS;
 - `npm run typecheck` — PASS;
@@ -369,6 +385,7 @@ Verification result:
 Remote synchronization was checked before continuation: `HEAD` and `origin/mpe/stage-1-validation` both remain `0b12de5` with no divergence. The untracked `minibase/` directory was preserved. The universal initial cue is present in the workspace and E2E: `Нажмите «Продажи» в меню.` No old desktop-specific initial cue, `training-target-active` custom halo class, custom halo keyframes, or abandoned halo file/import remains.
 
 Fresh verification:
+
 - `npm install` — PASS; dependencies are up to date; existing npm audit and esbuild allow-scripts warnings remain;
 - `npm run lint` — PASS;
 - `npm run typecheck` — PASS;
@@ -379,6 +396,7 @@ Fresh verification:
 - manual browser smoke — PASS at 1440x900 and 360x800; no horizontal overflow, one visible non-blocking beacon, no Driver.js overlay/popover, and the beacon aligned to the current target after mobile target scroll.
 
 Manual screenshots:
+
 - `test-results/manual-driver-hint-desktop-1440x900.png`;
 - `test-results/manual-driver-hint-mobile-360x800.png`.
 
@@ -387,6 +405,7 @@ Owner visual acceptance remains pending. `Decision` remains `PENDING`; Stage 1B.
 ## 2026-08-17 — Responsive guidance wording correction
 
 Root review found one remaining desktop-specific phrase in the initial Guided hint. The guidance now says `Ищите раздел в меню учебной рабочей области.` and the customer-card unit test asserts this universal wording. Focused customer-card E2E passed `8/8` across desktop/mobile; the full serial E2E gate passed `10/10`. `Decision` remains `PENDING`; Stage 1B.2 remains blocked.
+
 # 2026-08-24 — curriculum changed from micro-quizzes to substantial sessions
 
 - Owner identified the legacy sales exercise as childish and requested 60–120 minute real-world lessons instead of 77 micro-lessons.
@@ -410,3 +429,15 @@ Root review found one remaining desktop-specific phrase in the initial Guided hi
 - Validation: curriculum, lint, typecheck, 25/25 unit tests, client build, Pages Functions build, secrets scan and serial Playwright desktop/mobile (`10/10`) PASS.
 - Preview deployed from commit `f6cecef` to `https://mpe-stage-1-validation.1c-tutor-kz.pages.dev`; root smoke returned HTTP 200 and unauthenticated `/api/progress` correctly returned HTTP 401.
 - MiniBase sync intentionally remains disabled in the preview until a scoped server secret and Cloudflare Access application are configured.
+
+# 2026-10-15 — Session 06 integration correction
+
+- MPE disposition remains `EXTEND_EXISTING`.
+- Created `codex/sales-cycle-integration` directly from Arena implementation commit `e47c100`; the working sales-cycle implementation was preserved rather than rewritten.
+- Reconciled the conflicting Antigravity draft by keeping Arena's more diagnostic 50% prepayment scenario and excluding unsupported exact posting/advance-offset claims.
+- Labeled the settlement balance visibly as a Tutor teaching model pending specialist confirmation for a concrete Accounting KZ 3.0 build.
+- Fixed best-result progress merging so a later Demo or assisted attempt cannot replace the evidence from an earlier independent completion; MiniBase continues to synchronize the resulting `LessonProgress` through the existing repository.
+- Added mobile bottom clearance for the fixed navigation bar on the sales-cycle route.
+- Recorded `AKZ-M03-L01` as the accepted foundation and moved the active owner gate to Session 06 (`AKZ-M03-L02..L04`).
+- Training documents remain intentionally resettable workspace state; only learner progress is persisted. Synchronizing simulated documents is outside this checkpoint.
+- Validation: curriculum PASS (77 units / 29 sessions); lint PASS; typecheck PASS; unit 55/55 PASS; client build PASS; Pages Functions build PASS; secrets PASS; focused sales-cycle E2E 10/10 PASS; full desktop/mobile E2E 20/20 PASS.

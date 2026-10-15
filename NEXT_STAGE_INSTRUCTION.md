@@ -1,4 +1,4 @@
-# NEXT STAGE INSTRUCTION — Session 06 Owner Review
+# NEXT STAGE INSTRUCTION — Session 06 Accepted / Next Checkpoint Pending
 
 ## Canonical checkpoint
 
@@ -16,7 +16,7 @@ The Arena implementation at commit `e47c100` is the implementation base. Do not 
 
 ## Current gate
 
-Status: `OWNER_REVIEW_PENDING`.
+Status: `OWNER_ACCEPTED` (`PASS WITH REMEDIATION`).
 
 Engineering implementation exists for:
 
@@ -42,20 +42,15 @@ The session uses a fictional scenario:
 
 The balance formula is an explicitly labeled Tutor teaching model. Do not present it as evidence of exact postings, advance-offset behavior or form behavior in a concrete Accounting KZ 3.0 build. Those claims require an observation-grade Interface Passport or specialist approval.
 
-## Required owner walkthrough
+## Owner review result
 
-1. Complete Demo and confirm that it explains the whole chain without granting completion.
-2. Complete Guided and inspect the two-level hints and `Почему?` explanations.
-3. Load the diagnostic chain, identify the wrong payment and unposted realization, and repair both without resetting.
-4. Complete Independent without guidance.
-5. Repeat Demo or Guided and verify that the previous best completion result is not downgraded.
-6. Check the mobile route at approximately 360 px and confirm that the fixed bottom navigation does not cover the final controls/results.
+The owner accepted the lesson, guidance behavior and current difficulty. The only remediation clarifies that the final return to `Продажи` opens the Tutor settlement-control report and does not create another sale.
 
-Record `PASS`, `PASS WITH REMEDIATION` or `FAIL` in `docs/validation/SALES_CYCLE_IMPLEMENTATION_STATUS.md` and `docs/curriculum/LESSON_STATUS.md`.
+Session 06 is complete. Prepare the next checkpoint through the desktop workflow: Antigravity design → Codex review → bounded Arena checkpoint. Do not start implementation from an unreviewed design.
 
 ## Stop boundary
 
-Do not implement Session 07 or later lessons before the Session 06 owner decision.
+Do not implement Session 07 or later lessons until Codex has reviewed its design and marked a bounded checkpoint `READY FOR ARENA`.
 
 Do not add dependencies, a second persistence system, real 1C access, real identifiers, VAT/ESF logic, accounting entries, tax claims or production deployment as part of this checkpoint.
 

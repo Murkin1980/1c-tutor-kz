@@ -396,6 +396,21 @@ describe("sales-by-prepayment guidance", () => {
     const afterSave = fillInvoice(createSalesCycleSeed());
     expect(getSalesCycleGuidance(afterSave)?.targetId).toBe("nav.bank");
   });
+
+  it("explains that the final return to Sales opens the control report", () => {
+    let state = createSalesCycleSeed();
+    for (let step = 0; step < 60; step += 1) {
+      const guidance = getSalesCycleGuidance(state);
+      expect(guidance).not.toBeNull();
+      if (guidance?.id === "control-open-sales") {
+        expect(guidance.why).toMatch(/не для новой продажи/);
+        expect(guidance.why).toMatch(/отчёт по расчётам с покупателем/);
+        return;
+      }
+      state = reduceSalesCycleState(state, guidance!.action);
+    }
+    throw new Error("Final settlement-control transition was not reached");
+  });
 });
 
 describe("lesson progress merge", () => {

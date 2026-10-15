@@ -85,7 +85,7 @@ if (extraInSessions.length)
   problems.push(`unknown in session plan: ${extraInSessions.join(", ")}`);
 if (!ledger.includes("Current lesson: `AKZ-M03-L02`"))
   problems.push("current lesson marker is missing or unexpected");
-if (!ledger.includes("Current gate: `OWNER_REVIEW_PENDING`"))
+if (!ledger.includes("Current gate: `OWNER_ACCEPTED`"))
   problems.push("current owner gate marker is missing or unexpected");
 if (
   !/^\|\s*AKZ-M03-L01\s*\|\s*Customer card\s*\|\s*DONE\s*\|\s*OWNER\s*\|/m.test(
@@ -96,12 +96,12 @@ if (
 for (const lessonId of ["AKZ-M03-L02", "AKZ-M03-L03", "AKZ-M03-L04"]) {
   if (
     !new RegExp(
-      `^\\|\\s*${lessonId}\\s*\\|[^|]*\\|\\s*OWNER_REVIEW\\s*\\|`,
+      `^\\|\\s*${lessonId}\\s*\\|[^|]*\\|\\s*DONE\\s*\\|\\s*OWNER\\s*\\|`,
       "m",
     ).test(ledger)
   )
     problems.push(
-      `${lessonId} does not match the Session 06 owner-review gate`,
+      `${lessonId} does not match the accepted Session 06 checkpoint`,
     );
 }
 if (!ledger.includes("## Active resume record — Session 06"))

@@ -2,7 +2,7 @@
 
 Date: 2026-10-15
 Decision: `EXTEND_EXISTING`
-Status: `ENGINEERING GATE PASS / PENDING OWNER REVIEW`
+Status: `PASS WITH REMEDIATION / OWNER ACCEPTED`
 Route: `/learn/sales-prepayment-cycle`
 Coverage units: `AKZ-M03-L02` (invoice), `AKZ-M03-L03` (incoming payment/advance), `AKZ-M03-L04` (realization)
 Base implementation: Arena commit `e47c100` from `mpe/stage-1-validation` @ `883b42a`; corrected on `codex/sales-cycle-integration`. `origin/main` was not merged.
@@ -61,7 +61,7 @@ Extracted from the customer-card workspace without behavior change: `shared/useG
 | --------------------------------- | ------------------------------------------------ |
 | `npm run lint`                    | PASS                                             |
 | `npm run typecheck`               | PASS                                             |
-| `npm run test`                    | PASS — 9 files, 55 tests                         |
+| `npm run test`                    | PASS — 9 files, 56 tests                         |
 | `npm run build`                   | PASS                                             |
 | `npm run build:functions`         | PASS                                             |
 | `npm run check:secrets`           | PASS                                             |
@@ -81,4 +81,8 @@ E2E browser note: the sandbox could not download Playwright's Chrome; a Chromium
 
 ## Owner review
 
-Decision: `PENDING`.
+Decision: `PASS WITH REMEDIATION` on 2026-10-15.
+
+Owner feedback: the lesson is good, guidance highlights the correct controls without obstructing the work, and the current difficulty is appropriate for this stage. One minor ambiguity remained at the end: why the learner returns to `Продажи` after posting the realization.
+
+Remediation: the final guidance now explains that the learner is not creating another sale; the return opens the Tutor settlement-control report. It also states that the exact report location may differ in a concrete Accounting KZ 3.0 build.

@@ -6,8 +6,8 @@ Branch: `codex/sales-cycle-integration` (base implementation: `e47c100`)
 
 Current lesson: `AKZ-M03-L02` (Session 06 also covers `AKZ-M03-L03`, `AKZ-M03-L04`)
 
-Current gate: `OWNER_REVIEW_PENDING`
-Next authorized implementation: **none; complete owner review of Session 06 before expanding the curriculum**
+Current gate: `OWNER_ACCEPTED`
+Next authorized implementation: **none until Codex prepares and validates the next checkpoint specification**
 
 ## Mandatory use
 
@@ -33,14 +33,15 @@ Phases:
 
 `Session 06 — Продажа по предоплате: счёт → оплата → реализация → контроль долга`
 
-- Status: `OWNER_REVIEW`.
-- Implemented through: `TESTS`.
+- Status: `DONE` (`PASS WITH REMEDIATION`).
+- Implemented through: `OWNER`.
 - Current implementation: `/learn/sales-prepayment-cycle` with Demo, Guided, diagnostic repair and Independent modes.
 - Base implementation commit: `e47c100`.
 - Scenario: invoice 330 000 KZT → 50% incoming prepayment 165 000 KZT → realization 330 000 KZT → educational balance 165 000 KZT.
 - Settlement calculation is explicitly labeled as a Tutor teaching model pending specialist confirmation for a concrete Accounting KZ 3.0 build.
 - MiniBase integration persists learner progress through the existing `ProgressRepository`; simulated documents intentionally reset with the isolated workspace.
-- Remaining: owner walkthrough of all modes and the diagnostic repair; no later lesson is authorized.
+- Owner result: accepted as a good lesson; final return to `Продажи` clarified as navigation to the Tutor settlement-control report, not a new sale.
+- Remaining: no later lesson is authorized until its specification passes Codex review.
 
 ## Previous checkpoint — AKZ-M03-L01
 
@@ -65,9 +66,9 @@ The owner completed the customer-card demo lesson and authorized continuation be
 | AKZ-M02-L04 | First turnover balance sheet                  | PLANNED           | —                    | Atlas retrieval                                                                       |
 | AKZ-M02-L05 | Account card and trace                        | PLANNED           | —                    | Atlas retrieval                                                                       |
 | AKZ-M03-L01 | Customer card                                 | DONE              | OWNER                | Accepted as the foundation; owner authorized Session 06                               |
-| AKZ-M03-L02 | Customer invoice                              | OWNER_REVIEW      | TESTS                | Session 06 owner review (`/learn/sales-prepayment-cycle`); Interface Passport pending |
-| AKZ-M03-L03 | Incoming customer payment/advance             | OWNER_REVIEW      | TESTS                | Session 06 owner review; settlement rule needs specialist review                      |
-| AKZ-M03-L04 | Realization/shipment                          | OWNER_REVIEW      | TESTS                | Session 06 owner review; Interface Passport pending                                   |
+| AKZ-M03-L02 | Customer invoice                              | DONE              | OWNER                | Session 06 accepted; Interface Passport remains a documented fidelity limitation      |
+| AKZ-M03-L03 | Incoming customer payment/advance             | DONE              | OWNER                | Session 06 accepted; settlement model remains explicitly educational                  |
+| AKZ-M03-L04 | Realization/shipment                          | DONE              | OWNER                | Session 06 accepted; final control-report navigation clarified                        |
 | AKZ-M03-L05 | Customer return                               | PLANNED           | Atlas inventory      | Workflow deepening                                                                    |
 | AKZ-M03-L06 | Customer contract and settlement settings     | PLANNED           | Atlas inventory      | Workflow deepening                                                                    |
 | AKZ-M03-L07 | Reconciliation and customer debt              | PLANNED           | Atlas inventory      | Workflow deepening                                                                    |
@@ -154,14 +155,14 @@ Lesson ID: AKZ-M03-L02, AKZ-M03-L03, AKZ-M03-L04 (Session 06)
 Owner/agent: Murat / Arena / Codex integration review
 Branch: codex/sales-cycle-integration (base implementation: arena/addd7f0a-1c-tutor-kz)
 Starting commit: 883b42a (mpe/stage-1-validation)
-Status: OWNER_REVIEW
+Status: DONE (PASS WITH REMEDIATION)
 Current phase: OWNER
 Completed: domain (customer, invoice+lines, calculated total, incoming payment/advance, realization, document states, derived settlement), UI, Demo/Guided/Test, guidance, intentional error chain, 8 state assertions, unit/component/E2E desktop+mobile
 Files changed: src/features/training-workspace/SalesCycleTrainingWorkspace.tsx; sales-cycle.css; domain/salesCycleScenario.ts; domain/salesCycleVerification.ts; guidance/salesCycleGuidance.ts; shared/TrainingChrome.tsx; shared/useGuidanceBeacon.ts; src/routes/SalesCycleLessonPage.tsx; src/content/course.json; e2e/sales-cycle-workspace.spec.ts
-Checks passed: lint, typecheck, unit 55/55, client build, Pages Functions build, secrets, curriculum, E2E 20/20 (--workers=1, desktop 1440 + mobile 360)
+Checks passed: lint, typecheck, unit 56/56, client build, Pages Functions build, secrets, curriculum, E2E 20/20 (--workers=1, desktop 1440 + mobile 360)
 Known defects: Interface Passport for invoice/payment/realization not observed; settlement rule (balance = posted realizations − posted payments) is an explicitly labeled Tutor teaching model pending specialist review
-Blocker/unblock condition: owner review of all three modes and the diagnostic exercise
-Exact next action: Murat reviews Demo, Guided, error-repair and Independent at /learn/sales-prepayment-cycle and records a decision in docs/validation/SALES_CYCLE_IMPLEMENTATION_STATUS.md and this ledger
+Blocker/unblock condition: none for Session 06; fidelity limitations remain documented and non-blocking
+Exact next action: Codex prepares the next lesson specification for independent review before Arena implementation
 Last updated: 2026-10-15
 ```
 
@@ -187,7 +188,8 @@ Last updated:
 
 ## Change log
 
-- 2026-10-15 — owner accepted `AKZ-M03-L01` as the completed foundation and authorized the more substantial Session 06; Arena implementation `e47c100` moved to integration correction and remains `OWNER_REVIEW`.
+- 2026-10-15 — Session 06 received owner `PASS WITH REMEDIATION`; the final return to `Продажи` was clarified as navigation to the settlement-control report. `AKZ-M03-L02..L04` moved to `DONE`.
+- 2026-10-15 — owner accepted `AKZ-M03-L01` as the completed foundation and authorized the more substantial Session 06; Arena implementation `e47c100` moved to integration correction.
 - 2026-08-25 — MiniBase progress integration authorized separately; curriculum execution gate remains `OWNER_REVIEW`.
 - 2026-08-24 — owner accepted the substantial-session curriculum plan; MiniBase recorded as the required future server-persistence platform; practical workspace gate remains `OWNER_REVIEW`.
 - 2026-08-24 — 77 atomic skill units grouped one-to-one into one orientation plus 28 substantial learner sessions; legacy micro-quizzes removed from the active learner route. Current owner gate remains unchanged.

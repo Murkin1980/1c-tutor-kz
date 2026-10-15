@@ -1,0 +1,2 @@
+training_label,dataset_version,currency,statement_id,account_code,period_start,period_end,opening_balance_cents,closing_balance_cents,line_id,posting_date,transaction_id,document_id,description_en,deposit_cents,withdrawal_cents
+TRAINING ONLY,GVL-2026-09-v1.0.0,USD,ST-SAVINGS,1010,2026-09-01,2026-09-30,800000,1050000,ST-SAVINGS-01,2026-09-16,GVL-TRANSFER,DOC-TRANSFER,Move operating funds to savings,250000,0

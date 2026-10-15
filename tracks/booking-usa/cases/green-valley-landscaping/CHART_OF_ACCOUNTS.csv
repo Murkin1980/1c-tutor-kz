@@ -1,0 +1,21 @@
+training_label,dataset_version,currency,account_code,name_en,explanation_ru,account_type,normal_balance,direct_posting_policy
+TRAINING ONLY,GVL-2026-09-v1.0.0,USD,1000,Operating Checking,Расчётный банковский счёт; оплата и поступления,Asset,Debit,yes
+TRAINING ONLY,GVL-2026-09-v1.0.0,USD,1010,Savings Account,Сберегательный счёт; внутренний резерв денежных средств,Asset,Debit,yes
+TRAINING ONLY,GVL-2026-09-v1.0.0,USD,1100,Accounts Receivable,Долги клиентов; только с invoice reference,Asset,Debit,subledger_only
+TRAINING ONLY,GVL-2026-09-v1.0.0,USD,1300,Prepaid Expenses,Оплаченные услуги будущих периодов,Asset,Debit,yes
+TRAINING ONLY,GVL-2026-09-v1.0.0,USD,1500,Equipment,Стоимость оборудования без вычета амортизации,Asset,Debit,yes
+TRAINING ONLY,GVL-2026-09-v1.0.0,USD,1590,Accumulated Depreciation,Контрактивный счёт; уменьшает стоимость Equipment,Contra Asset,Credit,adjustment_or_opening_only
+TRAINING ONLY,GVL-2026-09-v1.0.0,USD,2000,Accounts Payable,Долги поставщикам; только с bill reference,Liability,Credit,subledger_only
+TRAINING ONLY,GVL-2026-09-v1.0.0,USD,2100,Credit Card Payable,Долг по учебной кредитной карте; не банковский актив,Liability,Credit,yes
+TRAINING ONLY,GVL-2026-09-v1.0.0,USD,3000,Member Contributions,Документированные взносы единственного участника,Equity,Credit,supported_capital_only
+TRAINING ONLY,GVL-2026-09-v1.0.0,USD,3100,Retained Earnings,Накопленная прибыль до сентября; не балансирующая сумма,Equity,Credit,opening_only
+TRAINING ONLY,GVL-2026-09-v1.0.0,USD,4000,Landscaping Service Revenue,Выручка по выполненным разовым ландшафтным работам,Income,Credit,invoice_only
+TRAINING ONLY,GVL-2026-09-v1.0.0,USD,4100,Maintenance Service Revenue,Выручка по завершённому обслуживанию участков,Income,Credit,invoice_only
+TRAINING ONLY,GVL-2026-09-v1.0.0,USD,6000,Materials and Supplies,Израсходованные на работы материалы; запасов нет,Expense,Debit,yes
+TRAINING ONLY,GVL-2026-09-v1.0.0,USD,6100,Fuel Expense,Топливо для служебных работ,Expense,Debit,yes
+TRAINING ONLY,GVL-2026-09-v1.0.0,USD,6200,Vehicle Expense,Ремонт и обслуживание служебного транспорта,Expense,Debit,yes
+TRAINING ONLY,GVL-2026-09-v1.0.0,USD,6300,Insurance Expense,"Страховое покрытие, потреблённое в сентябре",Expense,Debit,yes
+TRAINING ONLY,GVL-2026-09-v1.0.0,USD,6400,Software Subscriptions,Потреблённая часть годовой программной подписки,Expense,Debit,yes
+TRAINING ONLY,GVL-2026-09-v1.0.0,USD,6500,Bank Charges,Банковская комиссия; не затраты по кредитной карте,Expense,Debit,yes
+TRAINING ONLY,GVL-2026-09-v1.0.0,USD,6600,Office Expenses,Потреблённые офисные материалы и услуги,Expense,Debit,yes
+TRAINING ONLY,GVL-2026-09-v1.0.0,USD,6800,Depreciation Expense,Линейная учебная амортизация оборудования,Expense,Debit,adjustment_only

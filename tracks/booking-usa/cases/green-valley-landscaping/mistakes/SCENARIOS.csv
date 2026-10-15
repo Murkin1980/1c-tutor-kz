@@ -1,0 +1,6 @@
+training_label,dataset_version,currency,scenario_id,original_transaction_id,term_en,explanation_ru,expected_failed_controls,correction_entry_id,revenue_delta_cents,expenses_delta_cents,net_income_delta_cents,ar_delta_cents,ap_delta_cents,checking_delta_cents,savings_delta_cents,card_delta_cents
+TRAINING ONLY,GVL-2026-09-v1.0.0,USD,M01,GVL-RCPT-01,Duplicate bank-feed income,Повторное добавление уже сопоставленного клиентского платежа,SOURCE_POSTINGS|BANK_MATCH|REVENUE,JE-FIX-M01,180000,0,180000,0,0,180000,0,0
+TRAINING ONLY,GVL-2026-09-v1.0.0,USD,M02,GVL-TRANSFER,Transfer misclassified as revenue,Перевод на savings ошибочно признан выручкой,SOURCE_POSTINGS|BANK_MATCH|REVENUE,JE-FIX-M02,250000,0,250000,0,0,250000,0,0
+TRAINING ONLY,GVL-2026-09-v1.0.0,USD,M03,GVL-FEE,Unrecorded bank service charge,Комиссия выписки пропущена в учебной копии книги,SOURCE_POSTINGS|BANK_MATCH,JE-FIX-M03,0,-3500,3500,0,0,3500,0,0
+TRAINING ONLY,GVL-2026-09-v1.0.0,USD,M04,GVL-CARD-01,Credit card liability versus cash,Покупка по карте ошибочно кредитует checking,SOURCE_POSTINGS|BANK_MATCH,JE-FIX-M04,0,0,0,0,0,-45050,0,-45050
+TRAINING ONLY,GVL-2026-09-v1.0.0,USD,M05,GVL-RCPT-02,Partial payment; open invoice balance,Частичная оплата ошибочно закрывает весь invoice,SOURCE_POSTINGS|BANK_MATCH|AR_CONTROL,JE-FIX-M05,0,0,0,-100000,0,100000,0,0

@@ -12,8 +12,10 @@ Date: **2026-10-15**. Dataset: **GVL-2026-09-v1.0.0**. Period: **September 2026*
 - Initial session HEAD: `18094672bbbcdd124c9917ae61e27ba98b39ad80`; целевая ветка существует, inspected/fetched HEAD: `23c41f2920990e38868e072af78f4f8196cafbac`.
 - Before edits: clean worktree; session была на 11 documentation commits позади target, собственных commits не имела (left/right `0 / 11`). `git rebase origin/booking-usa` выровнял **эту же** session branch без merge, переключения, cherry-pick или изменения target.
 - При начальной проверке нет open PR в `booking-usa`; параллельные open PR #1/#2 направлены в `main`, не затрагиваются. Target HEAD повторно проверяется перед delivery.
-- Доставка разрешена только push session branch и PR **из неё в booking-usa**. Commit SHA / PR number фиксируются в финальном Arena response и GitHub PR (самоссылочный SHA этого документа не требуется).
-- **Не выполнялись merge, push target/main, deploy или CP-01C.** Если доставка PR блокируется, сообщить BLOCKED delivery отдельно; локальные fixtures сохранены на session branch.
+- **Delivery: PASS.** Content commit SHA: `8025e1d2354b89f66dbea70a659915cc0c755252` (fixtures, reports, tests and track pointers).
+- **PR: [#4](https://github.com/Murkin1980/1c-tutor-kz/pull/4), DRAFT**, head `arena/a33bef3c-1c-tutor-kz` → base `booking-usa`. Draft отражает pending methodology review, не незавершённую арифметику. Target повторно проверен: `23c41f2920990e38868e072af78f4f8196cafbac`, parallel PR в target отсутствовали.
+- Этот evidence-only follow-up фиксирует delivery после content commit; окончательный session HEAD указан в финальном Arena response / PR commits (самоссылочный SHA документа не требуется).
+- **Не выполнялись merge, push target/main, deploy или CP-01C.**
 
 ## Approved scope / reuse evidence
 

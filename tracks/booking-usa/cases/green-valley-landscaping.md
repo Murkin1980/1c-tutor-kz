@@ -25,3 +25,7 @@ US landscape services business, one training month, USD, synthetic customers and
 - Independent accounting review and date.
 
 **Do not invent a 'PASS' before transactions and expected outputs have been independently checked.**
+
+## CP-01B packet — 2026-10-15
+
+This file remains the historical outline. The [versioned TRAINING ONLY dataset](green-valley-landscaping/README.md) now supplies the journal, original documents, statements, reproducible reports, three lessons and five isolated mistakes. [Machine validation](green-valley-landscaping/VALIDATION_REPORT.md): PASS; [independent accounting methodology](green-valley-landscaping/ACCOUNTING_POLICIES.md): **METHODOLOGY REVIEW PENDING**. [Checkpoint evidence](green-valley-landscaping/CP-01B_REPORT.md). No runtime integration or publication signoff is implied.

@@ -1,13 +1,13 @@
 # Booking USA — checkpoint map
 
-**Current:** CP-00 (documentation scaffold, owner-requested). All future checkpoints are **proposed, not authorized for execution** by this document. Each checkpoint has its own bounded acceptance gate; suffix A/B adds depth only when justified.
+**Current:** CP-01B content/fixtures completed technically under explicit owner assignment; **METHODOLOGY REVIEW PENDING** before publication (TRAINING ONLY). [Evidence](cases/green-valley-landscaping/CP-01B_REPORT.md). This index does not authorize the next checkpoint, runtime integration, merge or deployment. Each checkpoint has its own bounded acceptance gate; suffix A/B adds depth only when justified.
 
 | Checkpoint | Intended evidence | Status |
 | --- | --- | --- |
 | CP-00 | Dedicated branch, isolated outline, sources, lesson schema, case, risks | DRAFT SCAFFOLD |
-| CP-01 | Fit/reuse audit, accessible/free platform audit, initial content validation | PROPOSED |
-| CP-01A | Inspect actual reusable code paths, lesson types, tests; impact map only | PROPOSED |
-| CP-01B | Verify first case, deterministic ledger and rubric, methodologist signoff | PROPOSED |
+| CP-01 | Fit/reuse audit, accessible/free platform audit, initial content validation | PARTIAL; numeric/content gate complete, methodology/access review pending |
+| CP-01A | Inspect actual reusable code paths, lesson types, tests; impact map only | PASS per owner assignment; report not in this branch |
+| CP-01B | Verify first case, deterministic ledger and rubric, methodologist signoff | MACHINE PASS; METHODOLOGY REVIEW PENDING; [report](cases/green-valley-landscaping/CP-01B_REPORT.md) |
 | CP-01C | Verify QBO demo accessibility from KZ and rights/terms, no credentials stored | PROPOSED IF NEEDED |
 | CP-02 | One RU/EN learning module integrated without KZ regressions | PROPOSED / DEEP-CHANGE CHECK |
 | CP-02A | Content loading and jurisdiction isolation design review | PROPOSED IF NEEDED |

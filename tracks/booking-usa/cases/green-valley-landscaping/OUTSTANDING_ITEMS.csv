@@ -1,0 +1,4 @@
+training_label,dataset_version,currency,transaction_id,account_code,timing_type,amount_cents,book_date,subsequent_posting_date,source_document_id,confirmation_document_id
+TRAINING ONLY,GVL-2026-09-v1.0.0,USD,GVL-RCPT-09,1000,deposit_in_transit,150000,2026-09-30,2026-10-02,RCPT-09,CONF-RCPT-09
+TRAINING ONLY,GVL-2026-09-v1.0.0,USD,GVL-VPAY-03,1000,outstanding_check,40000,2026-09-30,2026-10-05,VPAY-03,CONF-VPAY-03
+TRAINING ONLY,GVL-2026-09-v1.0.0,USD,GVL-CARD-04,2100,unposted_card_charge,7000,2026-09-30,2026-10-01,CC-04,CONF-CARD-04

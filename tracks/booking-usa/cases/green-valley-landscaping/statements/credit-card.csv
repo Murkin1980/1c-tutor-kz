@@ -1,0 +1,5 @@
+training_label,dataset_version,currency,statement_id,account_code,period_start,period_end,opening_balance_cents,closing_balance_cents,line_id,posting_date,transaction_id,document_id,description_en,charge_cents,credit_cents
+TRAINING ONLY,GVL-2026-09-v1.0.0,USD,ST-CARD,2100,2026-09-01,2026-09-30,200000,120000,ST-CARD-01,2026-09-07,GVL-CARD-01,CC-01,Job supplies purchased by credit card,45050,0
+TRAINING ONLY,GVL-2026-09-v1.0.0,USD,ST-CARD,2100,2026-09-01,2026-09-30,200000,120000,ST-CARD-02,2026-09-14,GVL-CARD-02,CC-02,Fuel purchased by credit card,16035,0
+TRAINING ONLY,GVL-2026-09-v1.0.0,USD,ST-CARD,2100,2026-09-01,2026-09-30,200000,120000,ST-CARD-03,2026-09-21,GVL-CARD-03,CC-03,Office supplies purchased by credit card,8915,0
+TRAINING ONLY,GVL-2026-09-v1.0.0,USD,ST-CARD,2100,2026-09-01,2026-09-30,200000,120000,ST-CARD-04,2026-09-22,GVL-CARDPAY,DOC-CARDPAY,Pay down credit card from checking,0,150000

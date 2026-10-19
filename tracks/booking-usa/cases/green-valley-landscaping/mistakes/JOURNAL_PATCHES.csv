@@ -1,0 +1,9 @@
+training_label,dataset_version,currency,scenario_id,action,target_line_id,transaction_id,entry_id,account_code,debit_cents,credit_cents,open_item_id,document_id,transaction_date
+TRAINING ONLY,GVL-2026-09-v1.0.0,USD,M01,add,ERR-M01-L01,GVL-RCPT-01,JE-ERR-M01,1000,180000,0,INV-01,RCPT-01,2026-09-08
+TRAINING ONLY,GVL-2026-09-v1.0.0,USD,M01,add,ERR-M01-L02,GVL-RCPT-01,JE-ERR-M01,4000,0,180000,INV-01,RCPT-01,2026-09-08
+TRAINING ONLY,GVL-2026-09-v1.0.0,USD,M02,replace,GVL-TRANSFER-L02,,,4000,,,,,
+TRAINING ONLY,GVL-2026-09-v1.0.0,USD,M03,remove,GVL-FEE-L01,,,,,,,,
+TRAINING ONLY,GVL-2026-09-v1.0.0,USD,M03,remove,GVL-FEE-L02,,,,,,,,
+TRAINING ONLY,GVL-2026-09-v1.0.0,USD,M04,replace,GVL-CARD-01-L02,,,1000,,,,,
+TRAINING ONLY,GVL-2026-09-v1.0.0,USD,M05,replace,GVL-RCPT-02-L01,,,,240000,0,,,
+TRAINING ONLY,GVL-2026-09-v1.0.0,USD,M05,replace,GVL-RCPT-02-L02,,,,0,240000,,,

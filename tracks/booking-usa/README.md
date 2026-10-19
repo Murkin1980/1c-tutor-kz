@@ -1,6 +1,6 @@
 # Booking USA — US Bookkeeping Track
 
-Status: SCAFFOLD / CP-00. Date: 2026-10-15. MPE decision: **EXTEND_EXISTING**.
+Status: **CP-01B content/fixtures — MACHINE PASS / METHODOLOGY REVIEW PENDING**. Date: 2026-10-15. MPE decision: **EXTEND_EXISTING**. TRAINING ONLY. No US runtime integration.
 
 **Booking USA** is the owner-approved name of a Russian-language learning track for US **bookkeeping** (small-business accounting services), **not** travel/hotel reservations.
 
@@ -26,6 +26,7 @@ Prepare Russian-speaking learners to perform scoped remote bookkeeping tasks for
 8. [Training case](cases/green-valley-landscaping.md)
 9. [Commercial validation](MARKET_VALIDATION.md)
 10. [CP-00 evidence](CP-00_REPORT.md)
+11. [CP-01B validated case packet and lessons](cases/green-valley-landscaping/README.md) — machine PASS, independent methodology PENDING; no runtime integration.
 
 ## Definition of pilot success
 One legally sourced, methodically reviewed RU/EN lesson with wholly fictional data; learner completes invoice → payment → expenses → reconciliation → P&L in a permissible external demo/sandbox; expected balances and errors are independently checked. Do not promise automatic verification of QuickBooks actions.

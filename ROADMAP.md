@@ -361,6 +361,8 @@ Return only after a mature learning engine and a new MPE decision.
 
 ## Stage A — Adaptive reinforcement — LATER
 
+- [ ] bounded checkpoint: **EXP-23 quiz/verification model reuse** — map first-attempt scoring, per-mistake feedback, explicit show-answer and compatible choice/blanks/grid/tap semantics onto the existing verification engine; see `docs/decisions/EXP23_QUIZ_MODEL_REUSE.md`; do not interrupt the current authorized curriculum checkpoint;
+
 - spaced retry;
 - new-number variants;
 - error-pattern review;
